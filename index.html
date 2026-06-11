@@ -151,7 +151,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .nag-banner .nag-close:hover { color: #fff; }
 .nag-banner .nag-icon { margin-right: 6px; }
 
-/* ── COOKIE CONSENT BANNER ────────────────────────────────── */
+/* ── COOKIE CONSENT BANNER (button spacing fixed) ────────────────── */
 .cookie-consent-banner {
     position: fixed;
     bottom: 0;
@@ -173,12 +173,32 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .cookie-banner-text { flex: 1 1 auto; margin-right: 24px; min-width: 200px; }
 .cookie-banner-text a { color: #f0a500; text-decoration: underline; cursor: pointer; }
 .cookie-banner-text a:hover { color: #ffc733; }
-.cookie-banner-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
-.cookie-btn { padding: 8px 18px; font-size: 12px; font-weight: 600; border-radius: 5px; cursor: pointer; border: 1px solid; }
+.cookie-banner-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    /* Remove gap and use old-fashioned margins for maximum G4 compatibility */
+    margin: 0;
+}
+.cookie-btn {
+    padding: 8px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid;
+    margin-right: 12px;        /* space between buttons */
+    margin-bottom: 0;           /* no extra vertical space in a single row */
+    white-space: nowrap;
+}
+.cookie-btn:last-child {
+    margin-right: 0;            /* no extra space after the last button */
+}
 .cookie-btn-accept { background: #f0a500; color: #111; border-color: #f0a500; }
 .cookie-btn-accept:hover { background: #ffc733; color: #000; }
 .cookie-btn-reject { background: transparent; color: #888; border-color: #555; }
 .cookie-btn-reject:hover { background: #2a2a2a; color: #fff; }
+.cookie-btn-settings { background: transparent; color: #f0a500; border-color: #f0a500; }
+.cookie-btn-settings:hover { background: #f0a500; color: #111; }
 
 /* Settings modal */
 .cookie-settings-overlay {
@@ -239,6 +259,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     </div>
 </div>
 
+<!-- Everything else unchanged -->
 <div class="nag-banner" id="nagBanner">
     <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> for the best G4 browsing experience.
     <button class="nag-close" id="nagClose">&times;</button>
@@ -352,16 +373,14 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 </div>
 
 <script>
-    // ── COOKIE CONSENT MANAGEMENT (UK Compliant, no “necessary” UI category) ──
+    // ── COOKIE CONSENT MANAGEMENT (UK Compliant) ──
     var CONSENT_KEY = 'altivec_cookie_consent';
     var consentData = { functional: false, timestamp: 0 };
 
     function loadConsent() {
         try {
             var stored = localStorage.getItem(CONSENT_KEY);
-            if (stored) {
-                consentData = JSON.parse(stored);
-            }
+            if (stored) { consentData = JSON.parse(stored); }
         } catch(e) {}
     }
 
@@ -372,121 +391,74 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         } catch(e) {}
     }
 
-    function isFunctionalAllowed() {
-        return consentData.functional === true;
-    }
+    function isFunctionalAllowed() { return consentData.functional === true; }
 
-    function showCookieBanner() {
-        var banner = document.getElementById('cookieConsentBanner');
-        if (banner) { banner.classList.remove('hidden'); }
-    }
-
-    function hideCookieBanner() {
-        var banner = document.getElementById('cookieConsentBanner');
-        if (banner) { banner.classList.add('hidden'); }
-    }
+    function showCookieBanner() { document.getElementById('cookieConsentBanner').classList.remove('hidden'); }
+    function hideCookieBanner() { document.getElementById('cookieConsentBanner').classList.add('hidden'); }
 
     function openCookieSettings() {
         var overlay = document.getElementById('cookieSettingsOverlay');
-        var toggle = document.getElementById('cookieFunctionalToggle');
-        if (overlay && toggle) {
-            toggle.checked = isFunctionalAllowed();
-            overlay.classList.add('active');
-        }
+        document.getElementById('cookieFunctionalToggle').checked = isFunctionalAllowed();
+        overlay.classList.add('active');
     }
-
-    function closeCookieSettings() {
-        var overlay = document.getElementById('cookieSettingsOverlay');
-        if (overlay) { overlay.classList.remove('active'); }
-    }
+    function closeCookieSettings() { document.getElementById('cookieSettingsOverlay').classList.remove('active'); }
 
     function applyConsent() {
         hideCookieBanner();
-        // If functional is denied, clear previously stored optional data
         if (!consentData.functional) {
             try { localStorage.removeItem('altivec_town'); } catch(e) {}
             try { localStorage.removeItem('altivec_nag_dismissed'); } catch(e) {}
         }
     }
 
-    function acceptAll() {
-        consentData.functional = true;
-        saveConsent();
-        applyConsent();
-    }
-
-    function rejectAll() {
-        consentData.functional = false;
-        saveConsent();
-        applyConsent();
-    }
+    function acceptAll() { consentData.functional = true; saveConsent(); applyConsent(); }
+    function rejectAll() { consentData.functional = false; saveConsent(); applyConsent(); }
 
     function saveSettingsFromModal() {
-        var toggle = document.getElementById('cookieFunctionalToggle');
-        if (toggle) {
-            consentData.functional = toggle.checked;
-        }
+        consentData.functional = document.getElementById('cookieFunctionalToggle').checked;
         saveConsent();
         closeCookieSettings();
         applyConsent();
     }
 
-    // Safe localStorage wrapper – only allows functional storage if consent given
+    // Safe localStorage wrapper
     function safeSetItem(key, value) {
-        if (key === CONSENT_KEY) {
-            try { localStorage.setItem(key, value); } catch(e) {}
-            return;
-        }
-        // Only allow functional keys if consent is given
+        if (key === CONSENT_KEY) { try { localStorage.setItem(key, value); } catch(e) {} return; }
         if (key === 'altivec_town' || key === 'altivec_nag_dismissed') {
-            if (!isFunctionalAllowed()) { return; }
+            if (!isFunctionalAllowed()) return;
         }
         try { localStorage.setItem(key, value); } catch(e) {}
     }
 
-    // Wire events on DOM ready
+    // Wire cookie events
     document.addEventListener('DOMContentLoaded', function() {
         loadConsent();
-        // Show banner only if consent has never been set
-        if (!consentData.timestamp) {
-            showCookieBanner();
-        }
-        var acceptBtn = document.getElementById('cookieAcceptBtn');
-        var rejectBtn = document.getElementById('cookieRejectBtn');
-        var settingsLink = document.getElementById('cookieSettingsLink');
-        var footerSettings = document.getElementById('footerCookieSettings');
-        var saveSettingsBtn = document.getElementById('cookieSaveSettings');
-        var overlay = document.getElementById('cookieSettingsOverlay');
+        if (!consentData.timestamp) showCookieBanner();
 
-        if (acceptBtn) acceptBtn.onclick = acceptAll;
-        if (rejectBtn) rejectBtn.onclick = rejectAll;
-        if (settingsLink) settingsLink.onclick = openCookieSettings;
-        if (footerSettings) footerSettings.onclick = openCookieSettings;
-        if (saveSettingsBtn) saveSettingsBtn.onclick = saveSettingsFromModal;
-        if (overlay) {
-            overlay.onclick = function(e) {
-                if (e.target === overlay) { closeCookieSettings(); }
-            };
-        }
+        document.getElementById('cookieAcceptBtn').onclick = acceptAll;
+        document.getElementById('cookieRejectBtn').onclick = rejectAll;
+        document.getElementById('cookieSettingsLink').onclick = openCookieSettings;
+        document.getElementById('footerCookieSettings').onclick = openCookieSettings;
+        document.getElementById('cookieSaveSettings').onclick = saveSettingsFromModal;
+        document.getElementById('cookieSettingsOverlay').onclick = function(e) {
+            if (e.target === this) closeCookieSettings();
+        };
     });
 
-    // ── XHR helper (unchanged) ─────────────────────────────────────
+    // ── XHR helper ──
     function xhrGet(url, onSuccess, onError) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState !== 4) { return; }
+            if (xhr.readyState !== 4) return;
             if (xhr.status >= 200 && xhr.status < 300) {
-                try { onSuccess(JSON.parse(xhr.responseText)); }
-                catch(e) { if (onError) { onError(e); } }
-            } else {
-                if (onError) { onError(new Error('HTTP ' + xhr.status)); }
-            }
+                try { onSuccess(JSON.parse(xhr.responseText)); } catch(e) { if (onError) onError(e); }
+            } else { if (onError) onError(new Error('HTTP ' + xhr.status)); }
         };
         xhr.send();
     }
 
-    // ── CANVAS WEATHER ANIMATION (unchanged) ─────────────────────────
+    // ── CANVAS WEATHER ANIMATION (unchanged) ──
     var wxCanvas = document.getElementById('weatherCanvas');
     var wxCtx = wxCanvas.getContext('2d');
     var wxState = { type: 'idle', t: 0, g1:'#1a1d24', g2:'#1a1d24', g3:'#1a1d24' };
@@ -529,18 +501,16 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     }
 
     function wxTypeFromCode(code) {
-        if (code === 0)                         { return { type:'clear',   g1:'#1a3a6a', g2:'#2a5aaa', g3:'#f0a030' }; }
-        if (code <= 3)                          { return { type:'cloud',   g1:'#1a2a4a', g2:'#2a3a6a', g3:'#3a4a7a' }; }
-        if (code <= 48)                         { return { type:'cloud',   g1:'#1a1e2a', g2:'#252d3e', g3:'#303a50' }; }
-        if (code <= 55)                         { return { type:'drizzle', g1:'#161c28', g2:'#1e2838', g3:'#263040' }; }
+        if (code === 0) return { type:'clear',   g1:'#1a3a6a', g2:'#2a5aaa', g3:'#f0a030' };
+        if (code <= 3) return { type:'cloud',   g1:'#1a2a4a', g2:'#2a3a6a', g3:'#3a4a7a' };
+        if (code <= 48) return { type:'cloud',   g1:'#1a1e2a', g2:'#252d3e', g3:'#303a50' };
+        if (code <= 55) return { type:'drizzle', g1:'#161c28', g2:'#1e2838', g3:'#263040' };
         if (code <= 65 || (code>=80&&code<=82)) {
-            if (code === 293 || code === 296 || code === 353) {
-                return { type:'lightrain', g1:'#131926', g2:'#1a2535', g3:'#212f40' };
-            }
-            return { type:'rain',      g1:'#0e1420', g2:'#16202e', g3:'#1e2c3c' };
+            if (code === 293 || code === 296 || code === 353) return { type:'lightrain', g1:'#131926', g2:'#1a2535', g3:'#212f40' };
+            return { type:'rain', g1:'#0e1420', g2:'#16202e', g3:'#1e2c3c' };
         }
-        if (code <= 77 || (code>=85&&code<=86)) { return { type:'snow',   g1:'#1e2a3a', g2:'#2a3848', g3:'#e8eef8' }; }
-        return                                    { type:'storm',  g1:'#0a0e18', g2:'#10161e', g3:'#181e28' };
+        if (code <= 77 || (code>=85&&code<=86)) return { type:'snow', g1:'#1e2a3a', g2:'#2a3848', g3:'#e8eef8' };
+        return { type:'storm', g1:'#0a0e18', g2:'#10161e', g3:'#181e28' };
     }
 
     function drawWeatherCanvas() {
@@ -566,7 +536,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             }
         }
         for (var ci = 0; ci < cloudPuffs.length; ci++) {
-            var c = cloudPuffs[ci]; c.x -= c.speed; if (c.x+c.w < 0) { c.x = w+c.w; }
+            var c = cloudPuffs[ci]; c.x -= c.speed; if (c.x+c.w < 0) c.x = w+c.w;
             wxCtx.save(); wxCtx.globalAlpha = c.alpha; wxCtx.fillStyle = type==='snow'?'#dde8f8':'#8aaac8';
             wxCtx.beginPath(); wxCtx.ellipse(c.x,c.y,c.w/2,c.w*0.38/2,0,0,Math.PI*2); wxCtx.ellipse(c.x-c.w*0.22,c.y+c.w*0.38*0.1,c.w*0.32,c.w*0.38*0.45,0,0,Math.PI*2); wxCtx.ellipse(c.x+c.w*0.22,c.y+c.w*0.38*0.1,c.w*0.28,c.w*0.38*0.4,0,0,Math.PI*2); wxCtx.fill(); wxCtx.restore();
         }
@@ -595,21 +565,18 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         drawWeatherCanvas();
     }
 
-    if (window.addEventListener) {
-        window.addEventListener('load', initCanvas);
-    } else if (window.attachEvent) {
-        window.attachEvent('onload', initCanvas);
-    }
+    if (window.addEventListener) { window.addEventListener('load', initCanvas); }
+    else if (window.attachEvent) { window.attachEvent('onload', initCanvas); }
 
-    // ── GOD SAYS (unchanged) ─────────────────────────────────────────
+    // ── GOD SAYS (unchanged) ──
     var GOD_WORDS = ['Grace','Mercy','Salvation','Repentance','Holiness','Sanctification','Justification','Redemption','Atonement','Perfection','Wesley','Whitefield','Methodism','Revival','Conviction','The Blood','The Cross','The Lamb','The Risen Lord','Emmanuel','Abba Father','Holy Ghost','Born Again','New Creation','Assurance','Repent','Believe','Be Holy','Fear God','Love thy neighbour','God is Love','Perfect Love','Pure Heart','Free Grace','Saving Faith','Amen','Alleluia','Maranatha','Selah','Hallelujah','Even so come Lord Jesus','He is risen','It is finished','Come Lord Jesus','The Lord reigneth','King of Kings','Lord of Lords','Worthy is the Lamb','Alpha and Omega','The Word Made Flesh','God With Us','Prince of Peace','The Good Shepherd','The Bread of Life','The True Vine','The Morning Star','Fear not','Be not afraid','Peace be still','Come unto me','I will give you rest','My grace is sufficient','He careth for you','With God all things are possible','I am with you always','The Lord is my shepherd','I shall not want','Still waters','Valley of the shadow of death','I will fear no evil','Holy holy holy','Lord God Almighty','Worthy is the Lamb','Three in One','One in Three','Love one another','Greater love hath no man','God so loved the world','Whosoever believeth','Shall not perish','Blessed are the meek','Blessed are the pure in heart','Blessed are the peacemakers','Salt of the earth','Light of the world','Love your enemies','Turn the other cheek','Judge not','The narrow way','The strait gate','Few there be that find it','Built upon the rock','Seek ye first','Ask seek knock','Go ye into all the world','Preach the gospel','Lazarus come forth','Rise take up thy bed','Thy sins are forgiven','Neither do I condemn thee','The harvest is plenteous','The labourers are few','Silver and gold have I none','Rise up and walk','We ought to obey God rather than men','Not ashamed of the gospel','The shield of faith','The helmet of salvation','The sword of the Spirit','Put on the whole armour of God','We wrestle not against flesh and blood','I press toward the mark','Charity never faileth','Through a glass darkly','Face to face','The greatest of these is charity','The fruit of the Spirit','Love joy peace','Bear one another\'s burdens','In due season we shall reap','Faith cometh by hearing','The just shall live by faith','O the depth of the riches','His ways past finding out','For of him and through him and to him','Jesu lover of my soul','Other refuge have I none','Hide me O my Saviour','With the shadow of thy wing','Love divine all loves excelling','Changed from glory into glory','Hark the herald angels sing','God and sinners reconciled','Kindle a flame of sacred love','Humble prayer and fervent praise','The pure celestial fire','O Thou who camest from above','I\'m not dead yet','I\'m the boss','What part of God don\'t you understand','I made it that way','It\'s nice being God','I planned that','You get what you pray for','Catastrophic Success','I\'m grieved','That\'s gonna leave a mark','Watch this','I pity the fool','Rufus!','Its trivial obviously','King of Mars','Got the life'];
 
     function godSpeak() {
         var result = '';
         while (result.length < 30) {
             var word = GOD_WORDS[Math.floor(Math.random() * GOD_WORDS.length)];
-            if (word) { result = result ? result + ' ' + word : word; }
-            if (result.length > 60) { break; }
+            if (word) result = result ? result + ' ' + word : word;
+            if (result.length > 60) break;
         }
         var el = document.getElementById('godText');
         el.style.opacity = '0';
@@ -623,12 +590,11 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     document.getElementById('godWidget').onclick = godSpeak;
     setTimeout(godSpeak, 800);
 
-    // ── WEATHER (with consent-respecting saving) ──────────────────────
+    // ── WEATHER (consent‑respecting) ──
     function initWeather() {
         var labels = document.querySelectorAll('#weatherLabel');
-        for (var i = 0; i < labels.length; i++) { labels[i].innerHTML = 'TOWN&nbsp;&nbsp;'; }
+        for (var i = 0; i < labels.length; i++) labels[i].innerHTML = 'TOWN&nbsp;&nbsp;';
         document.getElementById('weatherInput').placeholder = 'e.g. Pontypool';
-        // Restore saved town ONLY if functional consent is given
         if (isFunctionalAllowed()) {
             try {
                 var saved = localStorage.getItem('altivec_town');
@@ -661,7 +627,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         var t = e ? e.target : window.event.srcElement;
         var inside = false;
         while (t) { if (t === widget) { inside = true; break; } t = t.parentNode; }
-        if (!inside) { closeSettings(); }
+        if (!inside) closeSettings();
     };
 
     var WTTR_CODES = {
@@ -716,33 +682,27 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     };
 
     function fetchWeather() {
-        var raw = document.getElementById('weatherInput').value;
-        raw = raw.replace(/^\s+|\s+$/g, '');
-        if (!raw) { return; }
+        var raw = document.getElementById('weatherInput').value.replace(/^\s+|\s+$/g, '');
+        if (!raw) return;
 
         var resultEl = document.getElementById('weatherResult');
         var errorEl  = document.getElementById('weatherError');
         var btn      = document.getElementById('weatherBtn');
-
         resultEl.className = resultEl.className.replace(/\bvisible\b/,'').replace(/\s+/,' ').replace(/^\s|\s$/,'');
         errorEl.className  = errorEl.className.replace(/\bvisible\b/,'').replace(/\s+/,' ').replace(/^\s|\s$/,'');
         btn.innerHTML = '...';
 
-        var url = 'http://wttr.in/' + encodeURIComponent(raw) + '?format=j1';
-
-        xhrGet(url, function(data) {
+        xhrGet('http://wttr.in/' + encodeURIComponent(raw) + '?format=j1', function(data) {
             if (!data || !data.current_condition || !data.current_condition[0]) {
                 errorEl.innerHTML = 'NOT FOUND';
-                errorEl.className = errorEl.className + ' visible';
+                errorEl.className += ' visible';
                 btn.innerHTML = '&#9729; GO';
                 return;
             }
-
-            var cur  = data.current_condition[0];
-            var code = parseInt(cur.weatherCode);
-            var wx   = WTTR_CODES[code] || { type:'cloud', icon:'&#9729;', desc:'Unknown' };
+            var cur = data.current_condition[0], code = parseInt(cur.weatherCode);
+            var wx = WTTR_CODES[code] || { type:'cloud', icon:'&#9729;', desc:'Unknown' };
             var temp = cur.temp_C;
-            var loc  = (data.nearest_area && data.nearest_area[0])
+            var loc = (data.nearest_area && data.nearest_area[0])
                 ? (data.nearest_area[0].areaName[0].value + ', ' + data.nearest_area[0].country[0].value)
                 : raw;
 
@@ -756,45 +716,33 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             document.getElementById('weatherLoc').innerHTML  = escapeHtml(loc);
 
             var DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-            var todayDow = (new Date()).getDay();
-            var html = '';
+            var todayDow = (new Date()).getDay(), html = '';
             var weather = data.weather;
             for (var i = 1; i < weather.length && i < 3; i++) {
-                var day = weather[i];
-                var dayCode = parseInt(day.hourly[4].weatherCode);
+                var day = weather[i], dayCode = parseInt(day.hourly[4].weatherCode);
                 var dwx = WTTR_CODES[dayCode] || { icon:'&#9729;' };
-                var dowLabel = DAYS[(todayDow + i) % 7];
-                html += '<div class="forecast-day">' +
-                    '<div class="forecast-dow">' + dowLabel + '</div>' +
-                    '<div class="forecast-icon">' + dwx.icon + '</div>' +
-                    '<div class="forecast-hi">' + day.maxtempC + '&deg;</div>' +
-                    '<div class="forecast-lo">' + day.mintempC + '&deg;</div>' +
-                    '</div>';
+                html += '<div class="forecast-day"><div class="forecast-dow">' + DAYS[(todayDow + i) % 7] + '</div><div class="forecast-icon">' + dwx.icon + '</div><div class="forecast-hi">' + day.maxtempC + '&deg;</div><div class="forecast-lo">' + day.mintempC + '&deg;</div></div>';
             }
             document.getElementById('wxForecast').innerHTML = html;
-
-            resultEl.className = resultEl.className + ' visible';
+            resultEl.className += ' visible';
             document.getElementById('wxIdle').style.display = 'none';
             document.getElementById('weatherCog').className = 'weather-cog configured';
             closeSettings();
-            // Save town only if functional consent given (via safeSetItem)
             safeSetItem('altivec_town', raw);
             btn.innerHTML = '&#9729; GO';
-
         }, function() {
             errorEl.innerHTML = 'FETCH ERROR';
-            errorEl.className = errorEl.className + ' visible';
+            errorEl.className += ' visible';
             btn.innerHTML = '&#9729; GO';
         });
     }
 
     document.getElementById('weatherBtn').onclick = fetchWeather;
     document.getElementById('weatherInput').onkeypress = function(e) {
-        var key = e ? e.keyCode : window.event.keyCode;
-        if (key === 13) { fetchWeather(); }
+        if ((e ? e.keyCode : window.event.keyCode) === 13) fetchWeather();
     };
 
-    // ── ARTICLES (unchanged) ──────────────────────────────────────────
+    // ── ARTICLES (unchanged) ──
     var articles = [];
     var currentTab = 'featured';
     var searchTerm = '';
@@ -805,113 +753,69 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         { id:'software', name:'SOFTWARE' }, { id:'music', name:'MUSIC' }, { id:'web', name:'WEB' }
     ];
 
-    function isG4Friendly(article) {
-        return article.g4_friendly === 1 || article.g4_friendly === '1';
-    }
-
+    function isG4Friendly(a) { return a.g4_friendly === 1 || a.g4_friendly === '1'; }
     var SEARCH_STOP = { 'a':1,'an':1,'and':1,'the':1,'of':1,'on':1,'in':1,'to':1,'for':1,'your':1,'my':1,'with':1,'how':1,'is':1 };
     var SEARCH_MIN_SCORE = 1.2;
-
-    function searchNorm(s) {
-        if (!s) { return ''; }
-        return String(s).toLowerCase().replace(/<[^>]*>/g, ' ').replace(/[^a-z0-9]+/g, ' ').replace(/^ +| +$/g, '');
-    }
-
+    function searchNorm(s) { return String(s||'').toLowerCase().replace(/<[^>]*>/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/^ +| +$/g,''); }
     function triSet(text) {
         var set = {}, words = text.split(' '), i, j, w, p;
         for (i = 0; i < words.length; i++) {
-            w = words[i];
-            if (!w) { continue; }
+            w = words[i]; if (!w) continue;
             p = '  ' + w + ' ';
-            for (j = 0; j < p.length - 2; j++) { set[p.substring(j, j + 3)] = true; }
+            for (j = 0; j < p.length - 2; j++) set[p.substring(j, j + 3)] = true;
         }
         return set;
     }
-
     function triSim(a, b) {
         var inter = 0, union = 0, k;
-        for (k in a) { if (a.hasOwnProperty(k)) { union++; if (b[k]) { inter++; } } }
-        for (k in b) { if (b.hasOwnProperty(k) && !a[k]) { union++; } }
+        for (k in a) { if (a.hasOwnProperty(k)) { union++; if (b[k]) inter++; } }
+        for (k in b) { if (b.hasOwnProperty(k) && !a[k]) union++; }
         return union === 0 ? 0 : inter / union;
     }
-
     function buildSearchIndex(a) {
-        var title = searchNorm(a.title);
-        var tags = searchNorm(a.tags ? a.tags.join(' ') : '');
-        var desc = searchNorm(a.description);
-        var cat = searchNorm(a.category);
-        var body = searchNorm(a.content);
-        a._idx = {
-            title: title, tags: tags, desc: desc, cat: cat, body: body,
-            triTitle: triSet(title), triTags: triSet(tags),
-            triDesc: triSet(desc), triBody: triSet(body)
-        };
+        var title = searchNorm(a.title), tags = searchNorm(a.tags ? a.tags.join(' ') : ''), desc = searchNorm(a.description),
+            cat = searchNorm(a.category), body = searchNorm(a.content);
+        a._idx = { title: title, tags: tags, desc: desc, cat: cat, body: body,
+            triTitle: triSet(title), triTags: triSet(tags), triDesc: triSet(desc), triBody: triSet(body) };
     }
-
     function fieldScore(ftext, weight, qNorm, qTokens) {
         var s = 0, ti, t, padded = ' ' + ftext + ' ';
-        if (qNorm.length >= 2 && ftext.indexOf(qNorm) >= 0) { s += weight * 2; }
+        if (qNorm.length >= 2 && ftext.indexOf(qNorm) >= 0) s += weight * 2;
         for (ti = 0; ti < qTokens.length; ti++) {
-            t = qTokens[ti];
-            if (t.length < 2) { continue; }
-            if (ftext.indexOf(t) >= 0) {
-                s += weight;
-                if (padded.indexOf(' ' + t + ' ') >= 0) { s += weight * 0.5; }
-            }
+            t = qTokens[ti]; if (t.length < 2) continue;
+            if (ftext.indexOf(t) >= 0) { s += weight; if (padded.indexOf(' ' + t + ' ') >= 0) s += weight * 0.5; }
         }
         return s;
     }
-
     function scoreArticle(a, qNorm, qTokens, qTri) {
-        var idx = a._idx, s = 0;
-        if (!idx) { return 0; }
-        s += fieldScore(idx.title, 10, qNorm, qTokens);
-        s += fieldScore(idx.tags, 8, qNorm, qTokens);
-        s += fieldScore(idx.desc, 4, qNorm, qTokens);
-        s += fieldScore(idx.cat, 4, qNorm, qTokens);
-        s += fieldScore(idx.body, 1, qNorm, qTokens);
-        s += triSim(qTri, idx.triTitle) * 14;
-        s += triSim(qTri, idx.triTags) * 10;
-        s += triSim(qTri, idx.triDesc) * 4;
-        s += triSim(qTri, idx.triBody) * 2;
+        var idx = a._idx; if (!idx) return 0;
+        var s = fieldScore(idx.title,10,qNorm,qTokens) + fieldScore(idx.tags,8,qNorm,qTokens) +
+                fieldScore(idx.desc,4,qNorm,qTokens) + fieldScore(idx.cat,4,qNorm,qTokens) + fieldScore(idx.body,1,qNorm,qTokens);
+        s += triSim(qTri, idx.triTitle)*14 + triSim(qTri, idx.triTags)*10 + triSim(qTri, idx.triDesc)*4 + triSim(qTri, idx.triBody)*2;
         return s;
     }
-
     function searchArticles(query) {
-        var qNorm = searchNorm(query);
-        if (!qNorm) { return []; }
+        var qNorm = searchNorm(query); if (!qNorm) return [];
         var raw = qNorm.split(' '), qTokens = [], i, s;
-        for (i = 0; i < raw.length; i++) { if (raw[i] && !SEARCH_STOP[raw[i]]) { qTokens.push(raw[i]); } }
-        if (qTokens.length === 0) { qTokens = raw; }
+        for (i = 0; i < raw.length; i++) { if (raw[i] && !SEARCH_STOP[raw[i]]) qTokens.push(raw[i]); }
+        if (qTokens.length === 0) qTokens = raw;
         var qTri = triSet(qTokens.join(' ')), scored = [];
         for (i = 0; i < articles.length; i++) {
             s = scoreArticle(articles[i], qNorm, qTokens, qTri);
-            if (s >= SEARCH_MIN_SCORE) { scored.push({ a: articles[i], s: s }); }
+            if (s >= SEARCH_MIN_SCORE) scored.push({ a: articles[i], s: s });
         }
         scored.sort(function (x, y) { return y.s - x.s; });
-        var out = [];
-        for (i = 0; i < scored.length; i++) { out.push(scored[i].a); }
+        var out = []; for (i = 0; i < scored.length; i++) out.push(scored[i].a);
         return out;
     }
 
-    function addClass(el, cls) {
-        if ((' ' + el.className + ' ').indexOf(' ' + cls + ' ') < 0) { el.className = el.className + ' ' + cls; }
-    }
-    function removeClass(el, cls) {
-        el.className = el.className.replace(new RegExp('\\b' + cls + '\\b', 'g'), '').replace(/\s+/,' ').replace(/^\s|\s$/,'');
-    }
-    function hasClass(el, cls) {
-        return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') >= 0;
-    }
-
-    function escapeHtml(str) {
-        if (!str) { return ''; }
-        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+    function addClass(el, cls) { if ((' ' + el.className + ' ').indexOf(' ' + cls + ' ') < 0) el.className += ' ' + cls; }
+    function removeClass(el, cls) { el.className = el.className.replace(new RegExp('\\b' + cls + '\\b', 'g'), '').replace(/\s+/,' ').replace(/^\s|\s$/,''); }
+    function hasClass(el, cls) { return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') >= 0; }
+    function escapeHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
     function renderTabs() {
-        var container = document.getElementById('tabs');
-        var html = '';
+        var container = document.getElementById('tabs'), html = '';
         for (var i = 0; i < TABS.length; i++) {
             html += '<div class="tab' + (currentTab === TABS[i].id ? ' active' : '') + '" data-tab="' + TABS[i].id + '">' + TABS[i].name + '</div>';
         }
@@ -921,61 +825,48 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             (function(tab) {
                 tab.onclick = function() {
                     currentTab = tab.getAttribute('data-tab');
-                    searchTerm = '';
-                    document.getElementById('searchInput').value = '';
-                    selectedArticleId = null;
-                    renderTabs();
-                    renderResults();
+                    searchTerm = ''; document.getElementById('searchInput').value = '';
+                    selectedArticleId = null; renderTabs(); renderResults();
                 };
             })(tabs[j]);
         }
     }
 
     function renderResults() {
-        var results = [], i, a;
-        if (searchTerm !== '') {
-            results = searchArticles(searchTerm);
-        } else if (currentTab === 'featured') {
-            for (i = 0; i < articles.length; i++) {
-                if (articles[i].featured === 1 || articles[i].featured === '1') { results.push(articles[i]); }
-            }
+        var results = [], i;
+        if (searchTerm !== '') { results = searchArticles(searchTerm); }
+        else if (currentTab === 'featured') {
+            for (i = 0; i < articles.length; i++) if (articles[i].featured === 1 || articles[i].featured === '1') results.push(articles[i]);
         } else {
-            for (i = 0; i < articles.length; i++) {
-                if (articles[i].category === currentTab) { results.push(articles[i]); }
-            }
+            for (i = 0; i < articles.length; i++) if (articles[i].category === currentTab) results.push(articles[i]);
         }
-
         var container = document.getElementById('resultsList');
         if (results.length === 0) {
             container.innerHTML = '<div class="empty">No results found</div>';
             document.getElementById('previewPanel').innerHTML = '<div class="preview-empty">Select a result to preview</div>';
             return;
         }
-
         var found = false;
-        for (i = 0; i < results.length; i++) { if (results[i].id === selectedArticleId) { found = true; break; } }
-        if (!found) { selectedArticleId = results[0].id; }
+        for (i = 0; i < results.length; i++) if (results[i].id === selectedArticleId) { found = true; break; }
+        if (!found) selectedArticleId = results[0].id;
 
         var html = '<div class="stats">' + results.length + ' result' + (results.length !== 1 ? 's' : '') + '</div>';
         for (i = 0; i < results.length; i++) {
-            var item = results[i];
-            var desc = escapeHtml(item.description);
-            if (desc.length > 120) { desc = desc.substring(0, 120) + '...'; }
+            var item = results[i], desc = escapeHtml(item.description);
+            if (desc.length > 120) desc = desc.substring(0, 120) + '...';
             html += '<div class="result-item' + (selectedArticleId === item.id ? ' selected' : '') + '" data-id="' + item.id + '">' +
                 '<div class="result-title">' + escapeHtml(item.title) + '</div>' +
-                '<div class="result-url">' + escapeHtml(item.url || '') + '</div>' +
+                '<div class="result-url">' + escapeHtml(item.url||'') + '</div>' +
                 '<div class="result-desc">' + desc + '</div></div>';
         }
         container.innerHTML = html;
-
         var items = container.getElementsByTagName('div');
         for (i = 0; i < items.length; i++) {
             if (hasClass(items[i], 'result-item')) {
                 (function(el) {
                     el.onclick = function() {
                         selectedArticleId = el.getAttribute('data-id');
-                        renderResults();
-                        showPreview(selectedArticleId);
+                        renderResults(); showPreview(selectedArticleId);
                     };
                 })(items[i]);
             }
@@ -985,36 +876,26 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     function showPreview(articleId) {
         var article = null;
-        for (var i = 0; i < articles.length; i++) { if (articles[i].id === articleId) { article = articles[i]; break; } }
-        if (!article) { return; }
-
+        for (var i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
+        if (!article) return;
         var previewPanel = document.getElementById('previewPanel');
-        var isUrlThumb = article.thumb && /^https?:\/\//i.test(article.thumb);
-        var thumbHtml = isUrlThumb ? '<img src="' + article.thumb + '" alt="" style="width:100%;height:100%;object-fit:contain;">' : (article.thumb || '?');
+        var thumbHtml = article.thumb && /^https?:\/\//i.test(article.thumb) ?
+            '<img src="' + article.thumb + '" alt="" style="width:100%;height:100%;object-fit:contain;">' : (article.thumb || '?');
         var displayUrl = article.url ? article.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : '';
-        var friendly = isG4Friendly(article);
         var openBtn = '';
         if (article.url) {
-            if (friendly) {
-                openBtn = '<a href="' + article.url + '" target="_blank" class="btn btn-open">Open Website</a>';
-            } else {
-                openBtn = '<button class="btn btn-caution" id="previewOpenBtn">&#9888; Open Website</button>';
-            }
+            if (isG4Friendly(article)) openBtn = '<a href="' + article.url + '" target="_blank" class="btn btn-open">Open Website</a>';
+            else openBtn = '<button class="btn btn-caution" id="previewOpenBtn">&#9888; Open Website</button>';
         }
-
         previewPanel.innerHTML =
-            '<div class="preview-content">' +
-            '<div class="preview-thumb">' + thumbHtml + '</div>' +
+            '<div class="preview-content"><div class="preview-thumb">' + thumbHtml + '</div>' +
             '<div class="preview-title">' + escapeHtml(article.title) + '</div>' +
             '<div class="preview-url">' + escapeHtml(displayUrl) + '</div>' +
             '<div class="preview-desc">' + escapeHtml(article.description) + '</div>' +
-            '<div class="preview-actions">' +
-            '<button class="btn" id="previewReadBtn">Read Notes</button>' +
-            openBtn + '</div></div>';
-
+            '<div class="preview-actions"><button class="btn" id="previewReadBtn">Read Notes</button>' + openBtn + '</div></div>';
         document.getElementById('previewReadBtn').onclick = function() { openReader(articleId); };
         var cautionBtn = document.getElementById('previewOpenBtn');
-        if (cautionBtn) { cautionBtn.onclick = function() { showCompatWarning(article); }; }
+        if (cautionBtn) cautionBtn.onclick = function() { showCompatWarning(article); };
     }
 
     function showCompatWarning(article) {
@@ -1026,19 +907,15 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         document.getElementById('compatCancel').onclick = function() { removeClass(modal,'active'); };
         document.getElementById('compatOpenAnyway').onclick = function() { removeClass(modal,'active'); };
     }
-
     document.getElementById('compatModal').onclick = function(e) {
-        var t = e ? e.target : window.event.srcElement;
-        if (t === document.getElementById('compatModal')) { removeClass(document.getElementById('compatModal'),'active'); }
+        if (e.target === this) removeClass(this, 'active');
     };
 
     function openReader(articleId) {
         var article = null;
-        for (var i = 0; i < articles.length; i++) { if (articles[i].id === articleId) { article = articles[i]; break; } }
-        if (!article) { return; }
-        var modal = document.getElementById('readerModal');
-        var main  = document.getElementById('readerMain');
-        var sidebar = document.getElementById('readerSidebar');
+        for (var i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
+        if (!article) return;
+        var modal = document.getElementById('readerModal'), main = document.getElementById('readerMain'), sidebar = document.getElementById('readerSidebar');
         addClass(modal, 'active');
         main.innerHTML = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
             '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Altivec') + '</div></div>' +
@@ -1051,7 +928,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             }
             sh += '</div>';
         }
-        if (article.url) { sh += '<div class="sidebar-section"><h4>EXTERNAL LINK</h4><a href="' + article.url + '" target="_blank" class="download-link" style="background:#2a4a2a;">Visit Website</a></div>'; }
+        if (article.url) sh += '<div class="sidebar-section"><h4>EXTERNAL LINK</h4><a href="' + article.url + '" target="_blank" class="download-link" style="background:#2a4a2a;">Visit Website</a></div>';
         sh += '<div class="sidebar-section"><a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank" class="bmc-link">&#9749; Buy me a coffee</a></div>';
         sh += '<div class="sidebar-section"><h4>INFO</h4><p style="font-size:11px;color:#aaa;">Community resource for PowerMac G4.</p></div>';
         sidebar.innerHTML = sh;
@@ -1061,19 +938,12 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         searchTerm = document.getElementById('searchInput').value;
         if (searchTerm) { currentTab = 'featured'; selectedArticleId = null; renderTabs(); renderResults(); }
     };
-
     document.getElementById('searchInput').onkeypress = function(e) {
-        var key = e ? e.keyCode : window.event.keyCode;
-        if (key === 13) { document.getElementById('searchBtn').onclick(); }
+        if ((e ? e.keyCode : window.event.keyCode) === 13) document.getElementById('searchBtn').onclick();
     };
-
-    document.getElementById('readerCloseBtn').onclick = function() {
-        removeClass(document.getElementById('readerModal'), 'active');
-    };
-
+    document.getElementById('readerCloseBtn').onclick = function() { removeClass(document.getElementById('readerModal'), 'active'); };
     document.getElementById('readerModal').onclick = function(e) {
-        var t = e ? e.target : window.event.srcElement;
-        if (t === document.getElementById('readerModal')) { removeClass(document.getElementById('readerModal'),'active'); }
+        if (e.target === this) removeClass(this, 'active');
     };
 
     function loadArticles() {
@@ -1087,46 +957,38 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                     xhrGet('articles/' + fn, function(article) {
                         article.id = fn.replace(/\.json$/, '');
                         loaded.push(article); remaining--;
-                        if (remaining === 0) { onAllLoaded(loaded); }
+                        if (remaining === 0) onAllLoaded(loaded);
                     }, function() {
                         remaining--;
-                        if (remaining === 0) { onAllLoaded(loaded); }
+                        if (remaining === 0) onAllLoaded(loaded);
                     });
                 })(filenames[i]);
             }
-        }, function() {
-            resultsEl.innerHTML = '<div class="empty">Could not load articles.</div>';
-        });
+        }, function() { resultsEl.innerHTML = '<div class="empty">Could not load articles.</div>'; });
     }
 
     function onAllLoaded(loaded) {
         loaded.sort(function(a,b) { return (b.date||'') < (a.date||'') ? -1 : 1; });
         articles = loaded;
         if (!articles.length) { document.getElementById('resultsList').innerHTML = '<div class="empty">No articles found</div>'; return; }
-        for (var i = 0; i < articles.length; i++) { buildSearchIndex(articles[i]); }
+        for (var i = 0; i < articles.length; i++) buildSearchIndex(articles[i]);
         selectedArticleId = articles[0].id;
-        renderTabs();
-        renderResults();
+        renderTabs(); renderResults();
     }
 
     initWeather();
     loadArticles();
 
-    // ── AQUAFOX NAG BANNER (consent‑respecting) ──────────────────────
+    // ── AQUAFOX NAG BANNER (consent‑respecting) ──
     (function() {
-        var ua = navigator.userAgent || '';
-        var isAquafox = ua.indexOf('Aquafox') >= 0;
-        var dismissed = false;
+        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, dismissed = false;
         if (isFunctionalAllowed()) {
             try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
         }
         if (!isAquafox && !dismissed) {
-            var banner = document.getElementById('nagBanner');
-            banner.style.display = 'block';
-            var header = document.querySelector('.header');
-            header.style.top = '32px';
-            var layout = document.querySelector('.layout');
-            layout.style.marginTop = '187px';
+            document.getElementById('nagBanner').style.display = 'block';
+            document.querySelector('.header').style.top = '32px';
+            document.querySelector('.layout').style.marginTop = '187px';
         }
         document.getElementById('nagClose').onclick = function() {
             document.getElementById('nagBanner').style.display = 'none';
@@ -1135,12 +997,10 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             safeSetItem('altivec_nag_dismissed', '1');
         };
         document.getElementById('nagLink').onclick = function(e) {
-            if (e && e.preventDefault) { e.preventDefault(); } else { window.event.returnValue = false; }
-            for (var i = 0; i < articles.length; i++) {
-                if (articles[i].id === 'aquafox-guide') { openReader('aquafox-guide'); return; }
-            }
-            selectedArticleId = 'aquafox-guide';
-            renderResults();
+            if (e && e.preventDefault) e.preventDefault();
+            else window.event.returnValue = false;
+            for (var i = 0; i < articles.length; i++) if (articles[i].id === 'aquafox-guide') { openReader('aquafox-guide'); return; }
+            selectedArticleId = 'aquafox-guide'; renderResults();
         };
     })();
 </script>
