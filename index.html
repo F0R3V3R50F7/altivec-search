@@ -601,6 +601,93 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         return article.g4_friendly === 1 || article.g4_friendly === '1';
     }
 
+    // ── SEARCH ENGINE (character n-gram, ES3-safe for old WebKit/Aquafox) ─
+    var SEARCH_STOP = { 'a':1,'an':1,'and':1,'the':1,'of':1,'on':1,'in':1,'to':1,'for':1,'your':1,'my':1,'with':1,'how':1,'is':1 };
+    var SEARCH_MIN_SCORE = 1.2;
+
+    function searchNorm(s) {
+        if (!s) { return ''; }
+        return String(s).toLowerCase().replace(/<[^>]*>/g, ' ').replace(/[^a-z0-9]+/g, ' ').replace(/^ +| +$/g, '');
+    }
+
+    // pg_trgm-style word-padded trigrams, stored as a plain-object set
+    function triSet(text) {
+        var set = {}, words = text.split(' '), i, j, w, p;
+        for (i = 0; i < words.length; i++) {
+            w = words[i];
+            if (!w) { continue; }
+            p = '  ' + w + ' ';
+            for (j = 0; j < p.length - 2; j++) { set[p.substring(j, j + 3)] = true; }
+        }
+        return set;
+    }
+
+    function triSim(a, b) {
+        var inter = 0, union = 0, k;
+        for (k in a) { if (a.hasOwnProperty(k)) { union++; if (b[k]) { inter++; } } }
+        for (k in b) { if (b.hasOwnProperty(k) && !a[k]) { union++; } }
+        return union === 0 ? 0 : inter / union;
+    }
+
+    function buildSearchIndex(a) {
+        var title = searchNorm(a.title);
+        var tags = searchNorm(a.tags ? a.tags.join(' ') : '');
+        var desc = searchNorm(a.description);
+        var cat = searchNorm(a.category);
+        var body = searchNorm(a.content);
+        a._idx = {
+            title: title, tags: tags, desc: desc, cat: cat, body: body,
+            triTitle: triSet(title), triTags: triSet(tags),
+            triDesc: triSet(desc), triBody: triSet(body)
+        };
+    }
+
+    function fieldScore(ftext, weight, qNorm, qTokens) {
+        var s = 0, ti, t, padded = ' ' + ftext + ' ';
+        if (qNorm.length >= 2 && ftext.indexOf(qNorm) >= 0) { s += weight * 2; }
+        for (ti = 0; ti < qTokens.length; ti++) {
+            t = qTokens[ti];
+            if (t.length < 2) { continue; }
+            if (ftext.indexOf(t) >= 0) {
+                s += weight;
+                if (padded.indexOf(' ' + t + ' ') >= 0) { s += weight * 0.5; }
+            }
+        }
+        return s;
+    }
+
+    function scoreArticle(a, qNorm, qTokens, qTri) {
+        var idx = a._idx, s = 0;
+        if (!idx) { return 0; }
+        s += fieldScore(idx.title, 10, qNorm, qTokens);
+        s += fieldScore(idx.tags, 8, qNorm, qTokens);
+        s += fieldScore(idx.desc, 4, qNorm, qTokens);
+        s += fieldScore(idx.cat, 4, qNorm, qTokens);
+        s += fieldScore(idx.body, 1, qNorm, qTokens);
+        s += triSim(qTri, idx.triTitle) * 14;
+        s += triSim(qTri, idx.triTags) * 10;
+        s += triSim(qTri, idx.triDesc) * 4;
+        s += triSim(qTri, idx.triBody) * 2;
+        return s;
+    }
+
+    function searchArticles(query) {
+        var qNorm = searchNorm(query);
+        if (!qNorm) { return []; }
+        var raw = qNorm.split(' '), qTokens = [], i, s;
+        for (i = 0; i < raw.length; i++) { if (raw[i] && !SEARCH_STOP[raw[i]]) { qTokens.push(raw[i]); } }
+        if (qTokens.length === 0) { qTokens = raw; }
+        var qTri = triSet(qTokens.join(' ')), scored = [];
+        for (i = 0; i < articles.length; i++) {
+            s = scoreArticle(articles[i], qNorm, qTokens, qTri);
+            if (s >= SEARCH_MIN_SCORE) { scored.push({ a: articles[i], s: s }); }
+        }
+        scored.sort(function (x, y) { return y.s - x.s; });
+        var out = [];
+        for (i = 0; i < scored.length; i++) { out.push(scored[i].a); }
+        return out;
+    }
+
     function addClass(el, cls) {
         if ((' ' + el.className + ' ').indexOf(' ' + cls + ' ') < 0) { el.className = el.className + ' ' + cls; }
     }
@@ -641,11 +728,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     function renderResults() {
         var results = [], i, a;
         if (searchTerm !== '') {
-            var q = searchTerm.toLowerCase();
-            for (i = 0; i < articles.length; i++) {
-                a = articles[i];
-                if (a.title.toLowerCase().indexOf(q) >= 0 || a.description.toLowerCase().indexOf(q) >= 0) { results.push(a); }
-            }
+            results = searchArticles(searchTerm);
         } else if (currentTab === 'featured') {
             results = articles.slice();
         } else {
@@ -811,6 +894,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         loaded.sort(function(a,b) { return (b.date||'') < (a.date||'') ? -1 : 1; });
         articles = loaded;
         if (!articles.length) { document.getElementById('resultsList').innerHTML = '<div class="empty">No articles found</div>'; return; }
+        for (var i = 0; i < articles.length; i++) { buildSearchIndex(articles[i]); }
         selectedArticleId = articles[0].id;
         renderTabs();
         renderResults();
