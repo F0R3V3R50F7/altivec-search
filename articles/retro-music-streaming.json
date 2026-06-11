@@ -2,6 +2,7 @@
     "title": "Streaming Internet Radio on Your G4",
     "description": "How to listen to live radio streams using iTunes 9 and classic Mac OS X. Import .m3u playlists and enjoy.",
     "category": "music",
+    "g4_friendly": 0,
     "url": "https://www.internet-radio.com/",
     "icon": "🎵",
     "date": "2026-06-10",

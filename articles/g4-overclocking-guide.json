@@ -2,10 +2,14 @@
     "title": "G4 Overclocking & Hardware Upgrades",
     "description": "Push your PowerMac G4 beyond stock speeds with safe overclocking techniques.",
     "category": "hardware",
+    "g4_friendly": 1,
     "date": "2026-06-08",
     "author": "Hardware Retro",
-    "reading_time": 10,
     "icon": "⚡",
-    "tags": ["overclocking", "hardware", "upgrades"],
+    "tags": [
+        "overclocking",
+        "hardware",
+        "upgrades"
+    ],
     "content": "<h2>Why Overclock?</h2><p>Overclocking breathes new life into your G4. Many CPUs can run 20-30% faster.</p><h2>Jumper Method</h2><p>Quicksilver and MDD models have overclocking jumpers on the motherboard. Move them according to pinout diagrams.</p><h2>Cooling</h2><p>Replace thermal paste and add case fans before overclocking.</p><h2>Conclusion</h2><p>Start with small increases and stress test thoroughly.</p>"
 }

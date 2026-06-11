@@ -3,6 +3,7 @@
     "title": "TenFourFox - Modern Web on G4",
     "description": "The last modern browser for PowerPC Macs. Installation guide, TLS 1.3 support, and performance optimization tips.",
     "category": "software",
+    "g4_friendly": 0,
     "url": "https://github.com/classilla/tenfourfox",
     "thumb": "🦊",
     "date": "2026-06-04",

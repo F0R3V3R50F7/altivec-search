@@ -597,18 +597,8 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         { id:'software', name:'SOFTWARE' }, { id:'music', name:'MUSIC' }, { id:'web', name:'WEB' }
     ];
 
-    var G4_FRIENDLY_DOMAINS = ['macintoshgarden.org','macintoshrepository.org','classicdb.ch','legacy-wow.com','en.m.wikipedia.org','wikipedia.org','textfiles.com','frogfind.com','68k.news','archive.org','vintageapple.org','lowendmac.com','tenfourfox.com'];
-
     function isG4Friendly(article) {
-        if (article.g4friendly === true) { return true; }
-        if (article.g4friendly === false) { return false; }
-        if (!article.url) { return true; }
-        var host = article.url.replace(/^https?:\/\//,'').split('/')[0].replace(/^www\./,'');
-        for (var i = 0; i < G4_FRIENDLY_DOMAINS.length; i++) {
-            var d = G4_FRIENDLY_DOMAINS[i];
-            if (host === d || host.slice(-(d.length+1)) === '.' + d) { return true; }
-        }
-        return false;
+        return article.g4_friendly === 1 || article.g4_friendly === '1';
     }
 
     function addClass(el, cls) {

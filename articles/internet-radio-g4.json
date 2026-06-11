@@ -3,6 +3,7 @@
     "title": "Internet Radio on Your PowerMac G4",
     "description": "Find live streams, import .m3u playlists into iTunes, and enjoy endless music on your classic Mac.",
     "category": "music",
+    "g4_friendly": 0,
     "url": "https://www.internet-radio.com/",
     "thumb": "🎵",
     "date": "2026-06-10",
