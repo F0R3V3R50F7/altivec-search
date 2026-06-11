@@ -150,9 +150,94 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .nag-banner .nag-close { position: absolute; right: 16px; top: 50%; margin-top: -8px; background: none; border: none; color: #6688bb; font-size: 16px; cursor: pointer; line-height: 1; }
 .nag-banner .nag-close:hover { color: #fff; }
 .nag-banner .nag-icon { margin-right: 6px; }
+
+/* ── COOKIE CONSENT BANNER ────────────────────────────────── */
+.cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #12151c;
+    border-top: 1px solid #3a3a3a;
+    color: #ccc;
+    z-index: 3000;
+    padding: 14px 32px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.5);
+}
+.cookie-consent-banner.hidden { display: none; }
+.cookie-banner-text { flex: 1 1 auto; margin-right: 24px; min-width: 200px; }
+.cookie-banner-text a { color: #f0a500; text-decoration: underline; cursor: pointer; }
+.cookie-banner-text a:hover { color: #ffc733; }
+.cookie-banner-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+.cookie-btn { padding: 8px 18px; font-size: 12px; font-weight: 600; border-radius: 5px; cursor: pointer; border: 1px solid; }
+.cookie-btn-accept { background: #f0a500; color: #111; border-color: #f0a500; }
+.cookie-btn-accept:hover { background: #ffc733; color: #000; }
+.cookie-btn-reject { background: transparent; color: #888; border-color: #555; }
+.cookie-btn-reject:hover { background: #2a2a2a; color: #fff; }
+
+/* Settings modal */
+.cookie-settings-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 4000;
+    display: flex; justify-content: center; align-items: center;
+    visibility: hidden; opacity: 0; transition: opacity 0.15s;
+}
+.cookie-settings-overlay.active { visibility: visible; opacity: 1; }
+.cookie-settings-box {
+    background: #1e1e1e; border: 1px solid #f0a500;
+    padding: 28px 32px; max-width: 480px; width: 90%;
+}
+.cookie-settings-box h3 { color: #f0a500; font-size: 15px; letter-spacing: 1px; margin-bottom: 16px; }
+.cookie-settings-box p { color: #bbb; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+.cookie-toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #333; }
+.cookie-toggle-row:last-child { border-bottom: none; }
+.cookie-toggle-label { font-size: 13px; color: #ddd; }
+.cookie-toggle-label small { display: block; color: #888; font-size: 11px; }
+.cookie-toggle { position: relative; display: inline-block; width: 42px; height: 22px; }
+.cookie-toggle input { opacity: 0; width: 0; height: 0; }
+.cookie-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #555; transition: .2s; border-radius: 22px; }
+.cookie-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .2s; border-radius: 50%; }
+input:checked + .cookie-slider { background-color: #f0a500; }
+input:checked + .cookie-slider:before { transform: translateX(20px); }
+.cookie-settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 </style>
 </head>
 <body>
+
+<!-- Cookie Consent Banner (hidden until first visit) -->
+<div class="cookie-consent-banner hidden" id="cookieConsentBanner">
+    <div class="cookie-banner-text">
+        We use local storage to remember your weather location and to hide this notice after you dismiss it. This is optional and not required for the site to work. 
+        <a id="cookieSettingsLink" role="button" tabindex="0">Manage settings</a>.
+    </div>
+    <div class="cookie-banner-buttons">
+        <button class="cookie-btn cookie-btn-reject" id="cookieRejectBtn">Reject All</button>
+        <button class="cookie-btn cookie-btn-accept" id="cookieAcceptBtn">Accept All</button>
+    </div>
+</div>
+
+<!-- Cookie Settings Modal (single functional toggle) -->
+<div class="cookie-settings-overlay" id="cookieSettingsOverlay">
+    <div class="cookie-settings-box">
+        <h3>Cookie Preferences</h3>
+        <p>We only store a small amount of data to remember your weather town and whether you’ve dismissed our Aquafox reminder. You can turn this off below.</p>
+        <div class="cookie-toggle-row">
+            <span class="cookie-toggle-label">Functional <small>Remember my weather town & banner dismissal</small></span>
+            <label class="cookie-toggle">
+                <input type="checkbox" id="cookieFunctionalToggle">
+                <span class="cookie-slider"></span>
+            </label>
+        </div>
+        <div class="cookie-settings-actions">
+            <button class="btn" id="cookieSaveSettings">Save Settings</button>
+        </div>
+    </div>
+</div>
 
 <div class="nag-banner" id="nagBanner">
     <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> for the best G4 browsing experience.
@@ -237,7 +322,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <div class="layout">
     <div class="results-panel" id="resultsPanel">
         <div id="resultsList"></div>
-        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a></div>
+        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a> &middot; <a id="footerCookieSettings" role="button" tabindex="0">Cookie settings</a></div>
     </div>
     <div class="preview-panel" id="previewPanel">
         <div class="preview-empty">Select a result to preview</div>
@@ -267,7 +352,125 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 </div>
 
 <script>
-    // XHR helper replacing fetch()
+    // ── COOKIE CONSENT MANAGEMENT (UK Compliant, no “necessary” UI category) ──
+    var CONSENT_KEY = 'altivec_cookie_consent';
+    var consentData = { functional: false, timestamp: 0 };
+
+    function loadConsent() {
+        try {
+            var stored = localStorage.getItem(CONSENT_KEY);
+            if (stored) {
+                consentData = JSON.parse(stored);
+            }
+        } catch(e) {}
+    }
+
+    function saveConsent() {
+        try {
+            consentData.timestamp = new Date().getTime();
+            localStorage.setItem(CONSENT_KEY, JSON.stringify(consentData));
+        } catch(e) {}
+    }
+
+    function isFunctionalAllowed() {
+        return consentData.functional === true;
+    }
+
+    function showCookieBanner() {
+        var banner = document.getElementById('cookieConsentBanner');
+        if (banner) { banner.classList.remove('hidden'); }
+    }
+
+    function hideCookieBanner() {
+        var banner = document.getElementById('cookieConsentBanner');
+        if (banner) { banner.classList.add('hidden'); }
+    }
+
+    function openCookieSettings() {
+        var overlay = document.getElementById('cookieSettingsOverlay');
+        var toggle = document.getElementById('cookieFunctionalToggle');
+        if (overlay && toggle) {
+            toggle.checked = isFunctionalAllowed();
+            overlay.classList.add('active');
+        }
+    }
+
+    function closeCookieSettings() {
+        var overlay = document.getElementById('cookieSettingsOverlay');
+        if (overlay) { overlay.classList.remove('active'); }
+    }
+
+    function applyConsent() {
+        hideCookieBanner();
+        // If functional is denied, clear previously stored optional data
+        if (!consentData.functional) {
+            try { localStorage.removeItem('altivec_town'); } catch(e) {}
+            try { localStorage.removeItem('altivec_nag_dismissed'); } catch(e) {}
+        }
+    }
+
+    function acceptAll() {
+        consentData.functional = true;
+        saveConsent();
+        applyConsent();
+    }
+
+    function rejectAll() {
+        consentData.functional = false;
+        saveConsent();
+        applyConsent();
+    }
+
+    function saveSettingsFromModal() {
+        var toggle = document.getElementById('cookieFunctionalToggle');
+        if (toggle) {
+            consentData.functional = toggle.checked;
+        }
+        saveConsent();
+        closeCookieSettings();
+        applyConsent();
+    }
+
+    // Safe localStorage wrapper – only allows functional storage if consent given
+    function safeSetItem(key, value) {
+        if (key === CONSENT_KEY) {
+            try { localStorage.setItem(key, value); } catch(e) {}
+            return;
+        }
+        // Only allow functional keys if consent is given
+        if (key === 'altivec_town' || key === 'altivec_nag_dismissed') {
+            if (!isFunctionalAllowed()) { return; }
+        }
+        try { localStorage.setItem(key, value); } catch(e) {}
+    }
+
+    // Wire events on DOM ready
+    document.addEventListener('DOMContentLoaded', function() {
+        loadConsent();
+        // Show banner only if consent has never been set
+        if (!consentData.timestamp) {
+            showCookieBanner();
+        }
+        var acceptBtn = document.getElementById('cookieAcceptBtn');
+        var rejectBtn = document.getElementById('cookieRejectBtn');
+        var settingsLink = document.getElementById('cookieSettingsLink');
+        var footerSettings = document.getElementById('footerCookieSettings');
+        var saveSettingsBtn = document.getElementById('cookieSaveSettings');
+        var overlay = document.getElementById('cookieSettingsOverlay');
+
+        if (acceptBtn) acceptBtn.onclick = acceptAll;
+        if (rejectBtn) rejectBtn.onclick = rejectAll;
+        if (settingsLink) settingsLink.onclick = openCookieSettings;
+        if (footerSettings) footerSettings.onclick = openCookieSettings;
+        if (saveSettingsBtn) saveSettingsBtn.onclick = saveSettingsFromModal;
+        if (overlay) {
+            overlay.onclick = function(e) {
+                if (e.target === overlay) { closeCookieSettings(); }
+            };
+        }
+    });
+
+    // ── XHR helper (unchanged) ─────────────────────────────────────
     function xhrGet(url, onSuccess, onError) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
@@ -281,10 +484,9 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
             }
         };
         xhr.send();
-
     }
 
-    // ── CANVAS WEATHER ANIMATION ─────────────────────────────────────
+    // ── CANVAS WEATHER ANIMATION (unchanged) ─────────────────────────
     var wxCanvas = document.getElementById('weatherCanvas');
     var wxCtx = wxCanvas.getContext('2d');
     var wxState = { type: 'idle', t: 0, g1:'#1a1d24', g2:'#1a1d24', g3:'#1a1d24' };
@@ -399,10 +601,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         window.attachEvent('onload', initCanvas);
     }
 
-
-    // ── GOD SAYS ─────────────────────────────────────────────────────
-    // Terry Davis's God Says algorithm ported to JS.
-    // Picks 3-7 random words from Happy.TXT and displays them.
+    // ── GOD SAYS (unchanged) ─────────────────────────────────────────
     var GOD_WORDS = ['Grace','Mercy','Salvation','Repentance','Holiness','Sanctification','Justification','Redemption','Atonement','Perfection','Wesley','Whitefield','Methodism','Revival','Conviction','The Blood','The Cross','The Lamb','The Risen Lord','Emmanuel','Abba Father','Holy Ghost','Born Again','New Creation','Assurance','Repent','Believe','Be Holy','Fear God','Love thy neighbour','God is Love','Perfect Love','Pure Heart','Free Grace','Saving Faith','Amen','Alleluia','Maranatha','Selah','Hallelujah','Even so come Lord Jesus','He is risen','It is finished','Come Lord Jesus','The Lord reigneth','King of Kings','Lord of Lords','Worthy is the Lamb','Alpha and Omega','The Word Made Flesh','God With Us','Prince of Peace','The Good Shepherd','The Bread of Life','The True Vine','The Morning Star','Fear not','Be not afraid','Peace be still','Come unto me','I will give you rest','My grace is sufficient','He careth for you','With God all things are possible','I am with you always','The Lord is my shepherd','I shall not want','Still waters','Valley of the shadow of death','I will fear no evil','Holy holy holy','Lord God Almighty','Worthy is the Lamb','Three in One','One in Three','Love one another','Greater love hath no man','God so loved the world','Whosoever believeth','Shall not perish','Blessed are the meek','Blessed are the pure in heart','Blessed are the peacemakers','Salt of the earth','Light of the world','Love your enemies','Turn the other cheek','Judge not','The narrow way','The strait gate','Few there be that find it','Built upon the rock','Seek ye first','Ask seek knock','Go ye into all the world','Preach the gospel','Lazarus come forth','Rise take up thy bed','Thy sins are forgiven','Neither do I condemn thee','The harvest is plenteous','The labourers are few','Silver and gold have I none','Rise up and walk','We ought to obey God rather than men','Not ashamed of the gospel','The shield of faith','The helmet of salvation','The sword of the Spirit','Put on the whole armour of God','We wrestle not against flesh and blood','I press toward the mark','Charity never faileth','Through a glass darkly','Face to face','The greatest of these is charity','The fruit of the Spirit','Love joy peace','Bear one another\'s burdens','In due season we shall reap','Faith cometh by hearing','The just shall live by faith','O the depth of the riches','His ways past finding out','For of him and through him and to him','Jesu lover of my soul','Other refuge have I none','Hide me O my Saviour','With the shadow of thy wing','Love divine all loves excelling','Changed from glory into glory','Hark the herald angels sing','God and sinners reconciled','Kindle a flame of sacred love','Humble prayer and fervent praise','The pure celestial fire','O Thou who camest from above','I\'m not dead yet','I\'m the boss','What part of God don\'t you understand','I made it that way','It\'s nice being God','I planned that','You get what you pray for','Catastrophic Success','I\'m grieved','That\'s gonna leave a mark','Watch this','I pity the fool','Rufus!','Its trivial obviously','King of Mars','Got the life'];
 
     function godSpeak() {
@@ -421,25 +620,24 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         }, 300);
     }
 
-    document.getElementById('godWidget').onclick = function() {
-        godSpeak();
-    };
-
-    // Speak on load after a short delay
+    document.getElementById('godWidget').onclick = godSpeak;
     setTimeout(godSpeak, 800);
 
-    // Set widget label on load, restore saved town if any
+    // ── WEATHER (with consent-respecting saving) ──────────────────────
     function initWeather() {
         var labels = document.querySelectorAll('#weatherLabel');
         for (var i = 0; i < labels.length; i++) { labels[i].innerHTML = 'TOWN&nbsp;&nbsp;'; }
         document.getElementById('weatherInput').placeholder = 'e.g. Pontypool';
-        try {
-            var saved = localStorage.getItem('altivec_town');
-            if (saved) {
-                document.getElementById('weatherInput').value = saved;
-                fetchWeather();
-            }
-        } catch(e) {}
+        // Restore saved town ONLY if functional consent is given
+        if (isFunctionalAllowed()) {
+            try {
+                var saved = localStorage.getItem('altivec_town');
+                if (saved) {
+                    document.getElementById('weatherInput').value = saved;
+                    fetchWeather();
+                }
+            } catch(e) {}
+        }
     }
 
     function toggleSettings() {
@@ -466,11 +664,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         if (!inside) { closeSettings(); }
     };
 
-    // wttr.in handles location lookup itself - postcodes, town names, all of it.
-    // Plain HTTP, no TLS, no API key, no geocoding step needed.
-    // Returns current conditions + 3-day forecast in one call.
-
-    // wttr.in weather codes -> our animation type + description
     var WTTR_CODES = {
         113: { type:'clear',   icon:'&#9728;',  desc:'Clear'          },
         116: { type:'cloud',   icon:'&#9925;',  desc:'Partly Cloudy'  },
@@ -535,7 +728,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         errorEl.className  = errorEl.className.replace(/\bvisible\b/,'').replace(/\s+/,' ').replace(/^\s|\s$/,'');
         btn.innerHTML = '...';
 
-        // Single HTTP call - wttr.in resolves location itself
         var url = 'http://wttr.in/' + encodeURIComponent(raw) + '?format=j1';
 
         xhrGet(url, function(data) {
@@ -554,7 +746,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
                 ? (data.nearest_area[0].areaName[0].value + ', ' + data.nearest_area[0].country[0].value)
                 : raw;
 
-            // Update canvas animation
             var info = wxTypeFromCode(code <= 113 ? 0 : code <= 119 ? 2 : code <= 200 ? 3 : code <= 230 ? 73 : code <= 260 ? 45 : code <= 308 ? 63 : code <= 338 ? 73 : 95);
             wxState.type = wx.type; wxState.g1 = info.g1; wxState.g2 = info.g2; wxState.g3 = info.g3;
             initParticles(wx.type);
@@ -564,7 +755,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
             document.getElementById('weatherDesc').innerHTML = escapeHtml(wx.desc);
             document.getElementById('weatherLoc').innerHTML  = escapeHtml(loc);
 
-            // 2-day forecast (tomorrow + day after) — today is already shown in current conditions
             var DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
             var todayDow = (new Date()).getDay();
             var html = '';
@@ -587,7 +777,8 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
             document.getElementById('wxIdle').style.display = 'none';
             document.getElementById('weatherCog').className = 'weather-cog configured';
             closeSettings();
-            try { localStorage.setItem('altivec_town', raw); } catch(e) {}
+            // Save town only if functional consent given (via safeSetItem)
+            safeSetItem('altivec_town', raw);
             btn.innerHTML = '&#9729; GO';
 
         }, function() {
@@ -603,7 +794,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         if (key === 13) { fetchWeather(); }
     };
 
-    // ── ARTICLES ─────────────────────────────────────────────────────
+    // ── ARTICLES (unchanged) ──────────────────────────────────────────
     var articles = [];
     var currentTab = 'featured';
     var searchTerm = '';
@@ -618,7 +809,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         return article.g4_friendly === 1 || article.g4_friendly === '1';
     }
 
-    // ── SEARCH ENGINE (character n-gram, ES3-safe for old WebKit/Aquafox) ─
     var SEARCH_STOP = { 'a':1,'an':1,'and':1,'the':1,'of':1,'on':1,'in':1,'to':1,'for':1,'your':1,'my':1,'with':1,'how':1,'is':1 };
     var SEARCH_MIN_SCORE = 1.2;
 
@@ -627,7 +817,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         return String(s).toLowerCase().replace(/<[^>]*>/g, ' ').replace(/[^a-z0-9]+/g, ' ').replace(/^ +| +$/g, '');
     }
 
-    // pg_trgm-style word-padded trigrams, stored as a plain-object set
     function triSet(text) {
         var set = {}, words = text.split(' '), i, j, w, p;
         for (i = 0; i < words.length; i++) {
@@ -923,16 +1112,17 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     initWeather();
     loadArticles();
 
-    // ── AQUAFOX NAG BANNER ──────────────────────────────────────────
+    // ── AQUAFOX NAG BANNER (consent‑respecting) ──────────────────────
     (function() {
         var ua = navigator.userAgent || '';
         var isAquafox = ua.indexOf('Aquafox') >= 0;
         var dismissed = false;
-        try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
+        if (isFunctionalAllowed()) {
+            try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
+        }
         if (!isAquafox && !dismissed) {
             var banner = document.getElementById('nagBanner');
             banner.style.display = 'block';
-            // Push header down to make room
             var header = document.querySelector('.header');
             header.style.top = '32px';
             var layout = document.querySelector('.layout');
@@ -942,20 +1132,17 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
             document.getElementById('nagBanner').style.display = 'none';
             document.querySelector('.header').style.top = '0';
             document.querySelector('.layout').style.marginTop = '155px';
-            try { localStorage.setItem('altivec_nag_dismissed', '1'); } catch(e) {}
+            safeSetItem('altivec_nag_dismissed', '1');
         };
         document.getElementById('nagLink').onclick = function(e) {
             if (e && e.preventDefault) { e.preventDefault(); } else { window.event.returnValue = false; }
-            // Find and open the aquafox article
             for (var i = 0; i < articles.length; i++) {
                 if (articles[i].id === 'aquafox-guide') { openReader('aquafox-guide'); return; }
             }
-            // Fallback: select it in results
             selectedArticleId = 'aquafox-guide';
             renderResults();
         };
     })();
-
 </script>
 </body>
 </html>
