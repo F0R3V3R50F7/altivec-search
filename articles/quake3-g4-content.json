@@ -1,0 +1,1 @@
+{"content": "<h2>Quake 3 on G4</h2><p>Runs flawlessly at 125fps on most G4s.</p><h2>Performance Config</h2><p>Set com_maxfps 125, r_dynamiclight 0, r_textureMode GL_LINEAR_MIPMAP_NEAREST.</p>"}

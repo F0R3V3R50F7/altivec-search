@@ -918,9 +918,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         if (!article) return;
         var modal = document.getElementById('readerModal'), main = document.getElementById('readerMain'), sidebar = document.getElementById('readerSidebar');
         addClass(modal, 'active');
-        main.innerHTML = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
-            '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Altivec') + '</div></div>' +
-            '<div class="article-body">' + article.content + '</div>';
+
+        // Build sidebar immediately from stub data (no network needed)
         var sh = '';
         if (article.downloads && article.downloads.length) {
             sh += '<div class="sidebar-section"><h4>DOWNLOADS</h4>';
@@ -933,6 +932,20 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         sh += '<div class="sidebar-section"><a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank" class="bmc-link">&#9749; Buy me a coffee</a></div>';
         sh += '<div class="sidebar-section"><h4>INFO</h4><p style="font-size:11px;color:#aaa;">Community resource for PowerMac G4.</p></div>';
         sidebar.innerHTML = sh;
+
+        // Show header immediately, content loading spinner
+        main.innerHTML = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
+            '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Technologyst Labs') + '</div></div>' +
+            '<div class="article-body" id="articleBody"><p style="color:#666;">Loading...</p></div>';
+
+        // Lazy-load content only now
+        xhrGet('articles/' + articleId + '-content.json', function(data) {
+            var body = document.getElementById('articleBody');
+            if (body) body.innerHTML = data.content || '';
+        }, function() {
+            var body = document.getElementById('articleBody');
+            if (body) body.innerHTML = '<p style="color:#c66;">Failed to load content.</p>';
+        });
     }
 
     document.getElementById('searchBtn').onclick = function() {
