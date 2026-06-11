@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⌥ ALTIVEC — G4 Resource Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #e0e0e0; }
+.header { background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%); border-bottom: 1px solid #3a3a3a; padding: 0 32px; }
+.header-top { display: flex; align-items: center; height: 92px; }
+.header-top > * { margin-right: 24px; }
+.header-top > *:last-child { margin-right: 0; }
+.logo { display: flex; align-items: baseline; flex-shrink: 0; }
+.logo span { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #f0a500, #ff6680); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.logo h1 { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #f0a500, #ff6680); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.search { flex: 1; max-width: 460px; display: flex; align-items: center; background: rgba(255,255,255,0.04); border: 1px solid #3a3a3a; border-radius: 6px; padding: 0 4px 0 14px; -moz-transition: border-color 0.15s; transition: border-color 0.15s; }
+.search:focus-within { border-color: #f0a500; }
+.search-icon { color: #555; font-size: 13px; flex-shrink: 0; }
+.search input { flex: 1; padding: 9px 0; background: transparent; border: none; color: #eee; font-size: 13px; outline: none; }
+.search input::placeholder { color: #555; }
+.search button { padding: 6px 12px; background: transparent; border: none; border-left: 1px solid #3a3a3a; cursor: pointer; color: #666; font-size: 12px; border-radius: 0 5px 5px 0; -moz-transition: color 0.15s; transition: color 0.15s; }
+.search button:hover { color: #f0a500; background: transparent; }
+.weather-widget { flex-shrink: 0; position: relative; width: 280px; height: 76px; border-radius: 8px; overflow: visible; border: 1px solid rgba(255,255,255,0.1); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; }
+.god-widget { flex-shrink: 0; position: relative; width: 220px; height: 76px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(240,165,0,0.2); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; margin-left: auto; background: #0a0800; cursor: pointer; }
+.god-scanlines { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 2; }
+.god-glow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(ellipse at 50% 50%, rgba(240,165,0,0.06) 0%, transparent 70%); pointer-events: none; z-index: 1; }
+.god-inner { position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; padding: 8px 12px; overflow: hidden; }
+.god-header { font-size: 10px; color: rgba(240,165,0,0.85); letter-spacing: 3px; text-transform: uppercase; font-family: monospace; margin-bottom: 4px; flex-shrink: 0; text-align: center; text-shadow: 0 0 8px rgba(240,165,0,0.5); }
+.god-scroll { flex: 1; overflow: hidden; position: relative; }
+.god-text { font-size: 12px; color: #f0a500; font-family: monospace; line-height: 1.45; text-shadow: 0 0 6px rgba(240,165,0,0.5); white-space: normal; -moz-transition: opacity 0.5s ease; transition: opacity 0.5s ease; }
+.god-text.idle { color: rgba(240,165,0,0.3); text-shadow: none; font-style: italic; }
+.weather-inner { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 8px; overflow: hidden; }
+#weatherCanvas { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; }
+.weather-glass { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.25); }
+.weather-cog { position: absolute; top: 5px; right: 6px; z-index: 10; background: none; border: none; color: #c0392b; font-size: 11px; cursor: pointer; padding: 2px 4px; line-height: 1; -moz-transition: color 0.15s; transition: color 0.15s; }
+.weather-cog:hover { color: #ff6b6b; }
+.weather-cog.configured { color: rgba(255,255,255,0.3); }
+.weather-cog.configured:hover { color: rgba(255,255,255,0.8); }
+.weather-settings { display: none; position: absolute; top: calc(100% + 4px); right: 0; width: 100%; background: #1e2535; border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 10px 12px; z-index: 100; -moz-box-shadow: 0 8px 24px rgba(0,0,0,0.5); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+.weather-settings.open { display: block; }
+.weather-settings-row { display: flex; align-items: center; gap: 6px; }
+.weather-settings-row label { font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; font-family: monospace; white-space: nowrap; margin-right: 8px; }
+.weather-settings-row input { flex: 1; min-width: 0; padding: 5px 6px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; color: #fff; font-size: 12px; font-family: monospace; outline: none; letter-spacing: 1px; }
+.weather-settings-row input::placeholder { color: rgba(255,255,255,0.2); }
+.weather-settings-row input:focus { border-color: rgba(255,255,255,0.35); }
+.weather-settings-row button { padding: 5px 8px; background: rgba(240,165,0,0.2); border: 1px solid rgba(240,165,0,0.4); border-radius: 4px; cursor: pointer; color: #f0a500; font-size: 12px; -moz-transition: all 0.15s; transition: all 0.15s; white-space: nowrap; }
+.weather-settings-row button:hover { background: #f0a500; color: #111; }
+.weather-result { display: none; height: 100%; padding: 0 20px 0 10px; align-items: stretch; }
+.weather-result.visible { display: flex; }
+.wx-current { display: flex; flex-direction: column; justify-content: center; padding-right: 8px; border-right: 1px solid rgba(255,255,255,0.12); width: 88px; flex-shrink: 0; }
+.wx-top { display: flex; align-items: baseline; }
+.weather-icon { font-size: 20px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.weather-temp { font-size: 24px; font-weight: 800; color: #fff; font-family: monospace; line-height: 1; }
+.weather-desc { font-size: 8px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.weather-loc { font-size: 8px; color: rgba(255,255,255,0.35); font-family: monospace; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+.wx-idle { display: flex; height: 100%; padding: 0 20px 0 14px; align-items: stretch; }
+.wx-idle span { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 1.5px; font-family: monospace; text-transform: uppercase; }
+.wx-idle button { padding: 4px 10px; background: rgba(240,165,0,0.15); border: 1px solid rgba(240,165,0,0.3); border-radius: 4px; cursor: pointer; color: #f0a500; font-size: 11px; -moz-transition: all 0.15s; transition: all 0.15s; }
+.wx-idle button:hover { background: #f0a500; color: #111; }
+.wx-forecast { display: flex; flex: 1; align-items: stretch; }
+.forecast-day { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(255,255,255,0.07); -moz-transition: background 0.15s; transition: background 0.15s; }
+.forecast-day:last-child { border-right: none; }
+.forecast-day:hover { background: rgba(255,255,255,0.06); }
+.forecast-dow { font-size: 8px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; text-transform: uppercase; font-family: monospace; }
+.forecast-icon { font-size: 17px; line-height: 1; }
+.forecast-hi { font-size: 12px; font-weight: 700; color: #fff; font-family: monospace; }
+.forecast-lo { font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; }
+.weather-error { display: none; align-items: center; height: 100%; padding: 0 16px; font-size: 11px; color: #ff6b6b; font-family: monospace; letter-spacing: 1px; }
+.weather-error.visible { display: flex; }
+.header-bottom { display: flex; align-items: flex-start; justify-content: space-between; }
+.forecast-strip { display: none; }
+.tabs { display: flex; }
+.tab { padding: 5px 16px; font-size: 13px; font-weight: 500; cursor: pointer; color: #aaa; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab:hover { color: #f0a500; }
+.tab.active { color: #f0a500; border-bottom-color: #f0a500; }
+.layout { display: flex; max-width: 1400px; margin: 0 auto; min-height: 580px; min-height: calc(100vh - 120px); }
+.results-panel { flex: 1.2; padding: 20px 20px 24px 28px; border-right: 1px solid #252525; overflow-y: auto; height: 630px; height: calc(100vh - 70px); position: -webkit-sticky; position: sticky; top: 0; background: linear-gradient(160deg, #1e2128 0%, #1a1d24 60%, #181b21 100%); }
+.preview-panel { flex: 0.8; padding: 20px 28px 24px 20px; background: linear-gradient(160deg, #161922 0%, #13161d 60%, #111419 100%); overflow-y: auto; height: 630px; height: calc(100vh - 70px); position: -webkit-sticky; position: sticky; top: 0; }
+.preview-content { background: linear-gradient(145deg, #1e2230 0%, #191c28 100%); border: 1px solid #2a2d3a; border-radius: 10px; padding: 20px; -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.3); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+.preview-empty { text-align: center; color: #444; padding: 60px 20px; }
+.preview-thumb { width: 100%; height: 160px; background: linear-gradient(135deg, #1a1e2a 0%, #222638 100%); display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 16px; border: 1px solid #2a2d3a; border-radius: 8px; }
+.preview-title { color: #f0a500; font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+.preview-url { color: #4a7a4a; font-size: 11px; font-family: monospace; margin-bottom: 14px; word-break: break-all; }
+.preview-desc { color: #888; font-size: 13px; line-height: 1.55; margin-bottom: 18px; }
+.preview-actions { display: flex; }
+.preview-actions .btn { margin-right: 10px; }
+.preview-actions .btn:last-child { margin-right: 0; }
+.btn { padding: 7px 14px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #333642; background: linear-gradient(135deg, #252836 0%, #1e2130 100%); color: #bbb; text-decoration: none; display: inline-block; border-radius: 6px; -moz-transition: all 0.15s; transition: all 0.15s; }
+.btn:hover { background: #f0a500; color: #121212; border-color: #f0a500; }
+.btn-open { background: linear-gradient(135deg, #1a3020 0%, #142518 100%); color: #6ab04a; border-color: #254a25; border-radius: 6px; }
+.btn-open:hover { background: #2a5a2a; color: #fff; }
+.btn-caution { background: #2a1f00; color: #f0a500; border-color: #5a3e00; }
+.btn-caution:hover { background: #3a2a00; color: #ffc733; border-color: #f0a500; }
+.compat-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; -moz-transition: opacity 0.15s; transition: opacity 0.15s; }
+.compat-overlay.active { visibility: visible; opacity: 1; }
+.compat-box { background: #1e1e1e; border: 1px solid #f0a500; padding: 28px 32px; max-width: 420px; width: 90%; }
+.compat-box h3 { color: #f0a500; font-size: 15px; letter-spacing: 1px; margin-bottom: 12px; }
+.compat-box p { color: #bbb; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+.compat-box .compat-url { font-family: monospace; font-size: 11px; color: #666; margin-bottom: 20px; word-break: break-all; }
+.compat-actions { display: flex; flex-wrap: wrap; }
+.result-item { padding: 10px 12px; cursor: pointer; border-radius: 8px; border: 1px solid transparent; margin-bottom: 2px; -moz-transition: background 0.12s, border-color 0.12s; transition: background 0.12s, border-color 0.12s; }
+.result-item:hover { background: linear-gradient(135deg, #1e2230 0%, #1a1e2a 100%); border-color: #2a2d3a; }
+.result-item.selected { background: linear-gradient(135deg, #211f10 0%, #1c1b0e 100%); border-color: rgba(240,165,0,0.2); -moz-box-shadow: inset 0 0 0 1px rgba(240,165,0,0.08); box-shadow: inset 0 0 0 1px rgba(240,165,0,0.08); }
+.result-title { font-size: 15px; font-weight: 500; color: #f0a500; margin-bottom: 3px; }
+.result-url { font-size: 10px; color: #4a7a4a; font-family: monospace; margin-bottom: 5px; }
+.result-desc { font-size: 12px; color: #777; line-height: 1.35; }
+.stats { font-size: 11px; color: #444; padding: 6px 12px 10px; border-bottom: 1px solid #222530; margin-bottom: 6px; letter-spacing: 0.5px; }
+.empty { text-align: center; padding: 60px; color: #444; font-size: 14px; }
+.footer { background: linear-gradient(to bottom, #141618 0%, #111315 100%); border-top: 1px solid #222; padding: 14px 32px; text-align: center; }
+.footer-links { display: flex; justify-content: center; flex-wrap: wrap; }
+.footer-links a { color: #555; text-decoration: none; font-size: 11px; letter-spacing: 0.5px; -moz-transition: color 0.15s; transition: color 0.15s; }
+.footer-links a:hover { color: #f0a500; }
+.reader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; -moz-transition: opacity 0.2s; transition: opacity 0.2s; }
+.reader-overlay.active { visibility: visible; opacity: 1; }
+.reader { background: #fef9e8; width: 90%; max-width: 1000px; height: 85%; display: flex; position: relative; border: 1px solid #f0a500; }
+.reader-main { flex: 2; overflow-y: auto; padding: 30px 40px; font-family: 'Georgia', serif; color: #2c2418; }
+.reader-sidebar { width: 260px; background: #2a2418; border-left: 1px solid #4a3e2c; padding: 30px 20px; overflow-y: auto; }
+.reader-close { position: absolute; top: 12px; right: 12px; background: #2a2a2a; color: #f0a500; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #4a4a4a; font-size: 16px; border-radius: 4px; }
+.reader-close:hover { background: #f0a500; color: #121212; }
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-section h4 { color: #f0a500; font-size: 11px; letter-spacing: 1px; margin-bottom: 12px; border-bottom: 1px solid #4a3e2c; padding-bottom: 6px; }
+.download-link { display: block; background: #3a3224; color: #c9a03d; padding: 8px 12px; font-size: 11px; text-decoration: none; margin-bottom: 8px; border: 1px solid #5a4a34; }
+.download-link:hover { background: #f0a500; color: #1a1a1a; }
+.reader-main .article-header { margin-bottom: 30px; border-bottom: 1px solid #e0d5c0; padding-bottom: 18px; }
+.reader-main .article-title { font-size: 28px; font-weight: 700; color: #1a140e; margin: 10px 0; }
+.reader-main .article-meta { font-size: 12px; color: #8a7a64; }
+.reader-main .article-body { font-size: 16px; line-height: 1.65; }
+.reader-main .article-body p { margin-bottom: 1.2em; }
+.reader-main .article-body h2 { font-size: 22px; margin: 1.3em 0 0.5em; }
+.reader-main .article-body p:first-of-type::first-letter { font-size: 52px; font-weight: bold; float: left; line-height: 0.8; margin-right: 10px; color: #f0a500; }
+@media (max-width: 900px) { .layout { flex-direction: column; }
+.results-panel, .preview-panel { flex: auto; position: static; height: auto; border-right: none; }
+.preview-panel { border-top: 1px solid #2a2a2a; }
+.header-top { flex-wrap: wrap; }
+.tabs { overflow-x: auto; }
+.search { max-width: 100%; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-top">
+        <div class="logo">
+            <span>⌥</span>
+            <h1>ALTIVEC</h1>
+        </div>
+        <div class="search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Search G4 resources... e.g. Halo, TenFourFox, Sorbet">
+            <button id="searchBtn"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="god-widget" id="godWidget" title="Click for revelation">
+            <div class="god-glow"></div>
+            <div class="god-scanlines"></div>
+            <div class="god-inner">
+                <div class="god-header">&#9670; GOD SAYS &#9670;</div>
+                <div class="god-scroll" id="godScroll">
+                    <div class="god-text idle" id="godText">click for revelation</div>
+                </div>
+            </div>
+        </div>
+        <div class="weather-widget" id="weatherWidget">
+            <div class="weather-inner">
+                <canvas id="weatherCanvas"></canvas>
+                <div class="weather-glass">
+                    <div class="wx-idle" id="wxIdle">
+                        <div class="wx-current">
+                            <div class="wx-top">
+                                <div class="weather-icon">&#9729;</div>
+                                <div class="weather-temp" style="color:rgba(255,255,255,0.15);">--°C</div>
+                            </div>
+                            <div class="weather-desc" style="color:rgba(255,255,255,0.15);">-- set location --</div>
+                            <div class="weather-loc" style="color:rgba(255,255,255,0.1);">click ⚙ to configure</div>
+                        </div>
+                        <div class="wx-forecast" style="display:flex;flex:1;align-items:stretch;">
+                            <div class="forecast-day" style="opacity:0.15;flex:1;"><div class="forecast-dow">---</div><div class="forecast-icon">&#9729;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day" style="opacity:0.15;flex:1;"><div class="forecast-dow">---</div><div class="forecast-icon">&#9729;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day" style="opacity:0.15;flex:1;border-right:none;"><div class="forecast-dow">---</div><div class="forecast-icon">&#9729;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                        </div>
+                    </div>
+                    <div class="weather-result" id="weatherResult">
+                        <div class="wx-current">
+                            <div class="wx-top">
+                                <div class="weather-icon" id="weatherIcon"></div>
+                                <div class="weather-temp" id="weatherTemp"></div>
+                            </div>
+                            <div class="weather-desc" id="weatherDesc"></div>
+                            <div class="weather-loc" id="weatherLoc"></div>
+                        </div>
+                        <div class="wx-forecast" id="wxForecast"></div>
+                    </div>
+                    <div class="weather-error" id="weatherError">NOT FOUND</div>
+                </div>
+                <button class="weather-cog" id="weatherCog" title="Set location">⚙</button>
+            </div>
+            <div class="weather-settings" id="weatherSettings">
+                <div class="weather-settings-row">
+                    <label id="weatherLabel" style="margin-right:10px;">···</label>
+                    <input type="text" id="weatherInput" placeholder="······" maxlength="10">
+                    <button id="weatherBtn">&#9729; GO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom">
+        <div class="tabs" id="tabs"></div>
+        <div class="forecast-strip" id="forecastStrip"></div>
+    </div>
+</div>
+
+<div class="layout">
+    <div class="results-panel" id="resultsPanel">
+        <div id="resultsList"></div>
+    </div>
+    <div class="preview-panel" id="previewPanel">
+        <div class="preview-empty">Select a result to preview</div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-links">
+        <a href="https://macintoshgarden.org" target="_blank">Macintosh Garden</a>
+        <a href="https://macintoshrepository.org" target="_blank">Mac Repository</a>
+        <a href="https://classicdb.ch" target="_blank">ClassicDB.ch</a>
+        <a href="https://legacy-wow.com" target="_blank">Legacy-WoW.com</a>
+    </div>
+</div>
+
+<div id="compatModal" class="compat-overlay">
+    <div class="compat-box">
+        <h3>⚠ COMPATIBILITY WARNING</h3>
+        <p>This site may not render correctly in older browsers like TenFourFox or Classilla. Heavy JavaScript, modern CSS, or TLS requirements could cause issues on your G4.</p>
+        <p>Consider reading the local article first — it may have direct download links or lightweight alternatives.</p>
+        <div class="compat-url" id="compatUrl"></div>
+        <div class="compat-actions">
+            <button class="btn" id="compatReadInstead">📖 Read Article Instead</button>
+            <a class="btn btn-caution" id="compatOpenAnyway" href="#" target="_blank">⚠ Open Anyway</a>
+            <button class="btn" id="compatCancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="readerModal" class="reader-overlay">
+    <div class="reader">
+        <div class="reader-close" id="readerCloseBtn"><i class="fas fa-times"></i></div>
+        <div class="reader-main" id="readerMain"></div>
+        <div class="reader-sidebar" id="readerSidebar"></div>
+    </div>
+</div>
+
+<script>
+    // XHR helper replacing fetch()
+    function xhrGet(url, onSuccess, onError) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) { return; }
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try { onSuccess(JSON.parse(xhr.responseText)); }
+                catch(e) { if (onError) { onError(e); } }
+            } else {
+                if (onError) { onError(new Error('HTTP ' + xhr.status)); }
+            }
+        };
+        xhr.send();
+
+    }
+
+    // ── CANVAS WEATHER ANIMATION ─────────────────────────────────────
+    var wxCanvas = document.getElementById('weatherCanvas');
+    var wxCtx = wxCanvas.getContext('2d');
+    var wxState = { type: 'idle', t: 0, g1:'#1a1d24', g2:'#1a1d24', g3:'#1a1d24' };
+    var rainDrops = [], snowFlakes = [], cloudPuffs = [], sunRays = [];
+
+    function initParticles(type) {
+        var w = wxCanvas.width, h = wxCanvas.height, i;
+        rainDrops = []; snowFlakes = []; cloudPuffs = []; sunRays = [];
+        if (type === 'rain' || type === 'drizzle' || type === 'lightrain') {
+            var count = type === 'drizzle' ? 20 : type === 'lightrain' ? 35 : 70;
+            var speedMin = type === 'drizzle' ? 1.5 : type === 'lightrain' ? 2.5 : 5;
+            var speedRng = type === 'drizzle' ? 1.5 : type === 'lightrain' ? 2 : 4;
+            var lenMin   = type === 'drizzle' ? 3   : type === 'lightrain' ? 5  : 8;
+            var lenRng   = type === 'drizzle' ? 4   : type === 'lightrain' ? 6  : 10;
+            for (i = 0; i < count; i++) {
+                rainDrops.push({ x: Math.random()*w, y: Math.random()*h,
+                    len: lenMin + Math.random()*lenRng, speed: speedMin + Math.random()*speedRng,
+                    alpha: 0.15 + Math.random()*0.3 });
+            }
+        }
+        if (type === 'snow') {
+            for (i = 0; i < 45; i++) {
+                snowFlakes.push({ x: Math.random()*w, y: Math.random()*h,
+                    r: 1.5 + Math.random()*2.5, speed: 0.4 + Math.random()*0.8,
+                    drift: (Math.random()-0.5)*0.4, alpha: 0.4 + Math.random()*0.4 });
+            }
+        }
+        if (type === 'cloud' || type === 'rain' || type === 'lightrain' || type === 'drizzle' || type === 'snow') {
+            for (i = 0; i < 3; i++) {
+                cloudPuffs.push({ x: Math.random()*w, y: 15 + Math.random()*25,
+                    w: 60 + Math.random()*80, speed: 0.12 + Math.random()*0.15,
+                    alpha: 0.12 + Math.random()*0.1 });
+            }
+        }
+        if (type === 'clear') {
+            for (i = 0; i < 8; i++) {
+                sunRays.push({ angle: (i/8)*Math.PI*2, len: 18+Math.random()*14, alpha: 0.15+Math.random()*0.1 });
+            }
+        }
+    }
+
+    function wxTypeFromCode(code) {
+        if (code === 0)                         { return { type:'clear',   g1:'#1a3a6a', g2:'#2a5aaa', g3:'#f0a030' }; }
+        if (code <= 3)                          { return { type:'cloud',   g1:'#1a2a4a', g2:'#2a3a6a', g3:'#3a4a7a' }; }
+        if (code <= 48)                         { return { type:'cloud',   g1:'#1a1e2a', g2:'#252d3e', g3:'#303a50' }; }
+        if (code <= 55)                         { return { type:'drizzle', g1:'#161c28', g2:'#1e2838', g3:'#263040' }; }
+        if (code <= 65 || (code>=80&&code<=82)) {
+            if (code === 293 || code === 296 || code === 353) {
+                return { type:'lightrain', g1:'#131926', g2:'#1a2535', g3:'#212f40' };
+            }
+            return { type:'rain',      g1:'#0e1420', g2:'#16202e', g3:'#1e2c3c' };
+        }
+        if (code <= 77 || (code>=85&&code<=86)) { return { type:'snow',   g1:'#1e2a3a', g2:'#2a3848', g3:'#e8eef8' }; }
+        return                                    { type:'storm',  g1:'#0a0e18', g2:'#10161e', g3:'#181e28' };
+    }
+
+    function drawWeatherCanvas() {
+        var w = wxCanvas.width, h = wxCanvas.height, t = wxState.t;
+        var type = wxState.type, g1 = wxState.g1, g2 = wxState.g2, g3 = wxState.g3;
+        var shift = Math.sin(t * 0.008) * 0.3;
+        var grad = wxCtx.createLinearGradient(0, 0, w + w*shift, h);
+        grad.addColorStop(0, g1); grad.addColorStop(0.5+shift*0.2, g2); grad.addColorStop(1, g3);
+        wxCtx.fillStyle = grad; wxCtx.fillRect(0, 0, w, h);
+
+        if (type === 'clear') {
+            var sx = w*0.82, sy = h*0.38;
+            var sg = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 38);
+            sg.addColorStop(0, 'rgba(255,200,50,0.35)'); sg.addColorStop(0.5, 'rgba(255,160,20,0.12)'); sg.addColorStop(1, 'rgba(255,140,0,0)');
+            wxCtx.fillStyle = sg; wxCtx.beginPath(); wxCtx.arc(sx, sy, 38, 0, Math.PI*2); wxCtx.fill();
+            var sd = wxCtx.createRadialGradient(sx-4, sy-4, 2, sx, sy, 18);
+            sd.addColorStop(0, '#fff8d0'); sd.addColorStop(1, '#f0a500');
+            wxCtx.fillStyle = sd; wxCtx.beginPath(); wxCtx.arc(sx, sy, 18, 0, Math.PI*2); wxCtx.fill();
+            for (var ri = 0; ri < sunRays.length; ri++) {
+                var r = sunRays[ri], a = r.angle + t*0.004, p = Math.abs(Math.sin(t*0.02+ri));
+                wxCtx.save(); wxCtx.globalAlpha = r.alpha*(0.6+p*0.4); wxCtx.strokeStyle = '#ffc040'; wxCtx.lineWidth = 1.5;
+                wxCtx.beginPath(); wxCtx.moveTo(sx+Math.cos(a)*20, sy+Math.sin(a)*20); wxCtx.lineTo(sx+Math.cos(a)*(20+r.len*(0.8+p*0.4)), sy+Math.sin(a)*(20+r.len*(0.8+p*0.4))); wxCtx.stroke(); wxCtx.restore();
+            }
+        }
+        for (var ci = 0; ci < cloudPuffs.length; ci++) {
+            var c = cloudPuffs[ci]; c.x -= c.speed; if (c.x+c.w < 0) { c.x = w+c.w; }
+            wxCtx.save(); wxCtx.globalAlpha = c.alpha; wxCtx.fillStyle = type==='snow'?'#dde8f8':'#8aaac8';
+            wxCtx.beginPath(); wxCtx.ellipse(c.x,c.y,c.w/2,c.w*0.38/2,0,0,Math.PI*2); wxCtx.ellipse(c.x-c.w*0.22,c.y+c.w*0.38*0.1,c.w*0.32,c.w*0.38*0.45,0,0,Math.PI*2); wxCtx.ellipse(c.x+c.w*0.22,c.y+c.w*0.38*0.1,c.w*0.28,c.w*0.38*0.4,0,0,Math.PI*2); wxCtx.fill(); wxCtx.restore();
+        }
+        for (var di = 0; di < rainDrops.length; di++) {
+            var d = rainDrops[di]; d.y += d.speed; d.x -= d.speed*0.18; if (d.y>h) { d.y=-d.len; d.x=Math.random()*w; }
+            wxCtx.save(); wxCtx.globalAlpha = d.alpha; wxCtx.strokeStyle = '#8ab8e8'; wxCtx.lineWidth = 0.8;
+            wxCtx.beginPath(); wxCtx.moveTo(d.x,d.y); wxCtx.lineTo(d.x-d.len*0.18,d.y+d.len); wxCtx.stroke(); wxCtx.restore();
+        }
+        for (var si = 0; si < snowFlakes.length; si++) {
+            var s = snowFlakes[si]; s.y += s.speed; s.x += s.drift+Math.sin(t*0.02+s.y*0.05)*0.3;
+            if (s.y>h){s.y=-4;s.x=Math.random()*w;} if(s.x<0){s.x=w;} if(s.x>w){s.x=0;}
+            wxCtx.save(); wxCtx.globalAlpha=s.alpha; wxCtx.fillStyle='#e8f4ff'; wxCtx.beginPath(); wxCtx.arc(s.x,s.y,s.r,0,Math.PI*2); wxCtx.fill(); wxCtx.restore();
+        }
+        if (type==='storm' && Math.random()<0.004) { wxCtx.fillStyle='rgba(200,220,255,0.06)'; wxCtx.fillRect(0,0,w,h); }
+        wxState.t++;
+        var raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(fn){setTimeout(fn,16);};
+        raf(drawWeatherCanvas);
+    }
+
+    function initCanvas() {
+        var inner = document.querySelector('.weather-inner');
+        wxCanvas.width = inner.offsetWidth;
+        wxCanvas.height = inner.offsetHeight;
+        wxState = { type:'idle', t:0, g1:'#1a1d24', g2:'#1a1d24', g3:'#1a1d24' };
+        initParticles('idle');
+        drawWeatherCanvas();
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener('load', initCanvas);
+    } else if (window.attachEvent) {
+        window.attachEvent('onload', initCanvas);
+    }
+
+
+    // ── GOD SAYS ─────────────────────────────────────────────────────
+    // Terry Davis's God Says algorithm ported to JS.
+    // Picks 3-7 random words from Happy.TXT and displays them.
+    var GOD_WORDS = ['Grace','Mercy','Salvation','Repentance','Holiness','Sanctification','Justification','Redemption','Atonement','Perfection','Wesley','Whitefield','Methodism','Revival','Conviction','The Blood','The Cross','The Lamb','The Risen Lord','Emmanuel','Abba Father','Holy Ghost','Born Again','New Creation','Assurance','Repent','Believe','Be Holy','Fear God','Love thy neighbour','God is Love','Perfect Love','Pure Heart','Free Grace','Saving Faith','Amen','Alleluia','Maranatha','Selah','Hallelujah','Even so come Lord Jesus','He is risen','It is finished','Come Lord Jesus','The Lord reigneth','King of Kings','Lord of Lords','Worthy is the Lamb','Alpha and Omega','The Word Made Flesh','God With Us','Prince of Peace','The Good Shepherd','The Bread of Life','The True Vine','The Morning Star','Fear not','Be not afraid','Peace be still','Come unto me','I will give you rest','My grace is sufficient','He careth for you','With God all things are possible','I am with you always','The Lord is my shepherd','I shall not want','Still waters','Valley of the shadow of death','I will fear no evil','Holy holy holy','Lord God Almighty','Worthy is the Lamb','Three in One','One in Three','Love one another','Greater love hath no man','God so loved the world','Whosoever believeth','Shall not perish','Blessed are the meek','Blessed are the pure in heart','Blessed are the peacemakers','Salt of the earth','Light of the world','Love your enemies','Turn the other cheek','Judge not','The narrow way','The strait gate','Few there be that find it','Built upon the rock','Seek ye first','Ask seek knock','Go ye into all the world','Preach the gospel','Lazarus come forth','Rise take up thy bed','Thy sins are forgiven','Neither do I condemn thee','The harvest is plenteous','The labourers are few','Silver and gold have I none','Rise up and walk','We ought to obey God rather than men','Not ashamed of the gospel','The shield of faith','The helmet of salvation','The sword of the Spirit','Put on the whole armour of God','We wrestle not against flesh and blood','I press toward the mark','Charity never faileth','Through a glass darkly','Face to face','The greatest of these is charity','The fruit of the Spirit','Love joy peace','Bear one another\'s burdens','In due season we shall reap','Faith cometh by hearing','The just shall live by faith','O the depth of the riches','His ways past finding out','For of him and through him and to him','Jesu lover of my soul','Other refuge have I none','Hide me O my Saviour','With the shadow of thy wing','Love divine all loves excelling','Changed from glory into glory','Hark the herald angels sing','God and sinners reconciled','Kindle a flame of sacred love','Humble prayer and fervent praise','The pure celestial fire','O Thou who camest from above','I\'m not dead yet','I\'m the boss','What part of God don\'t you understand','I made it that way','It\'s nice being God','I planned that','You get what you pray for','Catastrophic Success','I\'m grieved','That\'s gonna leave a mark','Watch this','I pity the fool','Rufus!','Its trivial obviously','King of Mars','Got the life'];
+
+    function godSpeak() {
+        var result = '';
+        while (result.length < 30) {
+            var word = GOD_WORDS[Math.floor(Math.random() * GOD_WORDS.length)];
+            if (word) { result = result ? result + ' ' + word : word; }
+            if (result.length > 60) { break; }
+        }
+        var el = document.getElementById('godText');
+        el.style.opacity = '0';
+        setTimeout(function() {
+            el.innerHTML = escapeHtml(result);
+            el.className = 'god-text';
+            el.style.opacity = '1';
+        }, 300);
+    }
+
+    document.getElementById('godWidget').onclick = function() {
+        godSpeak();
+    };
+
+    // Speak on load after a short delay
+    setTimeout(godSpeak, 800);
+
+    // Set widget label on load, restore saved town if any
+    function initWeather() {
+        var labels = document.querySelectorAll('#weatherLabel');
+        for (var i = 0; i < labels.length; i++) { labels[i].innerHTML = 'TOWN&nbsp;&nbsp;'; }
+        document.getElementById('weatherInput').placeholder = 'e.g. Pontypool';
+        try {
+            var saved = localStorage.getItem('altivec_town');
+            if (saved) {
+                document.getElementById('weatherInput').value = saved;
+                fetchWeather();
+            }
+        } catch(e) {}
+    }
+
+    function toggleSettings() {
+        var s = document.getElementById('weatherSettings');
+        if ((' ' + s.className + ' ').indexOf(' open ') >= 0) {
+            s.className = s.className.replace(/\bopen\b/, '').replace(/\s+/,' ').replace(/^\s|\s$/,'');
+        } else {
+            s.className = s.className + ' open';
+        }
+    }
+
+    function closeSettings() {
+        var s = document.getElementById('weatherSettings');
+        s.className = s.className.replace(/\bopen\b/, '').replace(/\s+/,' ').replace(/^\s|\s$/,'');
+    }
+
+    document.getElementById('weatherCog').onclick = toggleSettings;
+
+    document.onclick = function(e) {
+        var widget = document.getElementById('weatherWidget');
+        var t = e ? e.target : window.event.srcElement;
+        var inside = false;
+        while (t) { if (t === widget) { inside = true; break; } t = t.parentNode; }
+        if (!inside) { closeSettings(); }
+    };
+
+    // wttr.in handles location lookup itself - postcodes, town names, all of it.
+    // Plain HTTP, no TLS, no API key, no geocoding step needed.
+    // Returns current conditions + 3-day forecast in one call.
+
+    // wttr.in weather codes -> our animation type + description
+    var WTTR_CODES = {
+        113: { type:'clear',   icon:'&#9728;',  desc:'Clear'          },
+        116: { type:'cloud',   icon:'&#9925;',  desc:'Partly Cloudy'  },
+        119: { type:'cloud',   icon:'&#9729;',  desc:'Cloudy'         },
+        122: { type:'cloud',   icon:'&#9729;',  desc:'Overcast'       },
+        143: { type:'cloud',   icon:'&#127787;',desc:'Mist'           },
+        176: { type:'drizzle', icon:'&#127782;',desc:'Patchy Rain'    },
+        179: { type:'snow',    icon:'&#127784;',desc:'Patchy Snow'    },
+        182: { type:'drizzle', icon:'&#127782;',desc:'Sleet'          },
+        185: { type:'drizzle', icon:'&#127782;',desc:'Patchy Sleet'   },
+        200: { type:'storm',   icon:'&#9928;',  desc:'Thundery Showers'},
+        227: { type:'snow',    icon:'&#127784;',desc:'Blowing Snow'   },
+        230: { type:'snow',    icon:'&#10052;', desc:'Blizzard'       },
+        248: { type:'cloud',   icon:'&#127787;',desc:'Fog'            },
+        260: { type:'cloud',   icon:'&#127787;',desc:'Freezing Fog'   },
+        263: { type:'drizzle', icon:'&#127782;',desc:'Light Drizzle'  },
+        266: { type:'drizzle', icon:'&#127782;',desc:'Drizzle'        },
+        281: { type:'drizzle', icon:'&#127782;',desc:'Freezing Drizzle'},
+        284: { type:'drizzle', icon:'&#127782;',desc:'Heavy Drizzle'  },
+        293: { type:'lightrain', icon:'&#127783;',desc:'Light Rain'     },
+        296: { type:'lightrain', icon:'&#127783;',desc:'Light Rain'     },
+        299: { type:'rain',      icon:'&#127783;',desc:'Moderate Rain'  },
+        302: { type:'rain',    icon:'&#127783;',desc:'Moderate Rain'  },
+        305: { type:'rain',    icon:'&#127783;',desc:'Heavy Rain'     },
+        308: { type:'rain',    icon:'&#127783;',desc:'Heavy Rain'     },
+        311: { type:'drizzle', icon:'&#127782;',desc:'Light Sleet'    },
+        314: { type:'drizzle', icon:'&#127782;',desc:'Moderate Sleet' },
+        317: { type:'drizzle', icon:'&#127782;',desc:'Light Sleet'    },
+        320: { type:'snow',    icon:'&#127784;',desc:'Moderate Snow'  },
+        323: { type:'snow',    icon:'&#127784;',desc:'Patchy Snow'    },
+        326: { type:'snow',    icon:'&#127784;',desc:'Light Snow'     },
+        329: { type:'snow',    icon:'&#10052;', desc:'Patchy Snow'    },
+        332: { type:'snow',    icon:'&#10052;', desc:'Moderate Snow'  },
+        335: { type:'snow',    icon:'&#10052;', desc:'Patchy Heavy Snow'},
+        338: { type:'snow',    icon:'&#10052;', desc:'Heavy Snow'     },
+        350: { type:'drizzle', icon:'&#127782;',desc:'Ice Pellets'    },
+        353: { type:'lightrain', icon:'&#127782;',desc:'Light Showers'  },
+        356: { type:'rain',      icon:'&#127783;',desc:'Showers'        },
+        359: { type:'rain',    icon:'&#127783;',desc:'Heavy Showers'  },
+        362: { type:'drizzle', icon:'&#127782;',desc:'Sleet Showers'  },
+        365: { type:'drizzle', icon:'&#127782;',desc:'Sleet Showers'  },
+        368: { type:'snow',    icon:'&#127784;',desc:'Snow Showers'   },
+        371: { type:'snow',    icon:'&#10052;', desc:'Heavy Snow'     },
+        374: { type:'drizzle', icon:'&#127782;',desc:'Ice Pellet Showers'},
+        377: { type:'drizzle', icon:'&#127782;',desc:'Ice Pellets'    },
+        386: { type:'storm',   icon:'&#9928;',  desc:'Thunder'        },
+        389: { type:'storm',   icon:'&#9928;',  desc:'Thunderstorm'   },
+        392: { type:'storm',   icon:'&#9928;',  desc:'Thunder+Snow'   },
+        395: { type:'storm',   icon:'&#9928;',  desc:'Blizzard'       }
+    };
+
+    function fetchWeather() {
+        var raw = document.getElementById('weatherInput').value;
+        raw = raw.replace(/^\s+|\s+$/g, '');
+        if (!raw) { return; }
+
+        var resultEl = document.getElementById('weatherResult');
+        var errorEl  = document.getElementById('weatherError');
+        var btn      = document.getElementById('weatherBtn');
+
+        resultEl.className = resultEl.className.replace(/\bvisible\b/,'').replace(/\s+/,' ').replace(/^\s|\s$/,'');
+        errorEl.className  = errorEl.className.replace(/\bvisible\b/,'').replace(/\s+/,' ').replace(/^\s|\s$/,'');
+        btn.innerHTML = '...';
+
+        // Single HTTP call - wttr.in resolves location itself
+        var url = 'http://wttr.in/' + encodeURIComponent(raw) + '?format=j1';
+
+        xhrGet(url, function(data) {
+            if (!data || !data.current_condition || !data.current_condition[0]) {
+                errorEl.innerHTML = 'NOT FOUND';
+                errorEl.className = errorEl.className + ' visible';
+                btn.innerHTML = '&#9729; GO';
+                return;
+            }
+
+            var cur  = data.current_condition[0];
+            var code = parseInt(cur.weatherCode);
+            var wx   = WTTR_CODES[code] || { type:'cloud', icon:'&#9729;', desc:'Unknown' };
+            var temp = cur.temp_C;
+            var loc  = (data.nearest_area && data.nearest_area[0])
+                ? (data.nearest_area[0].areaName[0].value + ', ' + data.nearest_area[0].country[0].value)
+                : raw;
+
+            // Update canvas animation
+            var info = wxTypeFromCode(code <= 113 ? 0 : code <= 119 ? 2 : code <= 200 ? 3 : code <= 230 ? 73 : code <= 260 ? 45 : code <= 308 ? 63 : code <= 338 ? 73 : 95);
+            wxState.type = wx.type; wxState.g1 = info.g1; wxState.g2 = info.g2; wxState.g3 = info.g3;
+            initParticles(wx.type);
+
+            document.getElementById('weatherIcon').innerHTML = wx.icon;
+            document.getElementById('weatherTemp').innerHTML = temp + '&deg;C';
+            document.getElementById('weatherDesc').innerHTML = escapeHtml(wx.desc);
+            document.getElementById('weatherLoc').innerHTML  = escapeHtml(loc);
+
+            // 3-day forecast from wttr.in (days 1-3, skip today at index 0... actually use index 0 = today's max/min)
+            var DAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+            var html = '';
+            var weather = data.weather;
+            for (var i = 0; i < weather.length && i < 3; i++) {
+                var day = weather[i];
+                var dayCode = parseInt(day.hourly[4].weatherCode); // midday hourly
+                var dwx = WTTR_CODES[dayCode] || { icon:'&#9729;' };
+                var d = new Date(day.date);
+                html += '<div class="forecast-day">' +
+                    '<div class="forecast-dow">' + DAYS[d.getDay()] + '</div>' +
+                    '<div class="forecast-icon">' + dwx.icon + '</div>' +
+                    '<div class="forecast-hi">' + day.maxtempC + '&deg;</div>' +
+                    '<div class="forecast-lo">' + day.mintempC + '&deg;</div>' +
+                    '</div>';
+            }
+            document.getElementById('wxForecast').innerHTML = html;
+
+            resultEl.className = resultEl.className + ' visible';
+            document.getElementById('wxIdle').style.display = 'none';
+            document.getElementById('weatherCog').className = 'weather-cog configured';
+            closeSettings();
+            try { localStorage.setItem('altivec_town', raw); } catch(e) {}
+            btn.innerHTML = '&#9729; GO';
+
+        }, function() {
+            errorEl.innerHTML = 'FETCH ERROR';
+            errorEl.className = errorEl.className + ' visible';
+            btn.innerHTML = '&#9729; GO';
+        });
+    }
+
+    document.getElementById('weatherBtn').onclick = fetchWeather;
+    document.getElementById('weatherInput').onkeypress = function(e) {
+        var key = e ? e.keyCode : window.event.keyCode;
+        if (key === 13) { fetchWeather(); }
+    };
+
+    // ── ARTICLES ─────────────────────────────────────────────────────
+    var articles = [];
+    var currentTab = 'featured';
+    var searchTerm = '';
+    var selectedArticleId = null;
+
+    var TABS = [
+        { id:'featured', name:'FEATURED' }, { id:'gaming', name:'GAMING' },
+        { id:'software', name:'SOFTWARE' }, { id:'music', name:'MUSIC' }, { id:'web', name:'WEB' }
+    ];
+
+    var G4_FRIENDLY_DOMAINS = ['macintoshgarden.org','macintoshrepository.org','classicdb.ch','legacy-wow.com','en.m.wikipedia.org','wikipedia.org','textfiles.com','frogfind.com','68k.news','archive.org','vintageapple.org','lowendmac.com','tenfourfox.com'];
+
+    function isG4Friendly(article) {
+        if (article.g4friendly === true) { return true; }
+        if (article.g4friendly === false) { return false; }
+        if (!article.url) { return true; }
+        var host = article.url.replace(/^https?:\/\//,'').split('/')[0].replace(/^www\./,'');
+        for (var i = 0; i < G4_FRIENDLY_DOMAINS.length; i++) {
+            var d = G4_FRIENDLY_DOMAINS[i];
+            if (host === d || host.slice(-(d.length+1)) === '.' + d) { return true; }
+        }
+        return false;
+    }
+
+    function addClass(el, cls) {
+        if ((' ' + el.className + ' ').indexOf(' ' + cls + ' ') < 0) { el.className = el.className + ' ' + cls; }
+    }
+    function removeClass(el, cls) {
+        el.className = el.className.replace(new RegExp('\\b' + cls + '\\b', 'g'), '').replace(/\s+/,' ').replace(/^\s|\s$/,'');
+    }
+    function hasClass(el, cls) {
+        return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') >= 0;
+    }
+
+    function escapeHtml(str) {
+        if (!str) { return ''; }
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderTabs() {
+        var container = document.getElementById('tabs');
+        var html = '';
+        for (var i = 0; i < TABS.length; i++) {
+            html += '<div class="tab' + (currentTab === TABS[i].id ? ' active' : '') + '" data-tab="' + TABS[i].id + '">' + TABS[i].name + '</div>';
+        }
+        container.innerHTML = html;
+        var tabs = container.getElementsByTagName('div');
+        for (var j = 0; j < tabs.length; j++) {
+            (function(tab) {
+                tab.onclick = function() {
+                    currentTab = tab.getAttribute('data-tab');
+                    searchTerm = '';
+                    document.getElementById('searchInput').value = '';
+                    selectedArticleId = null;
+                    renderTabs();
+                    renderResults();
+                };
+            })(tabs[j]);
+        }
+    }
+
+    function renderResults() {
+        var results = [], i, a;
+        if (searchTerm !== '') {
+            var q = searchTerm.toLowerCase();
+            for (i = 0; i < articles.length; i++) {
+                a = articles[i];
+                if (a.title.toLowerCase().indexOf(q) >= 0 || a.description.toLowerCase().indexOf(q) >= 0) { results.push(a); }
+            }
+        } else if (currentTab === 'featured') {
+            results = articles.slice();
+        } else {
+            for (i = 0; i < articles.length; i++) {
+                if (articles[i].category === currentTab) { results.push(articles[i]); }
+            }
+        }
+
+        var container = document.getElementById('resultsList');
+        if (results.length === 0) {
+            container.innerHTML = '<div class="empty">No results found</div>';
+            document.getElementById('previewPanel').innerHTML = '<div class="preview-empty">Select a result to preview</div>';
+            return;
+        }
+
+        var found = false;
+        for (i = 0; i < results.length; i++) { if (results[i].id === selectedArticleId) { found = true; break; } }
+        if (!found) { selectedArticleId = results[0].id; }
+
+        var html = '<div class="stats">' + results.length + ' result' + (results.length !== 1 ? 's' : '') + '</div>';
+        for (i = 0; i < results.length; i++) {
+            var item = results[i];
+            var desc = escapeHtml(item.description);
+            if (desc.length > 120) { desc = desc.substring(0, 120) + '...'; }
+            html += '<div class="result-item' + (selectedArticleId === item.id ? ' selected' : '') + '" data-id="' + item.id + '">' +
+                '<div class="result-title">' + escapeHtml(item.title) + '</div>' +
+                '<div class="result-url">' + escapeHtml(item.url || '') + '</div>' +
+                '<div class="result-desc">' + desc + '</div></div>';
+        }
+        container.innerHTML = html;
+
+        var items = container.getElementsByTagName('div');
+        for (i = 0; i < items.length; i++) {
+            if (hasClass(items[i], 'result-item')) {
+                (function(el) {
+                    el.onclick = function() {
+                        selectedArticleId = el.getAttribute('data-id');
+                        renderResults();
+                        showPreview(selectedArticleId);
+                    };
+                })(items[i]);
+            }
+        }
+        showPreview(selectedArticleId);
+    }
+
+    function showPreview(articleId) {
+        var article = null;
+        for (var i = 0; i < articles.length; i++) { if (articles[i].id === articleId) { article = articles[i]; break; } }
+        if (!article) { return; }
+
+        var previewPanel = document.getElementById('previewPanel');
+        var isUrlThumb = article.thumb && /^https?:\/\//i.test(article.thumb);
+        var thumbHtml = isUrlThumb ? '<img src="' + article.thumb + '" alt="" style="width:100%;height:100%;object-fit:contain;">' : (article.thumb || '?');
+        var displayUrl = article.url ? article.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : '';
+        var friendly = isG4Friendly(article);
+        var openBtn = '';
+        if (article.url) {
+            if (friendly) {
+                openBtn = '<a href="' + article.url + '" target="_blank" class="btn btn-open">Open Website</a>';
+            } else {
+                openBtn = '<button class="btn btn-caution" id="previewOpenBtn">&#9888; Open Website</button>';
+            }
+        }
+
+        previewPanel.innerHTML =
+            '<div class="preview-content">' +
+            '<div class="preview-thumb">' + thumbHtml + '</div>' +
+            '<div class="preview-title">' + escapeHtml(article.title) + '</div>' +
+            '<div class="preview-url">' + escapeHtml(displayUrl) + '</div>' +
+            '<div class="preview-desc">' + escapeHtml(article.description) + '</div>' +
+            '<div class="preview-actions">' +
+            '<button class="btn" id="previewReadBtn">Read Notes</button>' +
+            openBtn + '</div></div>';
+
+        document.getElementById('previewReadBtn').onclick = function() { openReader(articleId); };
+        var cautionBtn = document.getElementById('previewOpenBtn');
+        if (cautionBtn) { cautionBtn.onclick = function() { showCompatWarning(article); }; }
+    }
+
+    function showCompatWarning(article) {
+        var modal = document.getElementById('compatModal');
+        document.getElementById('compatUrl').innerHTML = escapeHtml(article.url);
+        document.getElementById('compatOpenAnyway').href = article.url;
+        addClass(modal, 'active');
+        document.getElementById('compatReadInstead').onclick = function() { removeClass(modal,'active'); openReader(article.id); };
+        document.getElementById('compatCancel').onclick = function() { removeClass(modal,'active'); };
+        document.getElementById('compatOpenAnyway').onclick = function() { removeClass(modal,'active'); };
+    }
+
+    document.getElementById('compatModal').onclick = function(e) {
+        var t = e ? e.target : window.event.srcElement;
+        if (t === document.getElementById('compatModal')) { removeClass(document.getElementById('compatModal'),'active'); }
+    };
+
+    function openReader(articleId) {
+        var article = null;
+        for (var i = 0; i < articles.length; i++) { if (articles[i].id === articleId) { article = articles[i]; break; } }
+        if (!article) { return; }
+        var modal = document.getElementById('readerModal');
+        var main  = document.getElementById('readerMain');
+        var sidebar = document.getElementById('readerSidebar');
+        addClass(modal, 'active');
+        main.innerHTML = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
+            '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Altivec') + '</div></div>' +
+            '<div class="article-body">' + article.content + '</div>';
+        var sh = '';
+        if (article.downloads && article.downloads.length) {
+            sh += '<div class="sidebar-section"><h4>DOWNLOADS</h4>';
+            for (var d = 0; d < article.downloads.length; d++) {
+                sh += '<a href="' + article.downloads[d].url + '" target="_blank" class="download-link">' + escapeHtml(article.downloads[d].name) + '</a>';
+            }
+            sh += '</div>';
+        }
+        if (article.url) { sh += '<div class="sidebar-section"><h4>EXTERNAL LINK</h4><a href="' + article.url + '" target="_blank" class="download-link" style="background:#2a4a2a;">Visit Website</a></div>'; }
+        sh += '<div class="sidebar-section"><h4>INFO</h4><p style="font-size:11px;color:#aaa;">Community resource for PowerMac G4.</p></div>';
+        sidebar.innerHTML = sh;
+    }
+
+    document.getElementById('searchBtn').onclick = function() {
+        searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm) { currentTab = 'featured'; selectedArticleId = null; renderTabs(); renderResults(); }
+    };
+
+    document.getElementById('searchInput').onkeypress = function(e) {
+        var key = e ? e.keyCode : window.event.keyCode;
+        if (key === 13) { document.getElementById('searchBtn').onclick(); }
+    };
+
+    document.getElementById('readerCloseBtn').onclick = function() {
+        removeClass(document.getElementById('readerModal'), 'active');
+    };
+
+    document.getElementById('readerModal').onclick = function(e) {
+        var t = e ? e.target : window.event.srcElement;
+        if (t === document.getElementById('readerModal')) { removeClass(document.getElementById('readerModal'),'active'); }
+    };
+
+    function loadArticles() {
+        var resultsEl = document.getElementById('resultsList');
+        resultsEl.innerHTML = '<div class="empty">Loading...</div>';
+        xhrGet('articles/index.json', function(filenames) {
+            var loaded = [], remaining = filenames.length;
+            if (!remaining) { resultsEl.innerHTML = '<div class="empty">No articles found</div>'; return; }
+            for (var i = 0; i < filenames.length; i++) {
+                (function(fn) {
+                    xhrGet('articles/' + fn, function(article) {
+                        loaded.push(article); remaining--;
+                        if (remaining === 0) { onAllLoaded(loaded); }
+                    }, function() {
+                        remaining--;
+                        if (remaining === 0) { onAllLoaded(loaded); }
+                    });
+                })(filenames[i]);
+            }
+        }, function() {
+            resultsEl.innerHTML = '<div class="empty">Could not load articles.</div>';
+        });
+    }
+
+    function onAllLoaded(loaded) {
+        loaded.sort(function(a,b) { return (b.date||'') < (a.date||'') ? -1 : 1; });
+        articles = loaded;
+        if (!articles.length) { document.getElementById('resultsList').innerHTML = '<div class="empty">No articles found</div>'; return; }
+        selectedArticleId = articles[0].id;
+        renderTabs();
+        renderResults();
+    }
+
+    initWeather();
+    loadArticles();
+
+</script>
+</body>
+</html>
