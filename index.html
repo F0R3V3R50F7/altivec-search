@@ -1,3 +1,9 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+   -
+   - Copyright (c) 2026 Technologyst Labs
+   -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +25,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .search { flex: 1; max-width: 460px; display: flex; align-items: center; background: rgba(255,255,255,0.04); border: 1px solid #3a3a3a; border-radius: 6px; padding: 0 4px 0 14px; -moz-transition: border-color 0.15s; transition: border-color 0.15s; }
 .search:focus-within { border-color: #f0a500; }
 .search-icon { color: #555; font-size: 13px; flex-shrink: 0; }
-.search input { flex: 1; padding: 9px 0; background: transparent; border: none; color: #eee; font-size: 13px; outline: none; }
+.search input { flex: 1; padding: 9px 0 9px 8px; background: transparent; border: none; color: #eee; font-size: 13px; outline: none; }
 .search input::placeholder { color: #555; }
 .search button { padding: 6px 12px; background: transparent; border: none; border-left: 1px solid #3a3a3a; cursor: pointer; color: #666; font-size: 12px; border-radius: 0 5px 5px 0; -moz-transition: color 0.15s; transition: color 0.15s; }
 .search button:hover { color: #f0a500; background: transparent; }
@@ -77,8 +83,8 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .tab:hover { color: #f0a500; }
 .tab.active { color: #f0a500; border-bottom-color: #f0a500; }
 .layout { display: flex; max-width: 1400px; margin: 155px auto 0; min-height: 580px; min-height: calc(100vh - 120px); }
-.results-panel { flex: 1.2; padding: 20px 20px 24px 28px; border-right: 1px solid #252525; height: 630px; height: calc(100vh - 155px); background: linear-gradient(160deg, #1e2128 0%, #1a1d24 60%, #181b21 100%); }
-.preview-panel { flex: 0.8; padding: 20px 28px 24px 20px; background: linear-gradient(160deg, #161922 0%, #13161d 60%, #111419 100%); overflow-y: auto; height: 630px; height: calc(100vh - 155px); }
+.results-panel { flex: 1.2; padding: 20px 20px 24px 28px; border-right: 1px solid #252525; background: linear-gradient(160deg, #1e2128 0%, #1a1d24 60%, #181b21 100%); }
+.preview-panel { flex: 0.8; padding: 20px 28px 24px 20px; background: linear-gradient(160deg, #161922 0%, #13161d 60%, #111419 100%); }
 .preview-content { background: linear-gradient(145deg, #1e2230 0%, #191c28 100%); border: 1px solid #2a2d3a; border-radius: 10px; padding: 20px; -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.3); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
 .preview-empty { text-align: center; color: #444; padding: 60px 20px; }
 .preview-thumb { width: 100%; height: 160px; background: linear-gradient(135deg, #1a1e2a 0%, #222638 100%); display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 16px; border: 1px solid #2a2d3a; border-radius: 8px; }
@@ -112,8 +118,8 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .results-footer { text-align: center; padding: 20px 0 8px; font-size: 11px; color: #444; letter-spacing: 0.5px; }
 .results-footer a { color: #f0a500; text-decoration: none; opacity: 0.5; -moz-transition: opacity 0.15s; transition: opacity 0.15s; }
 .results-footer a:hover { opacity: 1; }
-#bmc-button { opacity: 0.5; -moz-transition: opacity 0.15s; transition: opacity 0.15s; }
-#bmc-button:hover { opacity: 1; }
+.bmc-link { display: block; background: #ff8f0f; color: #000; padding: 10px 14px; font-size: 12px; font-weight: 600; text-decoration: none; text-align: center; border-radius: 4px; border: 1px solid #cc7200; -moz-transition: opacity 0.15s; transition: opacity 0.15s; }
+.bmc-link:hover { opacity: 0.85; }
 .reader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; -moz-transition: opacity 0.2s; transition: opacity 0.2s; }
 .reader-overlay.active { visibility: visible; opacity: 1; }
 .reader { background: #fef9e8; width: 90%; max-width: 1000px; height: 85%; display: flex; position: relative; border: 1px solid #f0a500; }
@@ -133,14 +139,13 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .reader-main .article-body h2 { font-size: 22px; margin: 1.3em 0 0.5em; }
 .reader-main .article-body p:first-of-type::first-letter { font-size: 52px; font-weight: bold; float: left; line-height: 0.8; margin-right: 10px; color: #f0a500; }
 @media (max-width: 900px) { .layout { flex-direction: column; }
-.results-panel, .preview-panel { flex: auto; position: static; height: auto; border-right: none; }
+.results-panel, .preview-panel { flex: auto; border-right: none; }
 .preview-panel { border-top: 1px solid #2a2a2a; }
 .header-top { flex-wrap: wrap; }
 .tabs { overflow-x: auto; }
 .search { max-width: 100%; } }
 </style>
 </head>
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="f0r3v3r50f7" data-color="#ff8f0f" data-emoji="☕" data-font="Poppins" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00"></script>
 <body>
 
 <div class="header">
@@ -221,6 +226,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <div class="layout">
     <div class="results-panel" id="resultsPanel">
         <div id="resultsList"></div>
+        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a></div>
     </div>
     <div class="preview-panel" id="previewPanel">
         <div class="preview-empty">Select a result to preview</div>
@@ -758,7 +764,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
                 '<div class="result-url">' + escapeHtml(item.url || '') + '</div>' +
                 '<div class="result-desc">' + desc + '</div></div>';
         }
-        html += '<div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a></div>';
         container.innerHTML = html;
 
         var items = container.getElementsByTagName('div');
@@ -845,7 +850,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
             sh += '</div>';
         }
         if (article.url) { sh += '<div class="sidebar-section"><h4>EXTERNAL LINK</h4><a href="' + article.url + '" target="_blank" class="download-link" style="background:#2a4a2a;">Visit Website</a></div>'; }
-        sh += '<div class="sidebar-section" id="bmc-button"></div>';
+        sh += '<div class="sidebar-section"><a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank" class="bmc-link">&#9749; Buy me a coffee</a></div>';
         sh += '<div class="sidebar-section"><h4>INFO</h4><p style="font-size:11px;color:#aaa;">Community resource for PowerMac G4.</p></div>';
         sidebar.innerHTML = sh;
     }
