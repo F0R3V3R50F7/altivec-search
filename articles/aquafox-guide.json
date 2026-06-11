@@ -1,0 +1,42 @@
+{
+    "title": "Aquafox Browser — Installation Guide",
+    "description": "Download and install Aquafox, the recommended browser for PowerMac G4. Direct download links for G4 7400 and 7450 processors.",
+    "category": "software",
+    "g4_friendly": 1,
+    "url": "https://blackbirdlc.github.io/aquafox/Homepage.html",
+    "thumb": "🦊",
+    "date": "2026-06-12",
+    "author": "Technologyst Labs",
+    "tags": [
+        "aquafox",
+        "browser",
+        "web browser",
+        "firefox",
+        "gecko",
+        "download",
+        "installation",
+        "dmg",
+        "g4",
+        "7400",
+        "7450",
+        "powerpc",
+        "ppc",
+        "software",
+        "safari",
+        "alternative",
+        "blackbird",
+        "leopard",
+        "mac os x"
+    ],
+    "downloads": [
+        {
+            "name": "Aquafox 3.2 — G4 7450 (Quicksilver, MDD, FW800)",
+            "url": "https://github.com/BlackBirdLC/Aquafox/releases/download/v3.2/Aquafox-3.2-G4-7450.dmg"
+        },
+        {
+            "name": "Aquafox 3.2 — G4 7400 (AGP, Gigabit, Digital Audio)",
+            "url": "https://github.com/BlackBirdLC/Aquafox/releases/download/v3.2/Aquafox-3.2-G4-7400.dmg"
+        }
+    ],
+    "content": "<h2>What Is Aquafox?</h2><p>Aquafox is a modern Firefox-based browser built specifically for PowerPC Macs. It's maintained by BlackBirdLC and is currently the best browser option for G4 hardware. It handles modern TLS, renders most sites properly, and runs well on limited resources.</p><h2>Which Version Do I Need?</h2><p>There are two builds depending on your G4 processor:</p><ul><li><strong>7450</strong> — for Quicksilver, Mirror Drive Door (MDD), and FireWire 800 PowerMacs. These have the later G4 chip with improved AltiVec.</li><li><strong>7400</strong> — for AGP Graphics, Gigabit Ethernet, and Digital Audio PowerMacs. These use the original G4 chip.</li></ul><p>Not sure which you have? Open System Profiler (in Applications > Utilities) and check the CPU type.</p><h2>Installation</h2><p>Download the correct DMG from the links in the sidebar. GitHub won't load in older browsers, so use the direct download links provided here — they'll work fine.</p><ol><li>Download the .dmg file</li><li>Double-click to mount it</li><li>Drag Aquafox to your Applications folder</li><li>Launch Aquafox from Applications</li></ol><p>That's it. No installer, no configuration, no dependencies.</p><h2>Tips</h2><ul><li>Set Aquafox as your default browser in System Preferences > Internet & Network</li><li>Bookmark <a href=\"https://www.altivec.fyi\" target=\"_blank\">altivec.fyi</a> as your homepage for quick access to G4 resources</li><li>If sites load slowly, check the connection — Aquafox itself is not the bottleneck on most pages</li></ul>"
+}

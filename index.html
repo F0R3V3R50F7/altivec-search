@@ -144,9 +144,20 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .header-top { flex-wrap: wrap; }
 .tabs { overflow-x: auto; }
 .search { max-width: 100%; } }
+.nag-banner { display: none; background: linear-gradient(to right, #1a3a6a, #2a4a8a); border-bottom: 1px solid #3a5aaa; padding: 8px 32px; text-align: center; font-size: 12px; color: #ccd8ee; position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
+.nag-banner a { color: #f0a500; font-weight: 700; text-decoration: none; margin: 0 4px; }
+.nag-banner a:hover { text-decoration: underline; }
+.nag-banner .nag-close { position: absolute; right: 16px; top: 50%; margin-top: -8px; background: none; border: none; color: #6688bb; font-size: 16px; cursor: pointer; line-height: 1; }
+.nag-banner .nag-close:hover { color: #fff; }
+.nag-banner .nag-icon { margin-right: 6px; }
 </style>
 </head>
 <body>
+
+<div class="nag-banner" id="nagBanner">
+    <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> for the best G4 browsing experience.
+    <button class="nag-close" id="nagClose">&times;</button>
+</div>
 
 <div class="header">
     <div class="header-top">
@@ -909,6 +920,39 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
     initWeather();
     loadArticles();
+
+    // ── AQUAFOX NAG BANNER ──────────────────────────────────────────
+    (function() {
+        var ua = navigator.userAgent || '';
+        var isAquafox = ua.indexOf('Aquafox') >= 0;
+        var dismissed = false;
+        try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
+        if (!isAquafox && !dismissed) {
+            var banner = document.getElementById('nagBanner');
+            banner.style.display = 'block';
+            // Push header down to make room
+            var header = document.querySelector('.header');
+            header.style.top = '32px';
+            var layout = document.querySelector('.layout');
+            layout.style.marginTop = '187px';
+        }
+        document.getElementById('nagClose').onclick = function() {
+            document.getElementById('nagBanner').style.display = 'none';
+            document.querySelector('.header').style.top = '0';
+            document.querySelector('.layout').style.marginTop = '155px';
+            try { localStorage.setItem('altivec_nag_dismissed', '1'); } catch(e) {}
+        };
+        document.getElementById('nagLink').onclick = function(e) {
+            if (e && e.preventDefault) { e.preventDefault(); } else { window.event.returnValue = false; }
+            // Find and open the aquafox article
+            for (var i = 0; i < articles.length; i++) {
+                if (articles[i].id === 'aquafox-guide') { openReader('aquafox-guide'); return; }
+            }
+            // Fallback: select it in results
+            selectedArticleId = 'aquafox-guide';
+            renderResults();
+        };
+    })();
 
 </script>
 </body>
