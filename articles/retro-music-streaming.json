@@ -1,0 +1,10 @@
+{
+    "title": "Streaming Internet Radio on Your G4",
+    "description": "How to listen to live radio streams using iTunes 9 and classic Mac OS X. Import .m3u playlists and enjoy.",
+    "category": "music",
+    "url": "https://www.internet-radio.com/",
+    "icon": "🎵",
+    "date": "2026-06-10",
+    "author": "G4 Audio Team",
+    "content": "<h2>Why Internet Radio on a G4?</h2><p>The PowerMac G4 is a perfect jukebox for streaming audio. iTunes 9 and earlier have native support for .m3u and .pls streams. Here's how to set it up.</p><h2>Step 1: Find a Stream</h2><p>Visit internet-radio.com on a modern machine to find stations. Look for streams ending in .m3u or .pls. Save the playlist file.</p><h2>Step 2: Transfer to G4</h2><p>Copy the .m3u file to your G4 via USB, network share, or even floppy if that's your style.</p><h2>Step 3: Open in iTunes</h2><p>Double-click the .m3u file. iTunes will open and start streaming. You can add it to your Library for easy access.</p><h2>Recommended Stations</h2><ul><li>Ambient Sleeping Pill - 64k stream, perfect for coding</li><li>Radio Paradise - eclectic mix, high quality but G4 handles it</li><li>SomaFM - Groove Salad, classic</li></ul><h2>Troubleshooting</h2><p>If a stream won't load, try lowering the buffer size in iTunes preferences. Some streams require QuickTime 7.</p>"
+}

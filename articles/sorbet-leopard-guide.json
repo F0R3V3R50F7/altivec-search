@@ -1,0 +1,17 @@
+{
+    "id": "sorbet-leopard-guide",
+    "title": "Sorbet Leopard Installation Guide",
+    "description": "Step-by-step instructions to install and optimize Sorbet Leopard on your PowerMac G4. Includes performance tweaks and post-installation setup.",
+    "category": "software",
+    "url": "https://macintoshgarden.org/apps/sorbet-leopard",
+    "thumb": "🍦",
+    "date": "2026-06-10",
+    "author": "Altivec Team",
+    "downloads": [
+        {
+            "name": "Sorbet Leopard ISO",
+            "url": "https://macintoshgarden.org/apps/sorbet-leopard"
+        }
+    ],
+    "content": "<h2>Why Sorbet Leopard?</h2><p>Sorbet Leopard is a community-maintained fork of Mac OS X 10.5 Leopard optimized for PowerPC Macs. It includes security backports, performance improvements, and essential software.</p><h2>System Requirements</h2><ul><li>PowerMac G4 with 512MB RAM (1GB recommended)</li><li>DVD drive or USB boot capability</li><li>10GB free space</li></ul><h2>Installation</h2><p>Download the ISO. Burn to DVD or write to USB. Boot holding Option key, select installer, follow prompts.</p>"
+}

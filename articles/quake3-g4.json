@@ -1,0 +1,17 @@
+{
+    "id": "quake3-g4",
+    "title": "Quake 3 Arena on PowerMac G4",
+    "description": "Installation guide, high-performance configs, and renderer tweaks for smooth 125fps gameplay on Radeon 9000 cards.",
+    "category": "gaming",
+    "url": "https://macintoshgarden.org/games/quake-3-arena",
+    "thumb": "🔫",
+    "date": "2026-06-03",
+    "author": "Altivec Gaming",
+    "downloads": [
+        {
+            "name": "Quake 3 Installer",
+            "url": "https://macintoshgarden.org/games/quake-3-arena"
+        }
+    ],
+    "content": "<h2>Quake 3 on G4</h2><p>Runs flawlessly at 125fps on most G4s.</p><h2>Performance Config</h2><p>Set com_maxfps 125, r_dynamiclight 0, r_textureMode GL_LINEAR_MIPMAP_NEAREST.</p>"
+}

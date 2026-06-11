@@ -1,0 +1,12 @@
+{
+    "id": "wow-vanilla-classicdb",
+    "title": "World of Warcraft Vanilla Walkthroughs, Guides & More!",
+    "description": "Quest database, item lookup, and NPC information for World of Warcraft Vanilla. Works perfectly in Safari Leopard WebKit / Aquafox on the G4.",
+    "category": "gaming",
+    "url": "https://classicdb.ch",
+    "thumb": "🗺️",
+    "date": "2026-06-08",
+    "author": "Altivec",
+    "downloads": [],
+    "content": "<h2>ClassicDB.ch on Your G4</h2><p>Lightweight database for WoW Vanilla that loads perfectly on the G4.</p><h2>Features</h2><ul><li>Quest lookup by name or zone</li><li>Item and NPC databases</li><li>No heavy scripts</li></ul>"
+}

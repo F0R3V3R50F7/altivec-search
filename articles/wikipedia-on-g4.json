@@ -1,0 +1,12 @@
+{
+    "id": "wikipedia-on-g4",
+    "title": "Wikipedia on Old Browsers",
+    "description": "The mobile version of Wikipedia loads perfectly on TenFourFox and Classilla. Bookmark en.m.wikipedia.org for fast research.",
+    "category": "web",
+    "url": "https://en.m.wikipedia.org",
+    "thumb": "📚",
+    "date": "2026-06-05",
+    "author": "Altivec",
+    "downloads": [],
+    "content": "<h2>Wikipedia on Your G4</h2><p>Use en.m.wikipedia.org for lightweight version.</p><h2>Other lightweight sites</h2><ul><li>textise.iitty</li><li>frogfind.com</li><li>68k.news</li></ul>"
+}
