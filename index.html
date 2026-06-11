@@ -981,7 +981,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     // ── AQUAFOX NAG BANNER (consent‑respecting) ──
     (function() {
-        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('AppleWebKit') >= 0 && ua.indexOf('Version/3') >= 0 && ua.indexOf('Safari') >= 0, dismissed = false;
+        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('PPC Mac OS X') >= 0, dismissed = false;
         if (isFunctionalAllowed()) {
             try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
         }
