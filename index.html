@@ -261,7 +261,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
 <!-- Everything else unchanged -->
 <div class="nag-banner" id="nagBanner">
-    <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> for the best G4 browsing experience.
+    <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> or Safari Leopard WebKit for the best G4 browsing experience.
     <button class="nag-close" id="nagClose">&times;</button>
 </div>
 
@@ -434,6 +434,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     document.addEventListener('DOMContentLoaded', function() {
         loadConsent();
         if (!consentData.timestamp) showCookieBanner();
+        initWeather();
 
         document.getElementById('cookieAcceptBtn').onclick = acceptAll;
         document.getElementById('cookieRejectBtn').onclick = rejectAll;
@@ -976,12 +977,11 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         renderTabs(); renderResults();
     }
 
-    initWeather();
     loadArticles();
 
     // ── AQUAFOX NAG BANNER (consent‑respecting) ──
     (function() {
-        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('AppleWebKit') >= 0 && ua.indexOf('Safari') >= 0 && ua.indexOf('Version/4') >= 0, dismissed = false;
+        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('AppleWebKit') >= 0 && ua.indexOf('Version/3') >= 0 && ua.indexOf('Safari') >= 0, dismissed = false;
         if (isFunctionalAllowed()) {
             try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
         }
