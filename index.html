@@ -148,7 +148,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         </div>
         <div class="search">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" placeholder="Search G4 resources... e.g. Halo, TenFourFox, Sorbet">
+            <input type="text" id="searchInput" placeholder="Search G4 resources... e.g. Halo, Aquafox, Sorbet">
             <button id="searchBtn"><i class="fas fa-arrow-right"></i></button>
         </div>
         <div class="god-widget" id="godWidget" title="Click for revelation">
@@ -231,7 +231,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <div id="compatModal" class="compat-overlay">
     <div class="compat-box">
         <h3>⚠ COMPATIBILITY WARNING</h3>
-        <p>This site may not render correctly in older browsers like TenFourFox or Classilla. Heavy JavaScript, modern CSS, or TLS requirements could cause issues on your G4.</p>
+        <p>This site may not render correctly in Safari Leopard WebKit or Aquafox. Heavy JavaScript, modern CSS, or TLS requirements could cause issues on your G4.</p>
         <p>Consider reading the local article first — it may have direct download links or lightweight alternatives.</p>
         <div class="compat-url" id="compatUrl"></div>
         <div class="compat-actions">
@@ -793,6 +793,7 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
             for (var i = 0; i < filenames.length; i++) {
                 (function(fn) {
                     xhrGet('articles/' + fn, function(article) {
+                        article.id = fn.replace(/\.json$/, '');
                         loaded.push(article); remaining--;
                         if (remaining === 0) { onAllLoaded(loaded); }
                     }, function() {

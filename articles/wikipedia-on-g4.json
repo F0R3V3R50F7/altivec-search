@@ -1,7 +1,6 @@
 {
-    "id": "wikipedia-on-g4",
     "title": "Wikipedia on Old Browsers",
-    "description": "The mobile version of Wikipedia loads perfectly on TenFourFox and Classilla. Bookmark en.m.wikipedia.org for fast research.",
+    "description": "The mobile version of Wikipedia loads perfectly in Safari Leopard WebKit and Aquafox. Bookmark en.m.wikipedia.org for fast research.",
     "category": "web",
     "g4_friendly": 1,
     "url": "https://en.m.wikipedia.org",
