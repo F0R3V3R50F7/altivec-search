@@ -3,6 +3,7 @@
     "description": "MacRumors Forum: long-running Mac community for news, rumors, help, and discussion across all generations of Apple hardware.",
     "category": "web",
     "g4_friendly": 1,
+    "featured": 1,
     "url": "https://forums.macrumors.com",
     "date": "2026-06-12",
     "author": "Technologyst Labs",

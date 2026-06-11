@@ -3,6 +3,7 @@
     "description": "Lightweight WoW addons for low-end systems. Questie Lite, Titan Panel Classic, Atlas maps. Perfect for G4 performance.",
     "category": "gaming",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://legacy-wow.com",
     "thumb": "https://legacy-wow.com/wp-content/uploads/2023/05/LegacyWoW.png",
     "date": "2026-06-07",

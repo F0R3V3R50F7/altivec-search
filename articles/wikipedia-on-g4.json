@@ -3,6 +3,7 @@
     "description": "The mobile version of Wikipedia loads perfectly in Safari Leopard WebKit and Aquafox. Bookmark en.m.wikipedia.org for fast research.",
     "category": "web",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://en.m.wikipedia.org",
     "thumb": "https://i.ytimg.com/vi/-6TTLZzEQHo/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAES73a6G0KJwqV6w-DrEQUc8_6Hg",
     "date": "2026-06-05",

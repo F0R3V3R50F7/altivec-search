@@ -3,6 +3,7 @@
     "description": "Step-by-step instructions to install and optimize Sorbet Leopard on your PowerMac G4. Includes performance tweaks and post-installation setup.",
     "category": "software",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://macintoshgarden.org/apps/sorbet-leopard",
     "thumb": "🍦",
     "date": "2026-06-10",

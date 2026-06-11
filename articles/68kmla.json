@@ -3,6 +3,7 @@
     "description": "68K Macintosh Liberation Army: active forum for classic Mac enthusiasts, repair advice, and hardware discussion.",
     "category": "web",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://68kmla.org",
     "date": "2026-06-12",
     "author": "Technologyst Labs",

@@ -3,6 +3,7 @@
     "description": "How to listen to live radio streams using iTunes 9. Download .m3u playlists directly in Safari and enjoy.",
     "category": "music",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://www.internet-radio.com/",
     "thumb": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4mUauZWKkHNB80dGUMiNJyATwsynH-VgAIQ&s",
     "date": "2026-06-10",

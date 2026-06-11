@@ -3,6 +3,7 @@
     "description": "Free, curated archive of classic Mac software. Games, utilities, productivity apps for vintage Macs from System 6 to OS X.",
     "category": "software",
     "g4_friendly": 1,
+    "featured": 1,
     "url": "https://macintoshgarden.org",
     "date": "2026-06-12",
     "author": "Technologyst Labs",

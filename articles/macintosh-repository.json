@@ -3,6 +3,7 @@
     "description": "Extensive archive of Macintosh software, OS versions, and documentation. Classic and PowerPC era covered.",
     "category": "software",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://macintoshrepository.org",
     "date": "2026-06-12",
     "author": "Technologyst Labs",

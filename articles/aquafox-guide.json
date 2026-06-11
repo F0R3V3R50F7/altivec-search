@@ -3,6 +3,7 @@
     "description": "Download and install Aquafox, the recommended browser for PowerMac G4. Direct download links for G4 7400 and 7450 processors.",
     "category": "software",
     "g4_friendly": 1,
+    "featured": 1,
     "url": "https://blackbirdlc.github.io/aquafox/Homepage.html",
     "thumb": "🦊",
     "date": "2026-06-12",

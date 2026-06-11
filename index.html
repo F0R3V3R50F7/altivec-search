@@ -747,7 +747,9 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
         if (searchTerm !== '') {
             results = searchArticles(searchTerm);
         } else if (currentTab === 'featured') {
-            results = articles.slice();
+            for (i = 0; i < articles.length; i++) {
+                if (articles[i].featured === 1 || articles[i].featured === '1') { results.push(articles[i]); }
+            }
         } else {
             for (i = 0; i < articles.length; i++) {
                 if (articles[i].category === currentTab) { results.push(articles[i]); }

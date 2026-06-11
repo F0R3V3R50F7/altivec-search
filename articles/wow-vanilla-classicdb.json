@@ -3,6 +3,7 @@
     "description": "Quest database, item lookup, and NPC information for World of Warcraft Vanilla. Works perfectly in Safari Leopard WebKit / Aquafox on the G4.",
     "category": "gaming",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://classicdb.ch",
     "thumb": "https://classicdb.ch/images/logo2.png",
     "date": "2026-06-08",

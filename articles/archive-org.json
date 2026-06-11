@@ -3,6 +3,7 @@
     "description": "Internet Archive's Wayback Machine: snapshots of the web from the past 25 years. Find old versions of your favorite sites.",
     "category": "web",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://web.archive.org",
     "date": "2026-06-12",
     "author": "Technologyst Labs",

@@ -3,6 +3,7 @@
     "description": "Use old.reddit.com for a lightweight, lightweight Reddit experience. No JavaScript bloat, loads instantly on any G4 browser.",
     "category": "web",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://old.reddit.com",
     "date": "2026-06-12",
     "author": "Technologyst Labs",

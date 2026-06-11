@@ -3,6 +3,7 @@
     "description": "News aggregator dedicated to retro computing, classic Macs, vintage hardware, and the retro tech community.",
     "category": "web",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://68k.news",
     "date": "2026-06-12",
     "author": "Technologyst Labs",
