@@ -4,7 +4,6 @@
     "category": "web",
     "g4_friendly": 1,
     "url": "https://theoldnet.com",
-    "icon": "🕰️",
     "date": "2026-06-12",
     "author": "Altivec",
     "tags": [
@@ -19,5 +18,6 @@
         "g4",
         "browser"
     ],
-    "content": "<h2>The Old Net - Remembering GeoCities</h2><p>A curated collection of the old, quirky, personal internet. Before algorithms and engagement metrics, people built weird and wonderful personal websites.</p><h2>What You'll Find</h2><p>Links to archived personal pages, fan sites, shrines, and oddities from the '90s and 2000s. All still accessible and browsable.</p><h2>Explore</h2><p>Visit <a href=\"https://theoldnet.com\" target=\"_blank\">theoldnet.com</a> and step into internet history.</p>"
+    "content": "<h2>The Old Net - Remembering GeoCities</h2><p>A curated collection of the old, quirky, personal internet. Before algorithms and engagement metrics, people built weird and wonderful personal websites.</p><h2>What You'll Find</h2><p>Links to archived personal pages, fan sites, shrines, and oddities from the '90s and 2000s. All still accessible and browsable.</p><h2>Explore</h2><p>Visit <a href=\"https://theoldnet.com\" target=\"_blank\">theoldnet.com</a> and step into internet history.</p>",
+    "thumb": "🕰️"
 }
