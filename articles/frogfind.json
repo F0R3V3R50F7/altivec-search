@@ -1,0 +1,23 @@
+{
+    "title": "FrogFind - Search Engine for Old Browsers",
+    "description": "A search engine optimized for old and text-based browsers. Returns lightweight, text-heavy results perfect for G4 browsing.",
+    "category": "web",
+    "g4_friendly": 1,
+    "url": "https://frogfind.com",
+    "icon": "🐸",
+    "date": "2026-06-12",
+    "author": "Altivec",
+    "tags": [
+        "frogfind",
+        "search",
+        "search engine",
+        "old browser",
+        "lightweight",
+        "text-only",
+        "g4",
+        "safari",
+        "aquafox",
+        "web"
+    ],
+    "content": "<h2>FrogFind - Search for Old Browsers</h2><p>A search engine designed from the ground up for retro browsers. It returns lightweight, text-rich results that load instantly on any connection.</p><h2>Why Use It</h2><p>Google and modern search break on old browsers. FrogFind strips the bloat and gives you pure search results: title, snippet, URL.</p><h2>Searching</h2><p>Visit <a href=\"https://frogfind.com\" target=\"_blank\">frogfind.com</a>, type your query, and get instant results without JavaScript or tracking.</p>"
+}

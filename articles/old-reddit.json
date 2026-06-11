@@ -1,0 +1,24 @@
+{
+    "title": "Old Reddit on Your G4",
+    "description": "Use old.reddit.com for a lightweight, lightweight Reddit experience. No JavaScript bloat, loads instantly on any G4 browser.",
+    "category": "web",
+    "g4_friendly": 1,
+    "url": "https://old.reddit.com",
+    "icon": "🔗",
+    "date": "2026-06-12",
+    "author": "Altivec",
+    "tags": [
+        "reddit",
+        "old reddit",
+        "forum",
+        "discussion",
+        "community",
+        "lightweight",
+        "web",
+        "g4",
+        "browser",
+        "safari",
+        "aquafox"
+    ],
+    "content": "<h2>Old Reddit on G4</h2><p>Modern Reddit is unusable on old hardware. Fortunately, old.reddit.com exists — the classic design from 2010. It loads in seconds and requires almost no JavaScript.</p><h2>Why It Works</h2><p>The old design is pure HTML and CSS. No tracking bloat, no infinite scroll, no ads everywhere. Just threaded discussion.</p><h2>How to Use</h2><p>Visit <a href=\"https://old.reddit.com\" target=\"_blank\">old.reddit.com</a> in Safari or Aquafox. You can also set it as your default by changing your Reddit preferences.</p>"
+}
