@@ -411,7 +411,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         }
     }
 
-    function acceptAll() { consentData.functional = true; saveConsent(); applyConsent(); }
+    function acceptAll() { consentData.functional = true; saveConsent(); applyConsent(); initWeather(); }
     function rejectAll() { consentData.functional = false; saveConsent(); applyConsent(); }
 
     function saveSettingsFromModal() {
@@ -892,7 +892,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             '<div class="preview-title">' + escapeHtml(article.title) + '</div>' +
             '<div class="preview-url">' + escapeHtml(displayUrl) + '</div>' +
             '<div class="preview-desc">' + escapeHtml(article.description) + '</div>' +
-            '<div class="preview-actions"><button class="btn" id="previewReadBtn">Read Notes</button>' + openBtn + '</div></div>';
+            '<div class="preview-actions"><button class="btn" id="previewReadBtn">&#8505; More Information</button>' + openBtn + '</div></div>';
         document.getElementById('previewReadBtn').onclick = function() { openReader(articleId); };
         var cautionBtn = document.getElementById('previewOpenBtn');
         if (cautionBtn) cautionBtn.onclick = function() { showCompatWarning(article); };
@@ -981,11 +981,11 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     // ── AQUAFOX NAG BANNER (consent‑respecting) ──
     (function() {
-        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, dismissed = false;
+        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('AppleWebKit') >= 0 && ua.indexOf('Safari') >= 0 && ua.indexOf('Version/4') >= 0, dismissed = false;
         if (isFunctionalAllowed()) {
             try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
         }
-        if (!isAquafox && !dismissed) {
+        if (!isAquafox && !isSafariLeopard && !dismissed) {
             document.getElementById('nagBanner').style.display = 'block';
             document.querySelector('.header').style.top = '32px';
             document.querySelector('.layout').style.marginTop = '187px';
