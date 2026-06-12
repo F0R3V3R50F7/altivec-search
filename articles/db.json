@@ -258,7 +258,7 @@
             "powerpc",
             "web"
         ],
-        "thumb": "https://68kmla.org/bb/data/assets/logo/68kmla-512.png",
+        "thumb": "🍏",
         "content": "articles/68kmla.md"
     },
     {
@@ -360,7 +360,7 @@
             "g4",
             "browser"
         ],
-        "thumb": "https://upload.wikimedia.org/wikipedia/commons/0/01/Wayback_Machine_logo_2010.svg",
+        "thumb": "https://blog.archive.org/wp-content/uploads/2016/08/wayback-machine-logo.jpg",
         "content": "articles/archive-org.md"
     },
     {
