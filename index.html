@@ -155,6 +155,10 @@ html { height: 100%; overflow: hidden; }
 .god-scroll { flex: 1; overflow: hidden; position: relative; }
 .god-text { font-size: 12px; color: #f0a500; font-family: monospace; line-height: 1.45; text-shadow: 0 0 6px rgba(240,165,0,0.5); white-space: normal; -moz-transition: opacity 0.5s ease; transition: opacity 0.5s ease; }
 .god-text.idle { color: rgba(240,165,0,0.3); text-shadow: none; font-style: italic; }
+.god-scroll-inner { overflow-y: auto; height: 100%; scrollbar-width: none; -ms-overflow-style: none; }
+.god-scroll-inner::-webkit-scrollbar { display: none; }
+.god-scroll-btn { position: absolute; bottom: 3px; right: 3px; z-index: 10; background: rgba(10,8,0,0.85); border: 1px solid rgba(240,165,0,0.4); border-radius: 3px; color: rgba(240,165,0,0.8); font-size: 8px; line-height: 1; padding: 1px 3px; cursor: pointer; -moz-transition: all 0.15s; transition: all 0.15s; display: none; }
+.god-scroll-btn:hover { background: rgba(240,165,0,0.2); color: #f0a500; }
 .weather-inner { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 8px; overflow: hidden; }
 #weatherCanvas { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; }
 .weather-glass { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.25); }
@@ -451,7 +455,10 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             <div class="god-inner">
                 <div class="god-header" id="godHeader">&#9670; NEWS &#9670;</div>
                 <div class="god-scroll" id="godScroll">
-                    <div class="god-text idle" id="godText">fetching news&#8230;</div>
+                    <div class="god-scroll-inner" id="godScrollInner">
+                        <div class="god-text idle" id="godText">fetching news&#8230;</div>
+                    </div>
+                    <button class="god-scroll-btn" id="godScrollBtn" title="Scroll down">&#9660;</button>
                 </div>
             </div>
         </div>
@@ -1163,6 +1170,39 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             textEl.textContent = 'fetching\u2026';
             fetchHeadline(function (h, e) { setNewsMode(h, e); });
         }
+    };
+
+    // Scroll button logic
+    var scrollInner = document.getElementById('godScrollInner');
+    var scrollBtn   = document.getElementById('godScrollBtn');
+
+    function updateScrollBtn() {
+        if (!scrollInner) return;
+        var canScroll = scrollInner.scrollHeight > scrollInner.clientHeight + 2;
+        var atBottom  = scrollInner.scrollTop + scrollInner.clientHeight >= scrollInner.scrollHeight - 2;
+        scrollBtn.style.display = (canScroll && !atBottom) ? 'block' : 'none';
+    }
+
+    if (scrollBtn) {
+        scrollBtn.onclick = function (e) {
+            e.stopPropagation();
+            scrollInner.scrollTop += 40;
+            updateScrollBtn();
+        };
+    }
+    if (scrollInner) {
+        scrollInner.addEventListener('scroll', updateScrollBtn);
+    }
+
+    // Call after setting news text so button appears if needed
+    var _origSetNewsMode = setNewsMode;
+    setNewsMode = function (h, e) {
+        _origSetNewsMode(h, e);
+        // Reset scroll and re-check button after a tick (text has rendered)
+        setTimeout(function () {
+            if (scrollInner) scrollInner.scrollTop = 0;
+            updateScrollBtn();
+        }, 50);
     };
 
     // Boot: fetch headline immediately
