@@ -1,0 +1,40 @@
+{
+    "url": "http://altivec.fyi/imovie-09-g4-patch",
+    "title": "Unlocking iMovie '08 & '09 on PowerMac G4: Hardware Check Bypass",
+    "description": "Bypass Apple's arbitrary G5 restriction and run iMovie '09 on your PowerMac G4. Full guide and pre-patched app for Core Image-supported systems.",
+    "category": "software",
+    "g4_friendly": 1,
+    "featured": 1,
+    "thumb": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/IMovie_logo.png/256px-IMovie_logo.png",
+    "date": "2026-06-12",
+    "author": "Technologyst Labs",
+    "tags": [
+        "imovie",
+        "imovie 09",
+        "ilife 09",
+        "video editing",
+        "apple",
+        "powermac",
+        "g4",
+        "powerpc",
+        "ppc",
+        "leopard",
+        "10.5.6",
+        "hex edit",
+        "quartz extreme",
+        "core image",
+        "patch",
+        "1080p"
+    ],
+    "downloads": [
+        {
+            "name": "iLife '09 Install DVD (Archive.org)",
+            "url": "https://archive.org/download/ILife09_201812/iLife%20%2709%20Install%20DVD.dmg"
+        },
+        {
+            "name": "Modified iMovie '09.app (Archive.org)",
+            "url": "PENDING_LINK_2"
+        }
+    ],
+    "content": "<h2>The G4 iMovie Lockout</h2><p>Apple's decision to implement a strict minimum processor and GPU requirement on iMovie '09 was a point of frustration for many. They arbitrarily restricted the software to Intel Macs and G5s, meaning G4 users were left relying on the aging iMovie HD 6. However, testing reveals that iMovie '09 runs efficiently on top-tier G4 setups. The actual hardware requirement is not the G5 processor itself, but rather a GPU that supports <strong>Core Image</strong> and Quartz Extreme, which rely on specific OpenGL pixel shader capabilities. If your G4 is equipped with a capable graphics card, you can bypass the block.</p><h2>How the Hex Edit Works</h2><p>Historically, the vintage Apple community discovered that the software simply executes a hardcoded processor check at launch. By modifying the <code>MacOS</code> binary inside the application package using a hex editor, users can change the PowerPC instruction that initializes the check (<code>mflr r0</code>) into a return command (<code>blr</code>). This forces the hardware check function to void itself and instantly pass, completely circumventing the G5/Intel restriction and allowing your Core Image GPU to handle the rendering.</p><h2>Installation Guide</h2><p>Here is the complete guide to enabling this on your G4:</p><ol><li>Download the <strong>iLife '09 Install DVD</strong> from the Archive.org link provided in the side panel.</li><li>Run the installer. You will likely receive a warning message stating that iMovie '09 is not compatible with your system. Ignore this prompt and proceed with the installation.</li><li>Once installed, close the application. Open the system updater and download any available combo updates for iMovie/iLife to ensure you are on the latest build.</li><li>Download the pre-patched <strong>iMovie.app</strong> from the second Archive.org link in the side panel.</li><li>Navigate to your <code>/Applications</code> folder and replace the unpatched iMovie application entirely with this modified version.</li></ol><h2>Performance Expectations</h2><p>Launch the application and it should open on your older GPU without displaying any error prompts. Thanks to this patch, you can <strong>now edit full 1080p content in raw on the G4</strong> perfectly smoothly. Enjoy leaving iMovie HD 6 behind!</p>"
+}
