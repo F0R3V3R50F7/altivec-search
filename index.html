@@ -447,10 +447,11 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         <div class="god-widget" id="godWidget" title="Click for revelation">
             <div class="god-glow"></div>
             <div class="god-scanlines"></div>
+            <button id="godModeToggle" title="Switch mode" style="position:absolute;top:4px;right:5px;z-index:10;background:rgba(240,165,0,0.12);border:1px solid rgba(240,165,0,0.35);border-radius:3px;color:rgba(240,165,0,0.7);font-size:8px;font-family:monospace;letter-spacing:0.5px;padding:2px 4px;cursor:pointer;line-height:1;-moz-transition:all 0.15s;transition:all 0.15s;" onmouseover="this.style.background='rgba(240,165,0,0.28)';this.style.color='#f0a500';" onmouseout="this.style.background='rgba(240,165,0,0.12)';this.style.color='rgba(240,165,0,0.7)';">GOD SAYS</button>
             <div class="god-inner">
-                <div class="god-header">&#9670; GOD SAYS &#9670;</div>
+                <div class="god-header" id="godHeader">&#9670; NEWS &#9670;</div>
                 <div class="god-scroll" id="godScroll">
-                    <div class="god-text idle" id="godText">click for revelation</div>
+                    <div class="god-text idle" id="godText">fetching news&#8230;</div>
                 </div>
             </div>
         </div>
@@ -1084,5 +1085,83 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <!-- Widget modules, loaded after the main script so window.Altivec exists. -->
 <script src="weather.js"></script>
 <script src="god.js"></script>
+<script>
+// ── GOD DAYS / GOD SAYS toggle ──
+(function () {
+    var GOD_NEWS = 'news';
+    var GOD_ORACLE = 'oracle';
+    var mode = GOD_NEWS;
+
+    var textEl    = document.getElementById('godText');
+    var headEl    = document.getElementById('godHeader');
+    var toggleBtn = document.getElementById('godModeToggle');
+    var widget    = document.getElementById('godWidget');
+
+    // Fetch top world headline straight from 68k.news
+    function fetchHeadline(cb) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://68k.news/index.php?section=world&loc=US', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status < 200 || xhr.status >= 300) { cb(null, 'error: http ' + xhr.status); return; }
+            try {
+                var div = document.createElement('div');
+                div.innerHTML = xhr.responseText;
+                var links = div.querySelectorAll ? div.querySelectorAll('li a') : [];
+                var headline = '';
+                for (var i = 0; i < links.length; i++) {
+                    var t = (links[i].textContent || links[i].innerText || '').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+                    if (t.length > 20) { headline = t; break; }
+                }
+                if (headline) { cb(headline, null); } else { cb(null, 'no headline found'); }
+            } catch (e) { cb(null, 'parse error'); }
+        };
+        xhr.onerror = function () { cb(null, 'fetch failed'); };
+        xhr.send();
+    }
+
+    function setNewsMode(headline, err) {
+        mode = GOD_NEWS;
+        headEl.innerHTML = '&#9670; NEWS &#9670;';
+        toggleBtn.textContent = 'GOD SAYS';
+        widget.title = 'Latest world headline from 68k.news';
+        widget.onclick = null;
+        if (err) {
+            textEl.className = 'god-text idle';
+            textEl.textContent = err;
+        } else {
+            textEl.className = 'god-text';
+            textEl.textContent = headline;
+        }
+    }
+
+    function setOracleMode() {
+        mode = GOD_ORACLE;
+        headEl.innerHTML = '&#9670; GOD SAYS &#9670;';
+        toggleBtn.textContent = 'NEWS';
+        widget.title = 'Click for revelation';
+        textEl.className = 'god-text idle';
+        textEl.textContent = 'click for revelation';
+        // Re-init oracle if god.js exposes a hook
+        if (window.Altivec && window.Altivec.initGod) {
+            window.Altivec.initGod();
+        }
+    }
+
+    toggleBtn.onclick = function (e) {
+        e.stopPropagation();
+        if (mode === GOD_NEWS) {
+            setOracleMode();
+        } else {
+            textEl.className = 'god-text idle';
+            textEl.textContent = 'fetching\u2026';
+            fetchHeadline(function (h, e) { setNewsMode(h, e); });
+        }
+    };
+
+    // Boot: fetch headline immediately
+    fetchHeadline(function (h, e) { setNewsMode(h, e); });
+})();
+</script>
 </body>
 </html>
