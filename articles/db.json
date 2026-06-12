@@ -89,7 +89,7 @@
         "description": "How to listen to live radio streams using iTunes 9. Download .m3u playlists directly in Safari and enjoy.",
         "category": "music",
         "g4_friendly": 1,
-        "featured": 0,
+        "featured": 1,
         "url": "https://www.internet-radio.com/",
         "thumb": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4mUauZWKkHNB80dGUMiNJyATwsynH-VgAIQ&s",
         "date": "2026-06-10",
@@ -266,7 +266,7 @@
         "description": "MacRumors Forum: long-running Mac community for news, rumors, help, and discussion across all generations of Apple hardware.",
         "category": "web",
         "g4_friendly": 1,
-        "featured": 1,
+        "featured": 0,
         "url": "https://forums.macrumors.com",
         "date": "2026-06-12",
         "author": "Technologyst Labs",
@@ -540,5 +540,33 @@
             }
         ],
         "content": "articles/imovie-09-hex.md"
+    },
+    {
+      "title": "Sorbet Leopard: Mac OS X 10.5 Unleashed for PowerPC",
+      "description": "A comprehensive look at Sorbet Leopard, the community-engineered OS image that brings Tiger-tier performance to Mac OS X Leopard on PowerMac G4 and G5 hardware.",
+      "category": "software",
+      "g4_friendly": 1,
+      "featured": 1,
+      "url": "https://forums.macrumors.com/threads/sorbet-leopard-your-power-mac-unleashed.2300924/",
+      "thumb": "https://macintoshgarden.org/sites/default/files/apps/sorbet_icon.png",
+      "date": "2026-06-12",
+      "author": "Technologyst Labs",
+      "tags": [
+          "powermac",
+          "g4",
+          "powerpc",
+          "ppc",
+          "mac os x",
+          "leopard",
+          "optimization",
+          "operating system"
+      ],
+      "downloads": [
+          {
+              "name": "Sorbet Leopard Disk Image",
+              "url": "https://macintoshgarden.org/apps/sorbet-leopard"
+          }
+      ],
+      "content": "articles/sorbet-leopard-unleashed.md"
     }
 ]
