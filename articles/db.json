@@ -122,8 +122,8 @@
         "content": "articles/internet-radio-g4.md"
     },
     {
-        "title": "Wikipedia on Old Browsers",
-        "description": "The mobile version of Wikipedia loads perfectly in Safari Leopard WebKit and Aquafox. Bookmark en.m.wikipedia.org for fast research.",
+        "title": "Wikipedia",
+        "description": "Wikipedia loads perfectly in Safari Leopard WebKit and Aquafox. Bookmark wikipedia.org for fast research.",
         "category": "web",
         "g4_friendly": 1,
         "featured": 0,
@@ -139,9 +139,7 @@
             "research",
             "encyclopedia",
             "lightweight",
-            "mobile wikipedia",
             "safari",
-            "safari leopard webkit",
             "aquafox",
             "frogfind",
             "68k news",
