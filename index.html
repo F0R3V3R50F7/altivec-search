@@ -912,6 +912,33 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         if (e.target === this) removeClass(this, 'active');
     };
 
+    // Minimal Markdown-to-HTML converter (headings, paragraphs, bold, code, lists, links)
+    function mdToHtml(md) {
+        var lines = md.split('\n'), out = [], inList = false, inPre = false, buf = [];
+        function flushPara() { if (buf.length) { out.push('<p>' + buf.join(' ') + '</p>'); buf = []; } }
+        function inlineFormat(s) {
+            s = s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
+            s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+            s = s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+            s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+            return s;
+        }
+        for (var i = 0; i < lines.length; i++) {
+            var l = lines[i];
+            if (/^```/.test(l)) { if (!inPre) { flushPara(); out.push('<pre><code>'); inPre=true; } else { out.push('</code></pre>'); inPre=false; } continue; }
+            if (inPre) { out.push(l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '\n'); continue; }
+            if (/^#{1,6} /.test(l)) { flushPara(); var m=l.match(/^(#{1,6}) (.*)/); var lv=m[1].length; out.push('<h'+lv+'>'+inlineFormat(m[2])+'</h'+lv+'>'); continue; }
+            if (/^[-*] /.test(l)) { if (!inList) { flushPara(); out.push('<ul>'); inList=true; } out.push('<li>'+inlineFormat(l.slice(2))+'</li>'); continue; }
+            if (inList) { out.push('</ul>'); inList=false; }
+            if (l.trim()==='') { flushPara(); continue; }
+            buf.push(inlineFormat(l.trim()));
+        }
+        if (inList) out.push('</ul>');
+        flushPara();
+        return out.join('\n');
+    }
+
     function openReader(articleId) {
         var article = null;
         for (var i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
@@ -919,7 +946,6 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         var modal = document.getElementById('readerModal'), main = document.getElementById('readerMain'), sidebar = document.getElementById('readerSidebar');
         addClass(modal, 'active');
 
-        // Build sidebar immediately from stub data (no network needed)
         var sh = '';
         if (article.downloads && article.downloads.length) {
             sh += '<div class="sidebar-section"><h4>DOWNLOADS</h4>';
@@ -933,10 +959,29 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         sh += '<div class="sidebar-section"><h4>INFO</h4><p style="font-size:11px;color:#aaa;">Community resource for PowerMac G4.</p></div>';
         sidebar.innerHTML = sh;
 
-        // Show header and content — content was in the JSON but never touched until now
-        main.innerHTML = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
-            '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Technologyst Labs') + '</div></div>' +
-            '<div class="article-body">' + (article.content||'') + '</div>';
+        var header = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
+            '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Technologyst Labs') + '</div></div>';
+
+        if (article._cachedContent) {
+            main.innerHTML = header + '<div class="article-body">' + article._cachedContent + '</div>';
+            return;
+        }
+
+        main.innerHTML = header + '<div class="article-body" id="readerBodyLoading"><p style="color:#aaa;">Loading...</p></div>';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', article.content, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) return;
+            var bodyEl = document.getElementById('readerBodyLoading');
+            if (xhr.status >= 200 && xhr.status < 300) {
+                article._cachedContent = mdToHtml(xhr.responseText);
+                if (bodyEl) bodyEl.innerHTML = article._cachedContent;
+            } else {
+                if (bodyEl) bodyEl.innerHTML = '<p style="color:#c0392b;">Could not load article.</p>';
+            }
+        };
+        xhr.send();
     }
 
     document.getElementById('searchBtn').onclick = function() {
@@ -954,21 +999,9 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     function loadArticles() {
         var resultsEl = document.getElementById('resultsList');
         resultsEl.innerHTML = '<div class="empty">Loading...</div>';
-        xhrGet('articles/index.json', function(filenames) {
-            var loaded = [], remaining = filenames.length;
-            if (!remaining) { resultsEl.innerHTML = '<div class="empty">No articles found</div>'; return; }
-            for (var i = 0; i < filenames.length; i++) {
-                (function(fn) {
-                    xhrGet('articles/' + fn, function(article) {
-                        article.id = fn.replace(/\.json$/, '');
-                        loaded.push(article); remaining--;
-                        if (remaining === 0) onAllLoaded(loaded);
-                    }, function() {
-                        remaining--;
-                        if (remaining === 0) onAllLoaded(loaded);
-                    });
-                })(filenames[i]);
-            }
+        xhrGet('articles/db.json', function(loaded) {
+            if (!loaded || !loaded.length) { resultsEl.innerHTML = '<div class="empty">No articles found</div>'; return; }
+            onAllLoaded(loaded);
         }, function() { resultsEl.innerHTML = '<div class="empty">Could not load articles.</div>'; });
     }
 
