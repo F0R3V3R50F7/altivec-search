@@ -246,6 +246,8 @@ html.m-mobile .reader {
     max-width: none;
     display: block;
     border: none;
+    overflow-y: auto;                  /* the reader is the scroll container */
+    -webkit-overflow-scrolling: touch; /* momentum scroll on iOS */
 }
 /* The reader is launched from inside the bottom sheet (z 1500), so it must
    sit above the sheet, extras drawer (1450) and FAB (1400). Mobile-only. */
@@ -254,8 +256,17 @@ html.m-mobile .reader-main {
     display: block;
     padding: 56px 20px 28px;       /* top pad clears the close button */
     height: auto;
-    min-height: 100%;
+    min-height: 0;                 /* let content size itself; reader scrolls */
     box-sizing: border-box;
+}
+
+/* While the reader is open, lock the page behind it so touch scrolling acts
+   on the reader, not the results list underneath. */
+html.m-mobile.reader-open,
+html.m-mobile.reader-open body {
+    overflow: hidden;
+    height: 100%;
+    -webkit-overflow-scrolling: auto;
 }
 /* Sidebar (downloads / links) moves below the article instead of beside it. */
 html.m-mobile .reader-sidebar {

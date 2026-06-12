@@ -1088,6 +1088,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         if (!article) return;
         var modal = document.getElementById('readerModal'), main = document.getElementById('readerMain'), sidebar = document.getElementById('readerSidebar');
         addClass(modal, 'active');
+        addClass(document.documentElement, 'reader-open');   // lock page scroll behind the reader
 
         var sh = '';
         if (article.downloads && article.downloads.length) {
@@ -1134,9 +1135,15 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     document.getElementById('searchInput').onkeypress = function(e) {
         if ((e ? e.keyCode : window.event.keyCode) === 13) document.getElementById('searchBtn').onclick();
     };
-    document.getElementById('readerCloseBtn').onclick = function() { removeClass(document.getElementById('readerModal'), 'active'); };
+    document.getElementById('readerCloseBtn').onclick = function() {
+        removeClass(document.getElementById('readerModal'), 'active');
+        removeClass(document.documentElement, 'reader-open');
+    };
     document.getElementById('readerModal').onclick = function(e) {
-        if (e.target === this) removeClass(this, 'active');
+        if (e.target === this) {
+            removeClass(this, 'active');
+            removeClass(document.documentElement, 'reader-open');
+        }
     };
 
     function loadArticles() {
