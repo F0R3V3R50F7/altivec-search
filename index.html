@@ -1156,6 +1156,15 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     }
 
     function onAllLoaded(loaded) {
+        // Derive each article's id from its Markdown filename (e.g.
+        // "articles/frogfind.md" -> "frogfind"). Avoids storing a redundant
+        // id field in db.json that just duplicates the content path.
+        for (var k = 0; k < loaded.length; k++) {
+            if (!loaded[k].id && loaded[k].content) {
+                var p = loaded[k].content.replace(/^.*\//, '').replace(/\.md$/i, '');
+                loaded[k].id = p;
+            }
+        }
         loaded.sort(function(a,b) { return (b.date||'') < (a.date||'') ? -1 : 1; });
         articles = loaded;
         if (!articles.length) { document.getElementById('resultsList').innerHTML = '<div class="empty">No articles found</div>'; return; }
