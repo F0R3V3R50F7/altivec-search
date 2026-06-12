@@ -15,6 +15,58 @@
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 .m-logo-row, .m-sheet, .m-carousel, .m-switch { display: none; }
+
+/* ── LIGHT MODE ── applied when <html class="light"> ── */
+html.light body { background: #f0ede6; color: #1a1a1a; }
+html.light .header { background: linear-gradient(to bottom, #e8e3d8 0%, #ddd8cc 100%); border-bottom-color: #b8b0a0; }
+html.light .header-top { border-bottom-color: #c8c0b0; }
+html.light .header-bottom { background: #e0dbd0; border-bottom-color: #c0b8a8; }
+html.light .tab { color: #555; }
+html.light .tab.active { color: #c07800; border-bottom-color: #c07800; }
+html.light .tab:hover { color: #1a1a1a; }
+html.light .results-panel { background: #f0ede6; border-right-color: #ccc; }
+html.light .preview-panel { background: #eae6de; }
+html.light .result-item { background: linear-gradient(160deg, #e8e4dc 0%, #e0dbd2 100%); border-color: #ccc8be; }
+html.light .result-item:hover, html.light .result-item.selected { border-color: #c07800; background: #fff8e8; }
+html.light .result-title { color: #c07800; }
+html.light .result-url { color: #888; }
+html.light .result-desc { color: #333; }
+html.light .stats { color: #888; }
+html.light .search { background: rgba(0,0,0,0.06); border-color: #bbb; }
+html.light .search input { color: #1a1a1a; }
+html.light .search input::placeholder { color: #999; }
+html.light .preview-title { color: #c07800; }
+html.light .preview-url { color: #888; }
+html.light .preview-desc { color: #333; }
+html.light .preview-thumb { background: #e0dbd0; color: #bbb; }
+html.light .btn { background: #e0dbd0; color: #333; border-color: #bbb; }
+html.light .btn:hover { background: #d0c8b8; }
+html.light .btn-open { background: #2a6a2a; color: #fff; }
+html.light .btn-caution { background: #7a4a00; color: #fff; }
+html.light .reader-overlay { background: rgba(240,237,230,0.97); }
+html.light .reader { background: #f0ede6; border-color: #ccc; }
+html.light .reader-main { color: #1a1a1a; }
+html.light .reader-sidebar { border-left-color: #ccc; background: #e8e3d8; }
+html.light .reader-close { background: #e0dbd0; color: #555; border-color: #bbb; }
+html.light .article-title { color: #c07800; }
+html.light .article-body { color: #1a1a1a; }
+html.light .article-body h2, html.light .article-body h3 { color: #c07800; border-bottom-color: #ddd; }
+html.light .article-body a { color: #2a6aaa; }
+html.light .article-body code { background: #e0dbd0; color: #333; }
+html.light .article-body pre { background: #e0dbd0; border-color: #ccc; }
+html.light .article-body blockquote { border-left-color: #c07800; color: #555; }
+html.light .nag-banner { background: linear-gradient(to right, #ddeeff, #cce4ff); border-bottom-color: #aaccee; color: #334; }
+html.light .cookie-consent-banner { background: #e8e3d8; border-top-color: #ccc; color: #333; }
+html.light .cookie-settings-box { background: #f0ede6; border-color: #ccc; color: #1a1a1a; }
+html.light .empty { color: #888; }
+html.light .results-footer { color: #888; }
+html.light .results-footer a { color: #c07800; }
+
+/* Theme toggle button */
+.theme-toggle { background: none; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: rgba(255,255,255,0.6); font-size: 15px; cursor: pointer; padding: 4px 8px; margin-left: 8px; flex-shrink: 0; }
+.theme-toggle:hover { color: #f0a500; border-color: #f0a500; }
+html.light .theme-toggle { border-color: rgba(0,0,0,0.15); color: #666; }
+html.light .theme-toggle:hover { color: #c07800; border-color: #c07800; }
 body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #e0e0e0; }
 .header { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 100; background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%); border-bottom: 1px solid #3a3a3a; padding: 0 32px; }
 .header-top { display: flex; align-items: center; height: 92px; }
@@ -283,7 +335,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <div class="cookie-settings-overlay" id="cookieSettingsOverlay">
     <div class="cookie-settings-box">
         <h3>Cookie Preferences</h3>
-        <p>We only store a small amount of data to remember your weather town and whether you’ve dismissed our Aquafox reminder. You can turn this off below.</p>
+        <p>We only store a small amount of data to remember your weather town, theme preference, and whether you've dismissed our Aquafox reminder. You can turn this off below.</p>
         <div class="cookie-toggle-row">
             <span class="cookie-toggle-label">Functional <small>Remember my weather town & banner dismissal</small></span>
             <label class="cookie-toggle">
@@ -376,6 +428,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                 </div>
             </div>
         </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">&#9788;</button>
     </div>
     <div class="header-bottom">
         <div class="tabs" id="tabs"></div>
@@ -527,17 +580,38 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     window.Altivec.safeSetItem = safeSetItem;
     window.Altivec.isFunctionalAllowed = isFunctionalAllowed;
 
+    // ── THEME (dark / light) ──
+    var THEME_KEY = 'altivec_theme';
+    function applyTheme(theme) {
+        var de = document.documentElement;
+        if (theme === 'light') { addClass(de, 'light'); } else { removeClass(de, 'light'); }
+        var btn = document.getElementById('themeToggle');
+        if (btn) btn.innerHTML = theme === 'light' ? '&#9790;' : '&#9788;';  // ☾ dark / ☀ light
+    }
+    function loadTheme() {
+        var saved = '';
+        try { saved = localStorage.getItem(THEME_KEY) || ''; } catch(e) {}
+        applyTheme(saved === 'light' ? 'light' : 'dark');
+    }
+    loadTheme();
+    document.getElementById('themeToggle').onclick = function() {
+        var isLight = (' ' + document.documentElement.className + ' ').indexOf(' light ') >= 0;
+        var next = isLight ? 'dark' : 'light';
+        applyTheme(next);
+        safeSetItem(THEME_KEY, next);
+    };
+
 
 
 
     // ── ARTICLES (unchanged) ──
     var articles = [];
-    var currentTab = 'articles';
+    var currentTab = 'featured';
     var searchTerm = '';
     var selectedArticleId = null;
 
     var TABS = [
-        { id:'articles', name:'FEATURED' }, { id:'gaming', name:'GAMING' },
+        { id:'featured', name:'FEATURED' }, { id:'gaming', name:'GAMING' },
         { id:'software', name:'SOFTWARE' }, { id:'music', name:'MUSIC' }, { id:'web', name:'WEB' }
     ];
 
@@ -623,8 +697,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     function renderResults() {
         var results = [], i;
         if (searchTerm !== '') { results = searchArticles(searchTerm); }
-        else if (currentTab === 'articles') {
-            for (i = 0; i < articles.length; i++) if (!articles[i].url) results.push(articles[i]);
+        else if (currentTab === 'featured') {
+            for (i = 0; i < articles.length; i++) if (articles[i].featured === 1 || articles[i].featured === '1') results.push(articles[i]);
         } else {
             for (i = 0; i < articles.length; i++) if (articles[i].category === currentTab) results.push(articles[i]);
         }
@@ -774,7 +848,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     document.getElementById('searchBtn').onclick = function() {
         searchTerm = document.getElementById('searchInput').value;
-        if (searchTerm) { currentTab = 'articles'; selectedArticleId = null; renderTabs(); renderResults(); }
+        if (searchTerm) { currentTab = 'featured'; selectedArticleId = null; renderTabs(); renderResults(); }
     };
     document.getElementById('searchInput').onkeypress = function(e) {
         if ((e ? e.keyCode : window.event.keyCode) === 13) document.getElementById('searchBtn').onclick();
