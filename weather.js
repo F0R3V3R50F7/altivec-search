@@ -86,7 +86,7 @@
             sg.addColorStop(0, 'rgba(255,200,50,0.35)'); sg.addColorStop(0.5, 'rgba(255,160,20,0.12)'); sg.addColorStop(1, 'rgba(255,140,0,0)');
             wxCtx.fillStyle = sg; wxCtx.beginPath(); wxCtx.arc(sx, sy, 38, 0, Math.PI*2); wxCtx.fill();
             var sd = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 18);
-            sd.addColorStop(0, '#fff8d0'); sd.addColorStop(0.4, '#ffe060'); sd.addColorStop(1, '#f0a500');
+            sd.addColorStop(0, '#ffe87a'); sd.addColorStop(0.5, '#ffc040'); sd.addColorStop(1, '#f0a500');
             wxCtx.fillStyle = sd; wxCtx.beginPath(); wxCtx.arc(sx, sy, 18, 0, Math.PI*2); wxCtx.fill();
             for (var ri = 0; ri < sunRays.length; ri++) {
                 var r = sunRays[ri], a = r.angle + t*0.004, p = Math.abs(Math.sin(t*0.02+ri));
