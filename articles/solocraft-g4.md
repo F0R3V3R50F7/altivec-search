@@ -62,3 +62,9 @@ If you're using a period-accurate GPU like the Radeon 9600, you have to play to 
 ## Conclusion
 
 Now you can relaunch the game and play. You'll be raiding Molten Core on your G4 in no time.
+
+## Legacy Add-ons
+
+One of the greatest benefits of the 1.12 client is the robust add-on ecosystem that remains readily available. While modern web browsing on a PowerMac G4 can be challenging, you can download period-accurate interface modifications directly from your machine.
+
+By utilizing a PowerPC-optimized browser like InterWebPPC or TenFourFox, you can navigate straight to **legacy-wow.com** to source Vanilla WoW add-ons. Essential quality-of-life modifications such as Questie, CT_Mod, or pfUI can be downloaded and extracted directly into your Interface/AddOns directory without ever needing to use an intermediate modern PC.
