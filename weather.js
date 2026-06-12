@@ -85,8 +85,8 @@
             var sg = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 38);
             sg.addColorStop(0, 'rgba(255,200,50,0.35)'); sg.addColorStop(0.5, 'rgba(255,160,20,0.12)'); sg.addColorStop(1, 'rgba(255,140,0,0)');
             wxCtx.fillStyle = sg; wxCtx.beginPath(); wxCtx.arc(sx, sy, 38, 0, Math.PI*2); wxCtx.fill();
-            var sd = wxCtx.createRadialGradient(sx-4, sy-4, 2, sx, sy, 18);
-            sd.addColorStop(0, '#fff8d0'); sd.addColorStop(1, '#f0a500');
+            var sd = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 18);
+            sd.addColorStop(0, '#fff8d0'); sd.addColorStop(0.4, '#ffe060'); sd.addColorStop(1, '#f0a500');
             wxCtx.fillStyle = sd; wxCtx.beginPath(); wxCtx.arc(sx, sy, 18, 0, Math.PI*2); wxCtx.fill();
             for (var ri = 0; ri < sunRays.length; ri++) {
                 var r = sunRays[ri], a = r.angle + t*0.004, p = Math.abs(Math.sin(t*0.02+ri));
@@ -96,8 +96,12 @@
         }
         for (var ci = 0; ci < cloudPuffs.length; ci++) {
             var c = cloudPuffs[ci]; c.x -= c.speed; if (c.x+c.w < 0) c.x = w+c.w;
-            wxCtx.save(); wxCtx.globalAlpha = c.alpha; wxCtx.fillStyle = type==='snow'?'#dde8f8':'#8aaac8';
-            wxCtx.beginPath(); wxCtx.ellipse(c.x,c.y,c.w/2,c.w*0.38/2,0,0,Math.PI*2); wxCtx.ellipse(c.x-c.w*0.22,c.y+c.w*0.38*0.1,c.w*0.32,c.w*0.38*0.45,0,0,Math.PI*2); wxCtx.ellipse(c.x+c.w*0.22,c.y+c.w*0.38*0.1,c.w*0.28,c.w*0.38*0.4,0,0,Math.PI*2); wxCtx.fill(); wxCtx.restore();
+            var cf = type==='snow'?'#dde8f8':'#b8ccde';
+            wxCtx.save(); wxCtx.globalAlpha = c.alpha; wxCtx.fillStyle = cf;
+            wxCtx.beginPath(); wxCtx.ellipse(c.x, c.y, c.w/2, c.w*0.38/2, 0, 0, Math.PI*2); wxCtx.fill();
+            wxCtx.beginPath(); wxCtx.ellipse(c.x-c.w*0.22, c.y+c.w*0.38*0.1, c.w*0.32, c.w*0.38*0.45, 0, 0, Math.PI*2); wxCtx.fill();
+            wxCtx.beginPath(); wxCtx.ellipse(c.x+c.w*0.22, c.y+c.w*0.38*0.1, c.w*0.28, c.w*0.38*0.4, 0, 0, Math.PI*2); wxCtx.fill();
+            wxCtx.restore();
         }
         for (var di = 0; di < rainDrops.length; di++) {
             var d = rainDrops[di]; d.y += d.speed; d.x -= d.speed*0.18; if (d.y>h) { d.y=-d.len; d.x=Math.random()*w; }
