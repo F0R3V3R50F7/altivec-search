@@ -19,5 +19,6 @@
         "g4",
         "powerpc"
     ],
-    "thumb": "📰"
+    "thumb": "📰",
+    "content": "<h2>68k News - Stay Updated on Retro Tech</h2><p>A news aggregator focused on retro computing, classic Macs, vintage hardware, and the thriving community around old technology.</p><h2>What's Covered</h2><p>ROM dumps, emulation developments, restoration projects, collector finds, and community discussions from around the retro web.</p><h2>Browse</h2><p>Visit <a href=\"https://68k.news\" target=\"_blank\">68k.news</a> daily for updates on the retro computing scene.</p>"
 }

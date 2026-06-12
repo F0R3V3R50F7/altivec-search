@@ -775,9 +775,9 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     }
     function buildSearchIndex(a) {
         var title = searchNorm(a.title), tags = searchNorm(a.tags ? a.tags.join(' ') : ''), desc = searchNorm(a.description),
-            cat = searchNorm(a.category), body = searchNorm(a.content);
-        a._idx = { title: title, tags: tags, desc: desc, cat: cat, body: body,
-            triTitle: triSet(title), triTags: triSet(tags), triDesc: triSet(desc), triBody: triSet(body) };
+            cat = searchNorm(a.category);
+        a._idx = { title: title, tags: tags, desc: desc, cat: cat,
+            triTitle: triSet(title), triTags: triSet(tags), triDesc: triSet(desc) };
     }
     function fieldScore(ftext, weight, qNorm, qTokens) {
         var s = 0, ti, t, padded = ' ' + ftext + ' ';
@@ -791,8 +791,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     function scoreArticle(a, qNorm, qTokens, qTri) {
         var idx = a._idx; if (!idx) return 0;
         var s = fieldScore(idx.title,10,qNorm,qTokens) + fieldScore(idx.tags,8,qNorm,qTokens) +
-                fieldScore(idx.desc,4,qNorm,qTokens) + fieldScore(idx.cat,4,qNorm,qTokens) + fieldScore(idx.body,1,qNorm,qTokens);
-        s += triSim(qTri, idx.triTitle)*14 + triSim(qTri, idx.triTags)*10 + triSim(qTri, idx.triDesc)*4 + triSim(qTri, idx.triBody)*2;
+                fieldScore(idx.desc,4,qNorm,qTokens) + fieldScore(idx.cat,4,qNorm,qTokens);
+        s += triSim(qTri, idx.triTitle)*14 + triSim(qTri, idx.triTags)*10 + triSim(qTri, idx.triDesc)*4;
         return s;
     }
     function searchArticles(query) {
@@ -933,19 +933,10 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         sh += '<div class="sidebar-section"><h4>INFO</h4><p style="font-size:11px;color:#aaa;">Community resource for PowerMac G4.</p></div>';
         sidebar.innerHTML = sh;
 
-        // Show header immediately, content loading spinner
+        // Show header and content — content was in the JSON but never touched until now
         main.innerHTML = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
             '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Technologyst Labs') + '</div></div>' +
-            '<div class="article-body" id="articleBody"><p style="color:#666;">Loading...</p></div>';
-
-        // Lazy-load content only now
-        xhrGet('articles/' + articleId + '-content.json', function(data) {
-            var body = document.getElementById('articleBody');
-            if (body) body.innerHTML = data.content || '';
-        }, function() {
-            var body = document.getElementById('articleBody');
-            if (body) body.innerHTML = '<p style="color:#c66;">Failed to load content.</p>';
-        });
+            '<div class="article-body">' + (article.content||'') + '</div>';
     }
 
     document.getElementById('searchBtn').onclick = function() {

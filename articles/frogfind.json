@@ -19,5 +19,6 @@
         "aquafox",
         "web"
     ],
-    "thumb": "🐸"
+    "thumb": "🐸",
+    "content": "<h2>FrogFind - Search for Old Browsers</h2><p>A search engine designed from the ground up for retro browsers. It returns lightweight, text-rich results that load instantly on any connection.</p><h2>Why Use It</h2><p>Google and modern search break on old browsers. FrogFind strips the bloat and gives you pure search results: title, snippet, URL.</p><h2>Searching</h2><p>Visit <a href=\"https://frogfind.com\" target=\"_blank\">frogfind.com</a>, type your query, and get instant results without JavaScript or tracking.</p>"
 }
