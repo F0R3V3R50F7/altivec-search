@@ -507,7 +507,7 @@
         "description": "Bypass Apple's arbitrary G5 restriction and run iMovie '09 on your PowerMac G4. Full guide and pre-patched app for Core Image-supported systems.",
         "category": "software",
         "g4_friendly": 1,
-        "featured": 0,
+        "featured": 1,
         "thumb": "https://i.ytimg.com/vi/wV4bqb5MIks/maxresdefault.jpg",
         "date": "2026-06-12",
         "author": "Technologyst Labs",
