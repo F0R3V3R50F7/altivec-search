@@ -595,16 +595,8 @@
                 "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%20Binary.dmg"
             },
             {
-                "name": "Halo Universal 2.0.3 Updater (US)",
-                "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%202.0.3%20Updater%20%28US%29.app/"
-            },
-            {
-                "name": "Halo Universal 2.0.4 Updater (US)",
-                "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%202.0.4%20Updater%20%28US%29.app/"
-            },
-            {
-                "name": "Halo Lobby Updater",
-                "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Lobby%20Updater.app/"
+                "name": "Halo Universal 2.0.3, 2.0.4 & Lobby Updater (US)",
+                "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Updaters.zip"
             }
         ],
         "content": "articles/halo-combat-evolved-ppc.md"
