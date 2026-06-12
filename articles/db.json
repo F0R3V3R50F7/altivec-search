@@ -232,7 +232,7 @@
             "safari",
             "aquafox"
         ],
-        "thumb": "🔗",
+        "thumb": "https://static.wikia.nocookie.net/logopedia/images/b/b4/Reddit_logo.svg/revision/latest?cb=20180501154722",
         "content": "articles/old-reddit.md"
     },
     {
@@ -258,7 +258,7 @@
             "powerpc",
             "web"
         ],
-        "thumb": "🎓",
+        "thumb": "https://68kmla.org/bb/data/assets/logo/68kmla-512.png",
         "content": "articles/68kmla.md"
     },
     {
@@ -285,7 +285,7 @@
             "powerpc",
             "web"
         ],
-        "thumb": "💬",
+        "thumb": "https://logovtor.com/wp-content/uploads/2020/11/macrumors-com-llc-logo-vector.png",
         "content": "articles/macrumors-forum.md"
     },
     {
@@ -311,7 +311,7 @@
             "powerpc",
             "vintage"
         ],
-        "thumb": "🌳",
+        "thumb": "https://archive.org/download/mac_garden/mac_garden.png",
         "content": "articles/macintosh-garden.md"
     },
     {
@@ -336,7 +336,7 @@
             "vintage",
             "repositories"
         ],
-        "thumb": "📦",
+        "thumb": "https://www.macintoshrepository.org/img/logo.png",
         "content": "articles/macintosh-repository.md"
     },
     {
@@ -360,7 +360,7 @@
             "g4",
             "browser"
         ],
-        "thumb": "🗂️",
+        "thumb": "https://upload.wikimedia.org/wikipedia/commons/0/01/Wayback_Machine_logo_2010.svg",
         "content": "articles/archive-org.md"
     },
     {
@@ -384,7 +384,7 @@
             "g4",
             "browser"
         ],
-        "thumb": "🕰️",
+        "thumb": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5xGWtg87OVPFxTaNs4Vvz4WZ72QvTOeTkJQ&s",
         "content": "articles/old-net.md"
     },
     {
@@ -408,7 +408,7 @@
             "aquafox",
             "web"
         ],
-        "thumb": "🐸",
+        "thumb": "https://files.bitbang.social/media_attachments/files/113/501/627/259/840/348/small/cdf746f8ab99e552.png",
         "content": "articles/frogfind.md"
     },
     {
@@ -432,7 +432,7 @@
             "g4",
             "browser"
         ],
-        "thumb": "🎨",
+        "thumb": "https://coxy.co/wp-content/uploads/2022/02/wiby-me-search-engine-logo.png",
         "content": "articles/wiby.md"
     },
     {
@@ -466,7 +466,7 @@
         "g4_friendly": 1,
         "featured": 1,
         "url": "https://blackbirdlc.github.io/aquafox/Homepage.html",
-        "thumb": "🦊",
+        "thumb": "https://www.macintoshrepository.org/_resize.php?w=640&h=480&bg_color=333333&imgenc=ZmlsZ849XMvdXBsb2Fkcy9zY3JlZW5zaG90cy8xNzMwODU4NDE5LjczODRwNzU0NzlfMXUzMTItLS4tLUFxdWFmb3gtc25hcHNob3QuanBnfHd3dy5tYWNpbnRvc2hyZXBvc2l0b3J5Lm9yZy83NTQ3OS1hcXVhZm94",
         "date": "2026-06-12",
         "author": "Technologyst Labs",
         "tags": [

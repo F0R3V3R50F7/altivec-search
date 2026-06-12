@@ -65,6 +65,7 @@ Field notes:
 
 - `id` — unique slug for the article (set explicitly; it is no longer derived
   from a filename). By convention the Markdown file is named to match.
+- `url` — the external site the article covers. Omit entirely (or set to `""`) for articles that are standalone guides with no associated website. When absent, the "Open Website" button is hidden automatically.
 - `featured` — set to `1` to surface the article in the Featured tab.
 - `g4_friendly` — `1` if the linked site loads on Safari Leopard WebKit /
   Aquafox; `0` shows a compatibility warning before opening.

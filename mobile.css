@@ -22,161 +22,57 @@
  *  Hide the desktop chrome wholesale, then rebuild a phone UI.
  * ============================================================= */
 
-html.m-mobile, html.m-mobile body {
-    width: 100%;
-    -webkit-text-size-adjust: 100%;   /* stop iOS auto-zooming text */
-    background: #1a1d24;
-}
+html.m-mobile, html.m-mobile body { width: 100%; -webkit-text-size-adjust: 100%; /* stop iOS auto-zooming text */ background: #1a1d24; }
 
 /* Desktop pieces that have no place on a phone. The forecast strip and the
    desktop side preview panel are removed; the SVG wordmark is replaced by the
    mobile logo row. The weather and God Says widgets are NOT hidden — they live
    in the inline carousel at the top of the results panel. */
-html.m-mobile .header-bottom .forecast-strip,
-html.m-mobile .preview-panel,
-html.m-mobile .nag-banner,            /* Aquafox recommendation — desktop/G4 only */
-html.m-mobile .header-top .logo {   /* desktop SVG wordmark — replaced by .m-logo-row */
-    display: none !important;
-}
+html.m-mobile .header-bottom .forecast-strip, html.m-mobile .preview-panel, html.m-mobile .nag-banner, /* Aquafox recommendation — desktop/G4 only */ html.m-mobile .header-top .logo { /* desktop SVG wordmark — replaced by .m-logo-row */ display: none !important; }
 
 /* The desktop header is a fixed 92px horizontal flex bar. Neutralise its
    fixed positioning so our mobile header (a separate, simpler bar) controls
    layout flow instead. */
-html.m-mobile .header {
-    position: static;
-    padding: 0;
-    border-bottom: none;
-    background: none;
-}
-html.m-mobile .header-top {
-    display: block;
-    height: auto;
-}
+html.m-mobile .header { position: static; padding: 0; border-bottom: none; background: none; }
+html.m-mobile .header-top { display: block; height: auto; }
 html.m-mobile .header-top > * { margin-right: 0; }
 
 /* ============================================================= *
  *  MOBILE HEADER  (logo row + full-width search)
  * ============================================================= */
 
-html.m-mobile .m-topbar {
-    display: block;
-    position: static;
-    z-index: 100;
-    background: #14171e;
-    background: -webkit-gradient(linear, left top, left bottom, from(#23262f), to(#14171e));
-    background: linear-gradient(to bottom, #23262f 0%, #14171e 100%);
-    border-bottom: 1px solid #3a3a3a;
-    padding: 10px 14px 12px;
-}
+html.m-mobile .m-topbar { display: block; position: static; z-index: 100; background: #14171e; background: -webkit-gradient(linear, left top, left bottom, from(#23262f), to(#14171e)); background: linear-gradient(to bottom, #23262f 0%, #14171e 100%); border-bottom: 1px solid #3a3a3a; padding: 10px 14px 12px; }
 
-html.m-mobile .m-logo-row {
-    display: block;
-    margin-bottom: 10px;
-    line-height: 1;
-}
-html.m-mobile .m-logo-row .m-opt {
-    font-size: 20px; font-weight: 800; color: #f0a500;
-    vertical-align: middle; margin-right: 4px;
-}
-html.m-mobile .m-logo-row .m-wordmark {
-    font-size: 18px; font-weight: 800; letter-spacing: 1px;
-    color: #f0a500; vertical-align: middle;
-}
-html.m-mobile .m-logo-row .m-slogan {
-    display: block;
-    font-size: 8px; letter-spacing: 1px; text-transform: uppercase;
-    font-family: monospace; color: rgba(255,255,255,0.3);
-    margin-top: 3px;
-}
+html.m-mobile .m-logo-row { display: block; margin-bottom: 10px; line-height: 1; }
+html.m-mobile .m-logo-row .m-opt { font-size: 20px; font-weight: 800; color: #f0a500; vertical-align: middle; margin-right: 4px; }
+html.m-mobile .m-logo-row .m-wordmark { font-size: 18px; font-weight: 800; letter-spacing: 1px; color: #f0a500; vertical-align: middle; }
+html.m-mobile .m-logo-row .m-slogan { display: block; font-size: 8px; letter-spacing: 1px; text-transform: uppercase; font-family: monospace; color: rgba(255,255,255,0.3); margin-top: 3px; }
 
 /* The desktop .search element is reused but re-styled full-width. */
-html.m-mobile .header-top .search {
-    display: block;
-    max-width: none;
-    width: 100%;
-    margin: 0;
-    padding: 0 6px 0 12px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid #3a3a3a;
-    border-radius: 8px;
-    overflow: hidden;
-}
-html.m-mobile .header-top .search .search-icon {
-    float: left;
-    line-height: 42px;       /* vertically centre against the input row */
-    font-size: 14px;
-}
-html.m-mobile .header-top .search input {
-    /* 16px text is the magic number: iOS won't auto-zoom the page on focus. */
-    font-size: 16px;
-    padding: 11px 8px 11px 10px;
-    width: 70%;
-}
-html.m-mobile .header-top .search button {
-    float: right;
-    padding: 0 16px;
-    line-height: 44px;
-    font-size: 14px;
-}
+html.m-mobile .header-top .search { display: block; max-width: none; width: 100%; margin: 0; padding: 0 6px 0 12px; background: rgba(255,255,255,0.05); border: 1px solid #3a3a3a; border-radius: 8px; overflow: hidden; }
+html.m-mobile .header-top .search .search-icon { float: left; line-height: 42px; /* vertically centre against the input row */ font-size: 14px; }
+html.m-mobile .header-top .search input { /* 16px text is the magic number: iOS won't auto-zoom the page on focus. */ font-size: 16px; padding: 11px 8px 11px 10px; width: 70%; }
+html.m-mobile .header-top .search button { float: right; padding: 0 16px; line-height: 44px; font-size: 14px; }
 
 /* Tabs: a horizontally swipeable strip directly under the search, in normal
    document flow (no fixed positioning). */
-html.m-mobile .header-bottom {
-    display: block;
-    position: static;
-    background: #14171e;
-    border-bottom: 1px solid #2a2d36;
-}
-html.m-mobile .header-bottom .tabs {
-    display: block;
-    white-space: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 0 8px;
-}
-html.m-mobile .header-bottom .tab {
-    display: inline-block;
-    padding: 11px 14px;
-    font-size: 14px;
-    margin-bottom: 0;
-}
+html.m-mobile .header-bottom { display: block; position: static; background: #14171e; border-bottom: 1px solid #2a2d36; }
+html.m-mobile .header-bottom .tabs { display: block; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0 8px; }
+html.m-mobile .header-bottom .tab { display: inline-block; padding: 11px 14px; font-size: 14px; margin-bottom: 0; }
 
 /* ============================================================= *
  *  RESULTS LIST  (single column of tappable cards)
  * ============================================================= */
 
-html.m-mobile .layout {
-    display: block;
-    max-width: none;
-    margin: 0;                     /* header is in normal flow above this */
-    min-height: 0;
-}
-html.m-mobile .results-panel {
-    display: block;
-    border-right: none;
-    padding: 0 12px 96px;          /* no top pad; layout padding already clears the fixed bars */
-    background: #1a1d24;
-}
+html.m-mobile .layout { display: block; max-width: none; margin: 0; /* header is in normal flow above this */ min-height: 0; }
+html.m-mobile .results-panel { display: block; border-right: none; padding: 0 12px 96px; /* no top pad; layout padding already clears the fixed bars */ background: #1a1d24; }
 
-html.m-mobile .stats {
-    font-size: 12px;
-    padding: 8px 4px 10px;
-}
+html.m-mobile .stats { font-size: 12px; padding: 8px 4px 10px; }
 
 /* Cards: bigger hit targets, clear separation. */
-html.m-mobile .result-item {
-    padding: 14px 14px;
-    margin-bottom: 8px;
-    border: 1px solid #2a2d3a;
-    border-radius: 10px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#1e2230), to(#191c28));
-    background: linear-gradient(160deg, #1e2230 0%, #191c28 100%);
-}
+html.m-mobile .result-item { padding: 14px 14px; margin-bottom: 8px; border: 1px solid #2a2d3a; border-radius: 10px; background: -webkit-gradient(linear, left top, left bottom, from(#1e2230), to(#191c28)); background: linear-gradient(160deg, #1e2230 0%, #191c28 100%); }
 /* No :hover on touch; show the pressed state instead. */
-html.m-mobile .result-item:active {
-    border-color: rgba(240,165,0,0.4);
-    background: #211f10;
-}
+html.m-mobile .result-item:active { border-color: rgba(240,165,0,0.4); background: #211f10; }
 html.m-mobile .result-item.selected { border-color: rgba(240,165,0,0.25); }
 html.m-mobile .result-title { font-size: 17px; margin-bottom: 4px; }
 html.m-mobile .result-url { font-size: 11px; margin-bottom: 6px; }
@@ -190,146 +86,50 @@ html.m-mobile .results-footer { padding: 24px 0 8px; }
  *  Replaces the desktop side panel entirely.
  * ============================================================= */
 
-html.m-mobile .m-sheet {
-    display: block;
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    top: 0;
-    z-index: 1500;
-    background: #13161d;
-    /* start off-screen; .open slides it in */
-    -webkit-transform: translateY(100%);
-    transform: translateY(100%);
-    -webkit-transition: -webkit-transform 0.22s ease;
-    transition: transform 0.22s ease;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-html.m-mobile .m-sheet.open {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-}
-html.m-mobile .m-sheet-bar {
-    position: relative;
-    height: 48px;
-    border-bottom: 1px solid #2a2d36;
-    background: #14171e;
-}
-html.m-mobile .m-sheet-back {
-    position: absolute; left: 0; top: 0;
-    height: 48px; padding: 0 16px;
-    line-height: 48px;
-    color: #f0a500; font-size: 14px; font-weight: 600;
-    background: none; border: none; cursor: pointer;
-}
+html.m-mobile .m-sheet { display: block; position: fixed; left: 0; right: 0; bottom: 0; top: 0; z-index: 1500; background: #13161d; /* start off-screen; .open slides it in */ -webkit-transform: translateY(100%); transform: translateY(100%); -webkit-transition: -webkit-transform 0.22s ease; transition: transform 0.22s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+html.m-mobile .m-sheet.open { -webkit-transform: translateY(0); transform: translateY(0); }
+html.m-mobile .m-sheet-bar { position: relative; height: 48px; border-bottom: 1px solid #2a2d36; background: #14171e; }
+html.m-mobile .m-sheet-back { position: absolute; left: 0; top: 0; height: 48px; padding: 0 16px; line-height: 48px; color: #f0a500; font-size: 14px; font-weight: 600; background: none; border: none; cursor: pointer; }
 html.m-mobile .m-sheet-body { padding: 16px 16px 32px; }
 html.m-mobile .m-sheet .preview-thumb { height: 140px; font-size: 56px; }
 html.m-mobile .m-sheet .preview-title { font-size: 20px; }
 html.m-mobile .m-sheet .preview-actions { display: block; }
-html.m-mobile .m-sheet .preview-actions .btn {
-    display: block;
-    width: 100%;
-    margin: 0 0 10px 0;
-    padding: 13px;
-    font-size: 14px;
-    text-align: center;
-    box-sizing: border-box;
-}
+html.m-mobile .m-sheet .preview-actions .btn { display: block; width: 100%; margin: 0 0 10px 0; padding: 13px; font-size: 14px; text-align: center; box-sizing: border-box; }
 
 /* ============================================================= *
  *  READER  (full screen on mobile, single column, no sidebar)
  * ============================================================= */
 
-html.m-mobile .reader {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    display: block;
-    border: none;
-    overflow-y: auto;                  /* the reader is the scroll container */
-    -webkit-overflow-scrolling: touch; /* momentum scroll on iOS */
-}
+html.m-mobile .reader { width: 100%; height: 100%; max-width: none; display: block; border: none; overflow-y: auto; /* the reader is the scroll container */ -webkit-overflow-scrolling: touch; /* momentum scroll on iOS */; }
 /* The reader is launched from inside the bottom sheet (z 1500), so it must
    sit above the sheet, extras drawer (1450) and FAB (1400). Mobile-only. */
 html.m-mobile .reader-overlay { z-index: 1600; }
-html.m-mobile .reader-main {
-    display: block;
-    padding: 56px 20px 28px;       /* top pad clears the close button */
-    height: auto;
-    min-height: 0;                 /* let content size itself; reader scrolls */
-    box-sizing: border-box;
-}
+html.m-mobile .reader-main { display: block; padding: 56px 20px 28px; /* top pad clears the close button */ height: auto; min-height: 0; /* let content size itself; reader scrolls */ box-sizing: border-box; }
 
 /* While the reader is open, lock the page behind it so touch scrolling acts
    on the reader, not the results list underneath. */
-html.m-mobile.reader-open,
-html.m-mobile.reader-open body {
-    overflow: hidden;
-    height: 100%;
-    -webkit-overflow-scrolling: auto;
-}
+html.m-mobile.reader-open, html.m-mobile.reader-open body { overflow: hidden; height: 100%; -webkit-overflow-scrolling: auto; }
 /* Sidebar (downloads / links) moves below the article instead of beside it. */
-html.m-mobile .reader-sidebar {
-    display: block;
-    width: auto;
-    border-left: none;
-    border-top: 1px solid #4a3e2c;
-    padding: 24px 20px 40px;
-}
+html.m-mobile .reader-sidebar { display: block; width: auto; border-left: none; border-top: 1px solid #4a3e2c; padding: 24px 20px 40px; }
 html.m-mobile .reader-main .article-title { font-size: 24px; }
 html.m-mobile .reader-main .article-body { font-size: 17px; }
-html.m-mobile .reader-close {
-    top: 10px; right: 10px;
-    width: 40px; height: 40px; font-size: 18px;
-}
+html.m-mobile .reader-close { top: 10px; right: 10px; width: 40px; height: 40px; font-size: 18px; }
 
 /* ============================================================= *
  *  WIDGET CAROUSEL  (weather / God Says, inline above results)
  *  One widget shown at a time; the arrow swaps between them.
  * ============================================================= */
 
-html.m-mobile .m-carousel {
-    display: block;
-    position: relative;          /* anchor for the absolutely-placed arrow */
-    width: 100%;
-    margin: 8px 0 14px;          /* small breathing room under the tabs bar */
-}
+html.m-mobile .m-carousel { display: block; position: relative; /* anchor for the absolutely-placed arrow */ width: 100%; margin: 8px 0 14px; /* small breathing room under the tabs bar */; }
 
 /* Both widgets fill the carousel width. Visibility is toggled in JS
    (display:none/block); the one on screen sizes itself to full width. */
-html.m-mobile .m-carousel .weather-widget,
-html.m-mobile .m-carousel .god-widget {
-    width: 100% !important;
-    height: 92px !important;
-    margin: 0 !important;        /* kill desktop margins */
-}
+html.m-mobile .m-carousel .weather-widget, html.m-mobile .m-carousel .god-widget { width: 100% !important; height: 92px !important; margin: 0 !important; /* kill desktop margins */; }
 
 /* The nav arrow: a tappable disc overlaid on the right edge of the widget.
    Weather shows › (go to God Says); God Says shows ‹ (back to weather). */
-html.m-mobile .m-carousel-arrow {
-    position: absolute;
-    top: 50%;
-    right: 6px;
-    margin-top: -16px;           /* half of height, vertical centre */
-    z-index: 20;
-    width: 32px; height: 32px;
-    line-height: 30px;
-    text-align: center;
-    border-radius: 50%;
-    background: rgba(20,23,30,0.75);
-    border: 1px solid rgba(240,165,0,0.5);
-    color: #f0a500;
-    font-size: 20px;
-    font-family: monospace;
-    cursor: pointer;
-    padding: 0;
-    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-html.m-mobile .m-carousel-arrow:active {
-    background: #f0a500;
-    color: #14171e;
-}
+html.m-mobile .m-carousel-arrow { position: absolute; top: 50%; right: 6px; margin-top: -16px; /* half of height, vertical centre */ z-index: 20; width: 32px; height: 32px; line-height: 30px; text-align: center; border-radius: 50%; background: rgba(20,23,30,0.75); border: 1px solid rgba(240,165,0,0.5); color: #f0a500; font-size: 20px; font-family: monospace; cursor: pointer; padding: 0; -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.5); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+html.m-mobile .m-carousel-arrow:active { background: #f0a500; color: #14171e; }
 
 /* ============================================================= *
  *  COOKIE / NAG BANNERS  — keep them readable on a narrow screen
@@ -341,13 +141,5 @@ html.m-mobile .cookie-btn { margin-bottom: 6px; }
 html.m-mobile .nag-banner { padding: 8px 36px 8px 14px; font-size: 12px; text-align: left; }
 
 /* Manual "view desktop site" link sits at the very bottom. */
-html.m-mobile .m-switch {
-    display: block;
-    text-align: center;
-    padding: 18px 0 28px;
-    font-size: 12px;
-    font-family: monospace;
-    letter-spacing: 1px;
-    color: #4a7a4a;
-}
+html.m-mobile .m-switch { display: block; text-align: center; padding: 18px 0 28px; font-size: 12px; font-family: monospace; letter-spacing: 1px; color: #4a7a4a; }
 html.m-mobile .m-switch a { color: #f0a500; text-decoration: none; }
