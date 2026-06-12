@@ -17,57 +17,118 @@
 .m-logo-row, .m-sheet, .m-carousel, .m-switch { display: none; }
 
 /* ── LIGHT MODE ── applied when <html class="light"> ── */
-html.light body { background: #f0ede6; color: #1a1a1a; }
-html.light .header { background: linear-gradient(to bottom, #e8e3d8 0%, #ddd8cc 100%); border-bottom-color: #b8b0a0; }
-html.light .header-top { border-bottom-color: #c8c0b0; }
-html.light .header-bottom { background: #e0dbd0; border-bottom-color: #c0b8a8; }
-html.light .tab { color: #555; }
+/* ─────────────────────────────────────────────────────────────────
+   LIGHT MODE  —  warm parchment palette, mirrors dark mode depth.
+   Applied when <html class="light">.
+   ───────────────────────────────────────────────────────────────── */
+
+/* Base */
+html.light body { background: #ede8df; color: #1e1a14; }
+html.light .logo-slogan { color: rgba(0,0,0,0.3); }
+html.light .logo-fyi { fill: rgba(0,0,0,0.25); }
+
+/* Header */
+html.light .header { background: linear-gradient(to bottom, #e6e0d4 0%, #d9d2c4 100%); border-bottom-color: #b8b0a0; box-shadow: 0 2px 16px rgba(0,0,0,0.12); }
+html.light .header-top { border-bottom-color: #c8bfb0; }
+html.light .header-bottom { background: linear-gradient(to bottom, #ddd6c8 0%, #d4cdc0 100%); border-bottom-color: #bfb8a8; }
+html.light .tab { color: #7a7060; }
+html.light .tab:hover { color: #c07800; }
 html.light .tab.active { color: #c07800; border-bottom-color: #c07800; }
-html.light .tab:hover { color: #1a1a1a; }
-html.light .results-panel { background: #f0ede6; border-right-color: #ccc; }
-html.light .preview-panel { background: #eae6de; }
-html.light .result-item { background: linear-gradient(160deg, #e8e4dc 0%, #e0dbd2 100%); border-color: #ccc8be; }
-html.light .result-item:hover, html.light .result-item.selected { border-color: #c07800; background: #fff8e8; }
+
+/* Search */
+html.light .search { background: rgba(255,255,255,0.5); border-color: #c0b8a8; }
+html.light .search:focus-within { border-color: #c07800; }
+html.light .search-icon { color: #9a9080; }
+html.light .search input { color: #1e1a14; }
+html.light .search input::placeholder { color: #a09080; }
+html.light .search button { color: #9a9080; border-left-color: #c0b8a8; }
+html.light .search button:hover { color: #c07800; }
+
+/* Layout panels */
+html.light .results-panel { background: linear-gradient(160deg, #eae4da 0%, #e5dfd4 60%, #e2dbd0 100%); border-right-color: #c8c0b0; }
+html.light .preview-panel { background: linear-gradient(160deg, #dfd9cf 0%, #d8d2c6 60%, #d4cec2 100%); }
+
+/* Result items */
+html.light .result-item { background: transparent; border-color: transparent; }
+html.light .result-item:hover { background: linear-gradient(135deg, #f0e8d8 0%, #e8dfc8 100%); border-color: #c8b898; }
+html.light .result-item.selected { background: linear-gradient(135deg, #fdf4de 0%, #f5e8c0 100%); border-color: rgba(192,120,0,0.3); box-shadow: inset 0 0 0 1px rgba(192,120,0,0.1); }
 html.light .result-title { color: #c07800; }
-html.light .result-url { color: #888; }
-html.light .result-desc { color: #333; }
-html.light .stats { color: #888; }
-html.light .search { background: rgba(0,0,0,0.06); border-color: #bbb; }
-html.light .search input { color: #1a1a1a; }
-html.light .search input::placeholder { color: #999; }
-html.light .preview-title { color: #c07800; }
-html.light .preview-url { color: #888; }
-html.light .preview-desc { color: #333; }
-html.light .preview-thumb { background: #e0dbd0; color: #bbb; }
-html.light .btn { background: #e0dbd0; color: #333; border-color: #bbb; }
-html.light .btn:hover { background: #d0c8b8; }
-html.light .btn-open { background: #2a6a2a; color: #fff; }
-html.light .btn-caution { background: #7a4a00; color: #fff; }
-html.light .reader-overlay { background: rgba(240,237,230,0.97); }
-html.light .reader { background: #f0ede6; border-color: #ccc; }
-html.light .reader-main { color: #1a1a1a; }
-html.light .reader-sidebar { border-left-color: #ccc; background: #e8e3d8; }
-html.light .reader-close { background: #e0dbd0; color: #555; border-color: #bbb; }
-html.light .article-title { color: #c07800; }
-html.light .article-body { color: #1a1a1a; }
-html.light .article-body h2, html.light .article-body h3 { color: #c07800; border-bottom-color: #ddd; }
-html.light .article-body a { color: #2a6aaa; }
-html.light .article-body code { background: #e0dbd0; color: #333; }
-html.light .article-body pre { background: #e0dbd0; border-color: #ccc; }
-html.light .article-body blockquote { border-left-color: #c07800; color: #555; }
-html.light .nag-banner { background: linear-gradient(to right, #ddeeff, #cce4ff); border-bottom-color: #aaccee; color: #334; }
-html.light .cookie-consent-banner { background: #e8e3d8; border-top-color: #ccc; color: #333; }
-html.light .cookie-settings-box { background: #f0ede6; border-color: #ccc; color: #1a1a1a; }
-html.light .logo-slogan { color: rgba(0,0,0,0.35); }
-html.light .logo-fyi { fill: rgba(0,0,0,0.3); }
-html.light .results-footer { color: #888; }
+html.light .result-url { color: #6a8a5a; }
+html.light .result-desc { color: #5a5040; }
+html.light .stats { color: #9a9080; border-bottom-color: #ccc5b5; }
+html.light .empty { color: #9a9080; }
+html.light .results-footer { color: #9a9080; }
 html.light .results-footer a { color: #c07800; }
 
-/* Theme toggle button */
-.theme-toggle { background: none; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: rgba(255,255,255,0.6); font-size: 15px; cursor: pointer; padding: 4px 8px; margin-left: 8px; flex-shrink: 0; }
-.theme-toggle:hover { color: #f0a500; border-color: #f0a500; }
-html.light .theme-toggle { border-color: rgba(0,0,0,0.15); color: #666; }
-html.light .theme-toggle:hover { color: #c07800; border-color: #c07800; }
+/* Preview panel */
+html.light .preview-content { background: linear-gradient(145deg, #ede6d8 0%, #e6dece 100%); border-color: #c8bfae; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+html.light .preview-empty { color: #b0a898; }
+html.light .preview-thumb { background: linear-gradient(135deg, #ddd6c8 0%, #d4ccbc 100%); border-color: #c0b8a8; color: #b0a898; }
+html.light .preview-title { color: #c07800; }
+html.light .preview-url { color: #6a8a5a; }
+html.light .preview-desc { color: #5a5040; }
+
+/* Buttons */
+html.light .btn { background: linear-gradient(135deg, #e0d8c8 0%, #d8cfbe 100%); color: #4a4030; border-color: #b8b0a0; }
+html.light .btn:hover { background: #c07800; color: #fff; border-color: #c07800; }
+html.light .btn-open { background: linear-gradient(135deg, #d0e8c8 0%, #c4deba 100%); color: #2a5a1a; border-color: #8ab87a; }
+html.light .btn-open:hover { background: #3a7a2a; color: #fff; border-color: #3a7a2a; }
+html.light .btn-caution { background: linear-gradient(135deg, #f0e0b0 0%, #e8d4a0 100%); color: #7a4a00; border-color: #c89040; }
+html.light .btn-caution:hover { background: #c07800; color: #fff; border-color: #c07800; }
+
+/* Compat modal */
+html.light .compat-overlay { background: rgba(0,0,0,0.55); }
+html.light .compat-box { background: linear-gradient(145deg, #ede6d8 0%, #e4ddd0 100%); border-color: #c07800; box-shadow: 0 8px 48px rgba(0,0,0,0.2); }
+html.light .compat-box h3 { color: #c07800; }
+html.light .compat-box p { color: #4a4030; }
+html.light .compat-box .compat-url { color: #9a9080; }
+
+/* Reader */
+html.light .reader-overlay { background: rgba(180,170,155,0.75); }
+html.light .reader { background: #faf5ec; border-color: #c8a84a; box-shadow: 0 16px 64px rgba(0,0,0,0.25); }
+html.light .reader-main { color: #2c2418; }
+html.light .reader-sidebar { background: linear-gradient(160deg, #2a2418 0%, #221e14 100%); border-left-color: #4a3e2c; }
+html.light .reader-close { background: linear-gradient(135deg, #e8e0d0 0%, #ddd5c5 100%); color: #c07800; border-color: #c8bfae; }
+html.light .reader-close:hover { background: #c07800; color: #fff; border-color: #c07800; }
+html.light .article-title { color: #1a140e; }
+html.light .article-body { color: #2c2418; }
+html.light .article-body h2, html.light .article-body h3 { color: #8a5a00; border-bottom-color: #e0d5c0; }
+html.light .article-body a { color: #2a5a9a; }
+html.light .article-body code { background: #e8dfc8; color: #4a3820; border-color: #c8b898; }
+html.light .article-body pre { background: #e8dfc8; border-color: #c8b898; }
+html.light .article-body blockquote { border-left-color: #c07800; color: #6a5a40; background: #f5eedd; }
+html.light .sidebar-section h4 { color: #f0a500; border-bottom-color: #4a3e2c; }
+html.light .download-link { background: linear-gradient(135deg, #3a3224 0%, #2e2818 100%); color: #c9a03d; border-color: #5a4a34; }
+html.light .download-link:hover { background: #f0a500; color: #1a1a1a; border-color: #f0a500; }
+
+/* Weather widget */
+html.light .weather-settings { background: linear-gradient(145deg, #e8e2d6 0%, #ddd8cc 100%); border-color: rgba(0,0,0,0.12); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+html.light .weather-settings-row label { color: rgba(0,0,0,0.35); }
+html.light .weather-settings-row input { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.15); color: #1e1a14; }
+html.light .weather-settings-row input::placeholder { color: rgba(0,0,0,0.25); }
+html.light .weather-settings-row input:focus { border-color: #c07800; }
+
+/* God Says widget — keep dark; it's a CRT, it should stay black */
+
+/* Nag banner */
+html.light .nag-banner { background: linear-gradient(to right, #c8e0f8, #b8d4f0); border-bottom-color: #90b8e0; color: #1a2a3a; }
+html.light .nag-banner a { color: #c07800; }
+html.light .nag-banner .nag-close { color: #6090b8; }
+html.light .nag-banner .nag-close:hover { color: #1a2a3a; }
+
+/* Cookie banner */
+html.light .cookie-consent-banner { background: linear-gradient(to top, #e0d9cc 0%, #e8e2d6 100%); border-top-color: #c0b8a8; color: #3a3028; box-shadow: 0 -4px 24px rgba(0,0,0,0.1); }
+html.light .cookie-banner-text a { color: #c07800; }
+html.light .cookie-btn-reject { color: #6a6050; border-color: #a09080; }
+html.light .cookie-btn-reject:hover { background: #d4cec2; color: #1e1a14; }
+html.light .cookie-btn-settings { color: #c07800; border-color: #c07800; }
+html.light .cookie-btn-settings:hover { background: #c07800; color: #fff; }
+html.light .cookie-settings-overlay { background: rgba(0,0,0,0.5); }
+html.light .cookie-settings-box { background: linear-gradient(145deg, #ede6d8 0%, #e4ddd0 100%); border-color: #c07800; box-shadow: 0 8px 48px rgba(0,0,0,0.2); }
+html.light .cookie-settings-box h3 { color: #c07800; }
+html.light .cookie-settings-box p { color: #4a4030; }
+
+/* Theme toggle */
 body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #e0e0e0; }
 .header { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 100; background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%); border-bottom: 1px solid #3a3a3a; padding: 0 32px; }
 .header-top { display: flex; align-items: center; height: 92px; }
@@ -429,7 +490,6 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                 </div>
             </div>
         </div>
-        <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">&#9788;</button>
     </div>
     <div class="header-bottom">
         <div class="tabs" id="tabs"></div>
@@ -440,7 +500,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <div class="layout">
     <div class="results-panel" id="resultsPanel">
         <div id="resultsList"></div>
-        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a> &middot; <a id="footerCookieSettings" role="button" tabindex="0">Cookie settings</a> &middot; <a id="ifaceSwitch" role="button" tabindex="0">View desktop site</a></div>
+        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a> &middot; <a id="footerCookieSettings" role="button" tabindex="0">Cookie settings</a> &middot; <a id="ifaceSwitch" role="button" tabindex="0">View desktop site</a> &middot; <a id="themeToggle" role="button" tabindex="0">Light mode</a></div>
     </div>
     <div class="preview-panel" id="previewPanel">
         <div class="preview-empty">Select a result to preview</div>
@@ -586,8 +646,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     function applyTheme(theme) {
         var de = document.documentElement;
         if (theme === 'light') { addClass(de, 'light'); } else { removeClass(de, 'light'); }
-        var btn = document.getElementById('themeToggle');
-        if (btn) btn.innerHTML = theme === 'light' ? '&#9790;' : '&#9788;';  // ☾ dark / ☀ light
+        var lnk = document.getElementById('themeToggle');
+        if (lnk) lnk.innerHTML = theme === 'light' ? 'Dark mode' : 'Light mode';
     }
     function loadTheme() {
         var saved = '';
