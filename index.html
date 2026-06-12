@@ -146,7 +146,7 @@ html { height: 100%; overflow: hidden; }
 .search input::placeholder { color: #555; }
 .search button { padding: 6px 12px; background: transparent; border: none; border-left: 1px solid #3a3a3a; cursor: pointer; color: #666; font-size: 12px; border-radius: 0 5px 5px 0; -moz-transition: color 0.15s; transition: color 0.15s; }
 .search button:hover { color: #f0a500; background: transparent; }
-.weather-widget { flex-shrink: 0; position: relative; width: 230px; height: 76px; border-radius: 8px; overflow: visible; border: 1px solid rgba(255,255,255,0.1); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; background: #1a1d24; }
+.weather-widget { flex-shrink: 0; position: relative; width: 230px; height: 76px; border-radius: 8px; overflow: visible; border: 1px solid rgba(255,255,255,0.1); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; background: #1a1d24; font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; }
 .god-widget { flex-shrink: 0; position: relative; width: 220px; height: 76px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(240,165,0,0.2); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; margin-left: auto; background: #0a0800; cursor: pointer; }
 .god-scanlines { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 2; }
 .god-glow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(ellipse at 50% 50%, rgba(240,165,0,0.06) 0%, transparent 70%); pointer-events: none; z-index: 1; }
@@ -461,15 +461,15 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                     <div class="wx-idle" id="wxIdle">
                         <div class="wx-current">
                             <div class="wx-top">
-                                <div class="weather-icon">&#x1F325;</div>
+                                <div class="weather-icon">&#x1F326;</div>
                                 <div class="weather-temp" style="color:rgba(255,255,255,0.15);">--°C</div>
                             </div>
                             <div class="weather-desc" style="color:rgba(255,255,255,0.15);">-- set location --</div>
                             <div class="weather-loc" style="color:rgba(255,255,255,0.1);">click ⚙ to configure</div>
                         </div>
                         <div class="wx-forecast" style="display:flex;flex:1;align-items:stretch;">
-                            <div class="forecast-day" style="opacity:0.15;flex:1;"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F325;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
-                            <div class="forecast-day" style="opacity:0.15;flex:1;border-right:none;"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F325;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day" style="opacity:0.15;flex:1;"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F326;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day" style="opacity:0.15;flex:1;border-right:none;"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F326;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
                         </div>
                     </div>
                     <div class="weather-result" id="weatherResult">
@@ -491,7 +491,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                 <div class="weather-settings-row">
                     <label id="weatherLabel" style="margin-right:10px;">···</label>
                     <input type="text" id="weatherInput" placeholder="······" maxlength="10">
-                    <button id="weatherBtn">&#x1F325; GO</button>
+                    <button id="weatherBtn">&#x1F326; GO</button>
                 </div>
             </div>
         </div>
