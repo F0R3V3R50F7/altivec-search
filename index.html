@@ -175,7 +175,7 @@ html { height: 100%; overflow: hidden; }
 .weather-result.visible { display: flex; }
 .wx-current { display: flex; flex-direction: column; justify-content: center; padding-right: 8px; border-right: 1px solid rgba(255,255,255,0.12); width: 88px; flex-shrink: 0; }
 .wx-top { display: flex; align-items: baseline; }
-.weather-icon { font-size: 20px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); color: initial; }
+.weather-icon { font-size: 20px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 .weather-temp { font-size: 24px; font-weight: 800; color: #fff; font-family: monospace; line-height: 1; }
 .weather-desc { font-size: 8px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .weather-loc { font-size: 8px; color: rgba(255,255,255,0.35); font-family: monospace; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
@@ -188,7 +188,7 @@ html { height: 100%; overflow: hidden; }
 .forecast-day:last-child { border-right: none; }
 .forecast-day:hover { background: rgba(255,255,255,0.06); }
 .forecast-dow { font-size: 8px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; text-transform: uppercase; font-family: monospace; }
-.forecast-icon { font-size: 17px; line-height: 1; color: initial; }
+.forecast-icon { font-size: 17px; line-height: 1; }
 .forecast-hi { font-size: 12px; font-weight: 700; color: #fff; font-family: monospace; }
 .forecast-lo { font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; }
 .weather-error { display: none; align-items: center; height: 100%; padding: 0 16px; font-size: 11px; color: #ff6b6b; font-family: monospace; letter-spacing: 1px; }
@@ -461,15 +461,15 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                     <div class="wx-idle" id="wxIdle">
                         <div class="wx-current">
                             <div class="wx-top">
-                                <div class="weather-icon">&#9729;&#xFE0F;</div>
+                                <div class="weather-icon">&#x1F325;</div>
                                 <div class="weather-temp" style="color:rgba(255,255,255,0.15);">--°C</div>
                             </div>
                             <div class="weather-desc" style="color:rgba(255,255,255,0.15);">-- set location --</div>
                             <div class="weather-loc" style="color:rgba(255,255,255,0.1);">click ⚙ to configure</div>
                         </div>
                         <div class="wx-forecast" style="display:flex;flex:1;align-items:stretch;">
-                            <div class="forecast-day" style="opacity:0.15;flex:1;"><div class="forecast-dow">---</div><div class="forecast-icon">&#9729;&#xFE0F;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
-                            <div class="forecast-day" style="opacity:0.15;flex:1;border-right:none;"><div class="forecast-dow">---</div><div class="forecast-icon">&#9729;&#xFE0F;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day" style="opacity:0.15;flex:1;"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F325;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day" style="opacity:0.15;flex:1;border-right:none;"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F325;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
                         </div>
                     </div>
                     <div class="weather-result" id="weatherResult">
@@ -491,7 +491,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                 <div class="weather-settings-row">
                     <label id="weatherLabel" style="margin-right:10px;">···</label>
                     <input type="text" id="weatherInput" placeholder="······" maxlength="10">
-                    <button id="weatherBtn">&#9729;&#xFE0F; GO</button>
+                    <button id="weatherBtn">&#x1F325; GO</button>
                 </div>
             </div>
         </div>

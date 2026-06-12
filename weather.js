@@ -187,8 +187,8 @@
     var WTTR_CODES = {
         113: { type:'clear',   icon:'&#127774;', desc:'Clear'          },
         116: { type:'cloud',   icon:'&#127780;', desc:'Partly Cloudy'  },
-        119: { type:'cloud',   icon:'&#9729;&#xFE0F;',  desc:'Cloudy'         },
-        122: { type:'cloud',   icon:'&#9729;&#xFE0F;',  desc:'Overcast'       },
+        119: { type:'cloud',   icon:'&#x1F325;',  desc:'Cloudy'         },
+        122: { type:'cloud',   icon:'&#x1F325;',  desc:'Overcast'       },
         143: { type:'cloud',   icon:'&#127787;',desc:'Mist'           },
         176: { type:'drizzle', icon:'&#127782;',desc:'Patchy Rain'    },
         179: { type:'snow',    icon:'&#127784;',desc:'Patchy Snow'    },
@@ -250,11 +250,11 @@
             if (!data || !data.current_condition || !data.current_condition[0]) {
                 errorEl.innerHTML = 'NOT FOUND';
                 errorEl.className += ' visible';
-                btn.innerHTML = '&#9729;&#xFE0F; GO';
+                btn.innerHTML = '&#x1F325; GO';
                 return;
             }
             var cur = data.current_condition[0], code = parseInt(cur.weatherCode);
-            var wx = WTTR_CODES[code] || { type:'cloud', icon:'&#9729;&#xFE0F;', desc:'Unknown' };
+            var wx = WTTR_CODES[code] || { type:'cloud', icon:'&#x1F325;', desc:'Unknown' };
             var temp = cur.temp_C;
             var loc = (data.nearest_area && data.nearest_area[0])
                 ? (data.nearest_area[0].areaName[0].value + ', ' + data.nearest_area[0].country[0].value)
@@ -274,7 +274,7 @@
             var weather = data.weather;
             for (var i = 1; i < weather.length && i < 3; i++) {
                 var day = weather[i], dayCode = parseInt(day.hourly[4].weatherCode);
-                var dwx = WTTR_CODES[dayCode] || { icon:'&#9729;&#xFE0F;' };
+                var dwx = WTTR_CODES[dayCode] || { icon:'&#x1F325;' };
                 html += '<div class="forecast-day"><div class="forecast-dow">' + DAYS[(todayDow + i) % 7] + '</div><div class="forecast-icon">' + dwx.icon + '</div><div class="forecast-hi">' + day.maxtempC + '&deg;</div><div class="forecast-lo">' + day.mintempC + '&deg;</div></div>';
             }
             document.getElementById('wxForecast').innerHTML = html;
@@ -283,11 +283,11 @@
             document.getElementById('weatherCog').className = 'weather-cog configured';
             closeSettings();
             safeSetItem('altivec_town', raw);
-            btn.innerHTML = '&#9729;&#xFE0F; GO';
+            btn.innerHTML = '&#x1F325; GO';
         }, function() {
             errorEl.innerHTML = 'FETCH ERROR';
             errorEl.className += ' visible';
-            btn.innerHTML = '&#9729;&#xFE0F; GO';
+            btn.innerHTML = '&#x1F325; GO';
         });
     }
 
