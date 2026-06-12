@@ -11,14 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⌥ ALTIVEC — G4 Resource Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Mobile interface styles. Inert unless the detection script below adds
-         class="m-mobile" to <html>. Kept in a separate file so the G4 desktop
-         CSS can be edited without any risk of cross-contamination. -->
     <link rel="stylesheet" href="mobile.css">
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-/* Mobile-only elements are hidden by default; mobile.css re-shows them
-   under html.m-mobile. This keeps the desktop/G4 view identical to before. */
 .m-logo-row, .m-sheet, .m-carousel, .m-switch { display: none; }
 body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #e0e0e0; }
 .header { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 100; background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%); border-bottom: 1px solid #3a3a3a; padding: 0 32px; }
@@ -158,7 +153,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .nag-banner .nag-close:hover { color: #fff; }
 .nag-banner .nag-icon { margin-right: 6px; }
 
-/* ── COOKIE CONSENT BANNER (button spacing fixed) ────────────────── */
 .cookie-consent-banner {
     position: fixed;
     bottom: 0;
@@ -183,7 +177,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .cookie-banner-buttons {
     display: flex;
     flex-wrap: wrap;
-    /* Remove gap and use old-fashioned margins for maximum G4 compatibility */
     margin: 0;
 }
 .cookie-btn {
@@ -193,12 +186,12 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     border-radius: 5px;
     cursor: pointer;
     border: 1px solid;
-    margin-right: 12px;        /* space between buttons */
-    margin-bottom: 0;           /* no extra vertical space in a single row */
+    margin-right: 12px;
+    margin-bottom: 0;
     white-space: nowrap;
 }
 .cookie-btn:last-child {
-    margin-right: 0;            /* no extra space after the last button */
+    margin-right: 0;
 }
 .cookie-btn-accept { background: #f0a500; color: #111; border-color: #f0a500; }
 .cookie-btn-accept:hover { background: #ffc733; color: #000; }
@@ -207,7 +200,6 @@ body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .cookie-btn-settings { background: transparent; color: #f0a500; border-color: #f0a500; }
 .cookie-btn-settings:hover { background: #f0a500; color: #111; }
 
-/* Settings modal */
 .cookie-settings-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85); z-index: 4000;
