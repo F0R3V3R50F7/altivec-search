@@ -1084,13 +1084,13 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
 <!-- Widget modules, loaded after the main script so window.Altivec exists. -->
 <script src="weather.js"></script>
-<script src="god.js"></script>
 <script>
-// ── GOD DAYS / GOD SAYS toggle ──
+// ── NEWS / GOD SAYS toggle ──
 (function () {
     var GOD_NEWS = 'news';
     var GOD_ORACLE = 'oracle';
     var mode = GOD_NEWS;
+    var godJsLoaded = false;
 
     var textEl    = document.getElementById('godText');
     var headEl    = document.getElementById('godHeader');
@@ -1140,8 +1140,16 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         widget.title = 'Click for revelation';
         textEl.className = 'god-text idle';
         textEl.textContent = 'click for revelation';
-        // Re-init oracle if god.js exposes a hook
-        if (window.Altivec && window.Altivec.initGod) {
+        // Load god.js dynamically the first time, then re-init
+        if (!godJsLoaded) {
+            godJsLoaded = true;
+            var s = document.createElement('script');
+            s.src = 'god.js';
+            s.onload = function () {
+                if (window.Altivec && window.Altivec.initGod) window.Altivec.initGod();
+            };
+            document.body.appendChild(s);
+        } else if (window.Altivec && window.Altivec.initGod) {
             window.Altivec.initGod();
         }
     }
