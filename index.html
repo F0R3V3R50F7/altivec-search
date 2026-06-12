@@ -147,7 +147,7 @@ html { height: 100%; overflow: hidden; }
 .search button { padding: 6px 12px; background: transparent; border: none; border-left: 1px solid #3a3a3a; cursor: pointer; color: #666; font-size: 12px; border-radius: 0 5px 5px 0; -moz-transition: color 0.15s; transition: color 0.15s; }
 .search button:hover { color: #f0a500; background: transparent; }
 .weather-widget { flex-shrink: 0; position: relative; width: 230px; height: 94px; border-radius: 8px; overflow: visible; border: 1px solid rgba(255,255,255,0.1); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; margin-left: auto; background: #1a1d24; font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; }
-.god-widget { flex-shrink: 0; position: relative; width: 220px; height: 94px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(240,165,0,0.2); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; background: #0a0800; cursor: pointer; }
+.god-widget { flex-shrink: 0; position: relative; width: 220px; height: 94px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(240,165,0,0.2); -moz-box-shadow: 0 4px 24px rgba(0,0,0,0.4); box-shadow: 0 4px 24px rgba(0,0,0,0.4); margin-top: 20px; margin-left: 12px; background: #0a0800; cursor: pointer; }
 .god-scanlines { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 2; }
 .god-glow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(ellipse at 50% 50%, rgba(240,165,0,0.06) 0%, transparent 70%); pointer-events: none; z-index: 1; }
 .god-inner { position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; padding: 8px 12px; overflow: hidden; }
@@ -157,7 +157,7 @@ html { height: 100%; overflow: hidden; }
 .god-text.idle { color: rgba(240,165,0,0.3); text-shadow: none; font-style: italic; }
 .god-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; scrollbar-width: none; -ms-overflow-style: none; overflow: -moz-scrollbars-none; }
 .god-scroll::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none; }
-.god-scroll-btn { position: absolute; bottom: 4px; right: 4px; z-index: 10; background: rgba(10,8,0,0.85); border: 1px solid rgba(240,165,0,0.4); border-radius: 3px; color: rgba(240,165,0,0.8); font-size: 8px; line-height: 1; padding: 1px 3px; cursor: pointer; -moz-transition: all 0.15s; transition: all 0.15s; display: none; flex-shrink: 0; }
+.god-scroll-btn { position: absolute; bottom: 4px; right: 4px; z-index: 10; background: rgba(10,8,0,0.85); border: 1px solid rgba(240,165,0,0.4); border-radius: 3px; color: rgba(240,165,0,0.8); font-size: 8px; line-height: 1; padding: 1px 3px; cursor: pointer; -webkit-transition: all 0.15s; -moz-transition: all 0.15s; transition: all 0.15s; display: none; flex-shrink: 0; }
 .god-scroll-btn:hover { background: rgba(240,165,0,0.2); color: #f0a500; }
 .weather-inner { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 8px; overflow: hidden; }
 #weatherCanvas { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; }
@@ -196,9 +196,9 @@ html { height: 100%; overflow: hidden; }
 .forecast-hi { font-size: 12px; font-weight: 700; color: #fff; font-family: monospace; }
 .forecast-lo { font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; }
 .weather-error { display: none; align-items: center; height: 100%; padding: 0 16px; font-size: 11px; color: #ff6b6b; font-family: monospace; letter-spacing: 1px; }
-.widget-collapse-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: rgba(255,255,255,0.2); font-size: 14px; cursor: pointer; padding: 4px 6px; line-height: 1; z-index: 200; -moz-transition: color 0.15s; transition: color 0.15s; }
+.widget-collapse-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: rgba(255,255,255,0.2); font-size: 14px; cursor: pointer; padding: 4px 6px; line-height: 1; z-index: 200; -webkit-transition: color 0.15s; -moz-transition: color 0.15s; transition: color 0.15s; }
 .widget-collapse-btn:hover { color: rgba(255,255,255,0.6); }
-.widgets-wrap { display: flex; align-items: flex-start; margin-left: auto; overflow: hidden; gap: 12px; -moz-transition: max-width 0.35s ease; transition: max-width 0.35s ease; max-width: 800px; }
+.widgets-wrap { display: flex; align-items: flex-start; margin-left: auto; overflow: hidden; -webkit-transition: max-width 0.35s ease; -moz-transition: max-width 0.35s ease; transition: max-width 0.35s ease; max-width: 800px; }
 .widgets-wrap.collapsed { max-width: 0; }
 .weather-error.visible { display: flex; }
 .header-bottom { display: flex; align-items: flex-start; justify-content: space-between; }
