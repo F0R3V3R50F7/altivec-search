@@ -299,7 +299,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
 <!-- Everything else unchanged -->
 <div class="nag-banner" id="nagBanner">
-    <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> or Safari Leopard WebKit for the best G4 browsing experience.
+    <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> for the best G4 browsing experience.
     <button class="nag-close" id="nagClose">&times;</button>
 </div>
 
@@ -396,7 +396,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <div id="compatModal" class="compat-overlay">
     <div class="compat-box">
         <h3>⚠ COMPATIBILITY WARNING</h3>
-        <p>This site may not render correctly in Safari Leopard WebKit or Aquafox. Heavy JavaScript, modern CSS, or TLS requirements could cause issues on your G4.</p>
+        <p>This site may not render correctly in Safari Leopard WebKit or other legacy browsers. Heavy JavaScript, modern CSS, or TLS certificate requirements could cause issues on your G4. We recommend <strong>Aquafox</strong> for the best experience.</p>
         <p>Consider reading the local article first — it may have direct download links or lightweight alternatives.</p>
         <div class="compat-url" id="compatUrl"></div>
         <div class="compat-actions">
@@ -821,17 +821,16 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     // ── AQUAFOX NAG BANNER (consent‑respecting) ──
     (function() {
-        // The Aquafox/Safari-Leopard recommendation banner is desktop/G4 only.
-        // On mobile it's irrelevant (those browsers don't run on phones) and its
-        // layout margin-push created dead space, so skip it entirely.
+        // The Aquafox recommendation banner is desktop/G4 only.
+        // On mobile it's irrelevant and its layout margin-push created dead space, so skip it entirely.
         var IS_MOBILE = (' ' + document.documentElement.className + ' ').indexOf(' m-mobile ') >= 0;
         if (IS_MOBILE) return;
 
-        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('PPC Mac OS X') >= 0, dismissed = false;
+        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, dismissed = false;
         if (isFunctionalAllowed()) {
             try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
         }
-        if (!isAquafox && !isSafariLeopard && !dismissed) {
+        if (!isAquafox && !dismissed) {
             document.getElementById('nagBanner').style.display = 'block';
             document.querySelector('.header').style.top = '32px';
             document.querySelector('.layout').style.marginTop = '187px';
