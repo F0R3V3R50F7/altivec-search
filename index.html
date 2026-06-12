@@ -532,12 +532,12 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     // ── ARTICLES (unchanged) ──
     var articles = [];
-    var currentTab = 'featured';
+    var currentTab = 'articles';
     var searchTerm = '';
     var selectedArticleId = null;
 
     var TABS = [
-        { id:'featured', name:'FEATURED' }, { id:'gaming', name:'GAMING' },
+        { id:'articles', name:'FEATURED' }, { id:'gaming', name:'GAMING' },
         { id:'software', name:'SOFTWARE' }, { id:'music', name:'MUSIC' }, { id:'web', name:'WEB' }
     ];
 
@@ -623,8 +623,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     function renderResults() {
         var results = [], i;
         if (searchTerm !== '') { results = searchArticles(searchTerm); }
-        else if (currentTab === 'featured') {
-            for (i = 0; i < articles.length; i++) if (articles[i].featured === 1 || articles[i].featured === '1') results.push(articles[i]);
+        else if (currentTab === 'articles') {
+            for (i = 0; i < articles.length; i++) if (!articles[i].url) results.push(articles[i]);
         } else {
             for (i = 0; i < articles.length; i++) if (articles[i].category === currentTab) results.push(articles[i]);
         }
@@ -774,7 +774,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     document.getElementById('searchBtn').onclick = function() {
         searchTerm = document.getElementById('searchInput').value;
-        if (searchTerm) { currentTab = 'featured'; selectedArticleId = null; renderTabs(); renderResults(); }
+        if (searchTerm) { currentTab = 'articles'; selectedArticleId = null; renderTabs(); renderResults(); }
     };
     document.getElementById('searchInput').onkeypress = function(e) {
         if ((e ? e.keyCode : window.event.keyCode) === 13) document.getElementById('searchBtn').onclick();
