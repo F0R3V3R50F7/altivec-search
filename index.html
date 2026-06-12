@@ -58,7 +58,8 @@ html.light .article-body blockquote { border-left-color: #c07800; color: #555; }
 html.light .nag-banner { background: linear-gradient(to right, #ddeeff, #cce4ff); border-bottom-color: #aaccee; color: #334; }
 html.light .cookie-consent-banner { background: #e8e3d8; border-top-color: #ccc; color: #333; }
 html.light .cookie-settings-box { background: #f0ede6; border-color: #ccc; color: #1a1a1a; }
-html.light .empty { color: #888; }
+html.light .logo-slogan { color: rgba(0,0,0,0.35); }
+html.light .logo-fyi { fill: rgba(0,0,0,0.3); }
 html.light .results-footer { color: #888; }
 html.light .results-footer a { color: #c07800; }
 
@@ -365,9 +366,9 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         <div class="logo">
             <div class="logo-row">
                 <span>⌥</span>
-                <svg width="140" height="26" viewBox="0 0 140 26" xmlns="http://www.w3.org/2000/svg">
+                <svg width="185" height="26" viewBox="0 0 185 26" xmlns="http://www.w3.org/2000/svg">
                     <defs><linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0a500"/><stop offset="100%" stop-color="#ff6680"/></linearGradient></defs>
-                    <text x="0" y="22" fill="url(#logoGrad)" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="26" font-weight="800" letter-spacing="1">ALTIVEC</text>
+                    <text x="0" y="22" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-weight="800" letter-spacing="1"><tspan fill="url(#logoGrad)" font-size="26">ALTIVEC</tspan><tspan class="logo-fyi" fill="rgba(255,255,255,0.3)" font-size="13" font-weight="600" letter-spacing="0.5"> .fyi</tspan></text>
                 </svg>
             </div>
             <div class="logo-slogan">the web, distilled for g4</div>
