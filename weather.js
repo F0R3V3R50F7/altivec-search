@@ -35,26 +35,26 @@
             for (i = 0; i < count; i++) {
                 rainDrops.push({ x: Math.random()*w, y: Math.random()*h,
                     len: lenMin + Math.random()*lenRng, speed: speedMin + Math.random()*speedRng,
-                    alpha: 0.15 + Math.random()*0.3 });
+                    alpha: 0.25 + Math.random()*0.35 });
             }
         }
         if (type === 'snow') {
             for (i = 0; i < 45; i++) {
                 snowFlakes.push({ x: Math.random()*w, y: Math.random()*h,
                     r: 1.5 + Math.random()*2.5, speed: 0.4 + Math.random()*0.8,
-                    drift: (Math.random()-0.5)*0.4, alpha: 0.4 + Math.random()*0.4 });
+                    drift: (Math.random()-0.5)*0.4, alpha: 0.5 + Math.random()*0.4 });
             }
         }
         if (type === 'cloud' || type === 'rain' || type === 'lightrain' || type === 'drizzle' || type === 'snow') {
-            for (i = 0; i < 3; i++) {
-                cloudPuffs.push({ x: Math.random()*w, y: 15 + Math.random()*25,
-                    w: 60 + Math.random()*80, speed: 0.12 + Math.random()*0.15,
-                    alpha: 0.12 + Math.random()*0.1 });
+            for (i = 0; i < 4; i++) {
+                cloudPuffs.push({ x: Math.random()*w, y: 14 + Math.random()*20,
+                    w: 55 + Math.random()*70, speed: 0.12 + Math.random()*0.15,
+                    alpha: 0.35 + Math.random()*0.25 });
             }
         }
         if (type === 'clear') {
-            for (i = 0; i < 8; i++) {
-                sunRays.push({ angle: (i/8)*Math.PI*2, len: 18+Math.random()*14, alpha: 0.15+Math.random()*0.1 });
+            for (i = 0; i < 12; i++) {
+                sunRays.push({ angle: (i/12)*Math.PI*2, len: 16+Math.random()*12, alpha: 0.25+Math.random()*0.15 });
             }
         }
     }
@@ -68,7 +68,7 @@
             if (code === 293 || code === 296 || code === 353) return { type:'lightrain', g1:'#131926', g2:'#1a2535', g3:'#212f40' };
             return { type:'rain', g1:'#0e1420', g2:'#16202e', g3:'#1e2c3c' };
         }
-        if (code <= 77 || (code>=85&&code<=86)) return { type:'snow', g1:'#1e2a3a', g2:'#2a3848', g3:'#e8eef8' };
+        if (code <= 77 || (code>=85&&code<=86)) return { type:'snow', g1:'#1a2232', g2:'#222e40', g3:'#2a3850' };
         return { type:'storm', g1:'#0a0e18', g2:'#10161e', g3:'#181e28' };
     }
 
@@ -82,25 +82,26 @@
 
         if (type === 'clear') {
             var sx = w*0.82, sy = h*0.38;
-            var sg = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 38);
-            sg.addColorStop(0, 'rgba(255,200,50,0.35)'); sg.addColorStop(0.5, 'rgba(255,160,20,0.12)'); sg.addColorStop(1, 'rgba(255,140,0,0)');
-            wxCtx.fillStyle = sg; wxCtx.beginPath(); wxCtx.arc(sx, sy, 38, 0, Math.PI*2); wxCtx.fill();
+            var sg = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 44);
+            sg.addColorStop(0, 'rgba(255,180,0,0.5)'); sg.addColorStop(0.5, 'rgba(255,140,0,0.18)'); sg.addColorStop(1, 'rgba(255,100,0,0)');
+            wxCtx.fillStyle = sg; wxCtx.beginPath(); wxCtx.arc(sx, sy, 44, 0, Math.PI*2); wxCtx.fill();
             var sd = wxCtx.createRadialGradient(sx, sy, 0, sx, sy, 18);
-            sd.addColorStop(0, '#ffe87a'); sd.addColorStop(0.5, '#ffc040'); sd.addColorStop(1, '#f0a500');
+            sd.addColorStop(0, '#ffcc00'); sd.addColorStop(0.5, '#f0a000'); sd.addColorStop(1, '#e07800');
             wxCtx.fillStyle = sd; wxCtx.beginPath(); wxCtx.arc(sx, sy, 18, 0, Math.PI*2); wxCtx.fill();
             for (var ri = 0; ri < sunRays.length; ri++) {
                 var r = sunRays[ri], a = r.angle + t*0.004, p = Math.abs(Math.sin(t*0.02+ri));
-                wxCtx.save(); wxCtx.globalAlpha = r.alpha*(0.6+p*0.4); wxCtx.strokeStyle = '#ffc040'; wxCtx.lineWidth = 1.5;
+                wxCtx.save(); wxCtx.globalAlpha = r.alpha*(0.7+p*0.5); wxCtx.strokeStyle = '#f0a000'; wxCtx.lineWidth = 1.5;
                 wxCtx.beginPath(); wxCtx.moveTo(sx+Math.cos(a)*20, sy+Math.sin(a)*20); wxCtx.lineTo(sx+Math.cos(a)*(20+r.len*(0.8+p*0.4)), sy+Math.sin(a)*(20+r.len*(0.8+p*0.4))); wxCtx.stroke(); wxCtx.restore();
             }
         }
         for (var ci = 0; ci < cloudPuffs.length; ci++) {
             var c = cloudPuffs[ci]; c.x -= c.speed; if (c.x+c.w < 0) c.x = w+c.w;
-            var cf = type==='snow'?'#dde8f8':'#b8ccde';
+            var cf = type==='snow' ? '#ddeeff' : '#c8d8e8';
             wxCtx.save(); wxCtx.globalAlpha = c.alpha; wxCtx.fillStyle = cf;
-            wxCtx.beginPath(); wxCtx.ellipse(c.x, c.y, c.w/2, c.w*0.38/2, 0, 0, Math.PI*2); wxCtx.fill();
-            wxCtx.beginPath(); wxCtx.ellipse(c.x-c.w*0.22, c.y+c.w*0.38*0.1, c.w*0.32, c.w*0.38*0.45, 0, 0, Math.PI*2); wxCtx.fill();
-            wxCtx.beginPath(); wxCtx.ellipse(c.x+c.w*0.22, c.y+c.w*0.38*0.1, c.w*0.28, c.w*0.38*0.4, 0, 0, Math.PI*2); wxCtx.fill();
+            /* three puffs at the same y level so the cloud sits flat and fluffy, not droopy */
+            wxCtx.beginPath(); wxCtx.ellipse(c.x, c.y, c.w/2, c.w*0.32, 0, 0, Math.PI*2); wxCtx.fill();
+            wxCtx.beginPath(); wxCtx.ellipse(c.x-c.w*0.28, c.y+c.w*0.04, c.w*0.3, c.w*0.26, 0, 0, Math.PI*2); wxCtx.fill();
+            wxCtx.beginPath(); wxCtx.ellipse(c.x+c.w*0.28, c.y+c.w*0.04, c.w*0.26, c.w*0.24, 0, 0, Math.PI*2); wxCtx.fill();
             wxCtx.restore();
         }
         for (var di = 0; di < rainDrops.length; di++) {
@@ -113,7 +114,19 @@
             if (s.y>h){s.y=-4;s.x=Math.random()*w;} if(s.x<0){s.x=w;} if(s.x>w){s.x=0;}
             wxCtx.save(); wxCtx.globalAlpha=s.alpha; wxCtx.fillStyle='#e8f4ff'; wxCtx.beginPath(); wxCtx.arc(s.x,s.y,s.r,0,Math.PI*2); wxCtx.fill(); wxCtx.restore();
         }
-        if (type==='storm' && Math.random()<0.004) { wxCtx.fillStyle='rgba(200,220,255,0.06)'; wxCtx.fillRect(0,0,w,h); }
+        if (type==='storm') {
+            /* lightning bolt roughly every 3-4 seconds */
+            if (Math.random() < 0.006) {
+                var lx = w*0.3 + Math.random()*w*0.4, ly = 0;
+                wxCtx.save(); wxCtx.strokeStyle = '#e8f0ff'; wxCtx.lineWidth = 1.5; wxCtx.globalAlpha = 0.9;
+                wxCtx.shadowColor = '#a0c0ff'; wxCtx.shadowBlur = 8;
+                wxCtx.beginPath(); wxCtx.moveTo(lx, ly);
+                wxCtx.lineTo(lx - 5, ly + h*0.3); wxCtx.lineTo(lx + 4, ly + h*0.3);
+                wxCtx.lineTo(lx - 6, ly + h*0.65); wxCtx.lineTo(lx + 2, ly + h*0.65);
+                wxCtx.lineTo(lx - 8, h);
+                wxCtx.stroke(); wxCtx.restore();
+            }
+        }
         wxState.t++;
         var raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(fn){setTimeout(fn,16);};
         raf(drawWeatherCanvas);
@@ -172,8 +185,8 @@
     };
 
     var WTTR_CODES = {
-        113: { type:'clear',   icon:'&#9728;',  desc:'Clear'          },
-        116: { type:'cloud',   icon:'&#9925;',  desc:'Partly Cloudy'  },
+        113: { type:'clear',   icon:'&#127774;', desc:'Clear'          },
+        116: { type:'cloud',   icon:'&#127780;', desc:'Partly Cloudy'  },
         119: { type:'cloud',   icon:'&#9729;',  desc:'Cloudy'         },
         122: { type:'cloud',   icon:'&#9729;',  desc:'Overcast'       },
         143: { type:'cloud',   icon:'&#127787;',desc:'Mist'           },
@@ -181,7 +194,7 @@
         179: { type:'snow',    icon:'&#127784;',desc:'Patchy Snow'    },
         182: { type:'drizzle', icon:'&#127782;',desc:'Sleet'          },
         185: { type:'drizzle', icon:'&#127782;',desc:'Patchy Sleet'   },
-        200: { type:'storm',   icon:'&#9928;',  desc:'Thundery Showers'},
+        200: { type:'storm',   icon:'&#127785;', desc:'Thundery Showers'},
         227: { type:'snow',    icon:'&#127784;',desc:'Blowing Snow'   },
         230: { type:'snow',    icon:'&#10052;', desc:'Blizzard'       },
         248: { type:'cloud',   icon:'&#127787;',desc:'Fog'            },
@@ -216,10 +229,10 @@
         371: { type:'snow',    icon:'&#10052;', desc:'Heavy Snow'     },
         374: { type:'drizzle', icon:'&#127782;',desc:'Ice Pellet Showers'},
         377: { type:'drizzle', icon:'&#127782;',desc:'Ice Pellets'    },
-        386: { type:'storm',   icon:'&#9928;',  desc:'Thunder'        },
-        389: { type:'storm',   icon:'&#9928;',  desc:'Thunderstorm'   },
-        392: { type:'storm',   icon:'&#9928;',  desc:'Thunder+Snow'   },
-        395: { type:'storm',   icon:'&#9928;',  desc:'Blizzard'       }
+        386: { type:'storm',   icon:'&#127785;',  desc:'Thunder'        },
+        389: { type:'storm',   icon:'&#127785;',  desc:'Thunderstorm'   },
+        392: { type:'storm',   icon:'&#127785;',  desc:'Thunder+Snow'   },
+        395: { type:'storm',   icon:'&#127785;',  desc:'Blizzard'       }
     };
 
     function fetchWeather() {
