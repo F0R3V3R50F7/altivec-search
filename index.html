@@ -1097,23 +1097,21 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     var toggleBtn = document.getElementById('godModeToggle');
     var widget    = document.getElementById('godWidget');
 
-    // Fetch top world headline straight from 68k.news
+    // Fetch top world headline via rss2json + BBC World RSS (no key, CORS-friendly)
     function fetchHeadline(cb) {
+        var rss = encodeURIComponent('https://feeds.bbci.co.uk/news/world/rss.xml');
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://68k.news/index.php?section=world&loc=US', true);
+        xhr.open('GET', 'https://api.rss2json.com/v1/api.json?rss_url=' + rss, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState !== 4) return;
-            if (xhr.status < 200 || xhr.status >= 300) { cb(null, 'error: http ' + xhr.status); return; }
+            if (xhr.status < 200 || xhr.status >= 300) { cb(null, 'error ' + xhr.status); return; }
             try {
-                var div = document.createElement('div');
-                div.innerHTML = xhr.responseText;
-                var links = div.querySelectorAll ? div.querySelectorAll('li a') : [];
-                var headline = '';
-                for (var i = 0; i < links.length; i++) {
-                    var t = (links[i].textContent || links[i].innerText || '').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
-                    if (t.length > 20) { headline = t; break; }
+                var data = JSON.parse(xhr.responseText);
+                if (data.status === 'ok' && data.items && data.items.length) {
+                    cb(data.items[0].title, null);
+                } else {
+                    cb(null, 'no headline found');
                 }
-                if (headline) { cb(headline, null); } else { cb(null, 'no headline found'); }
             } catch (e) { cb(null, 'parse error'); }
         };
         xhr.onerror = function () { cb(null, 'fetch failed'); };
