@@ -11,8 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⌥ ALTIVEC — G4 Resource Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Mobile interface styles. Inert unless the detection script below adds
+         class="m-mobile" to <html>. Kept in a separate file so the G4 desktop
+         CSS can be edited without any risk of cross-contamination. -->
+    <link rel="stylesheet" href="mobile.css">
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+/* Mobile-only elements are hidden by default; mobile.css re-shows them
+   under html.m-mobile. This keeps the desktop/G4 view identical to before. */
+.m-logo-row, .m-sheet, .m-carousel, .m-switch { display: none; }
 body { background: #1a1d24; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #e0e0e0; }
 .header { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 100; background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%); border-bottom: 1px solid #3a3a3a; padding: 0 32px; }
 .header-top { display: flex; align-items: center; height: 92px; }
@@ -229,6 +236,83 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 </head>
 <body>
 
+<!-- ════════════════════════════════════════════════════════════════════ *
+ *  MOBILE DETECTION  (runs before render — no desktop flash)
+ *
+ *  Desktop is the SAFE DEFAULT. We only switch to the mobile interface when
+ *  ALL of the following hold, so a PowerMac G4 (narrow window, old WebKit,
+ *  no touch) can never be misrouted:
+ *    1. a manual override is not forcing desktop
+ *    2. OR a manual override is forcing mobile
+ *    3. otherwise: narrow viewport AND touch input AND a modern-feature check
+ *
+ *  Override is stored via the page's own consent-gated storage key so it
+ *  respects the cookie banner. We also read a URL hash (#desktop / #mobile)
+ *  as a no-storage fallback for users who rejected functional storage.
+ * ════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+    var OVERRIDE_KEY = 'altivec_iface';   // values: 'mobile' | 'desktop'
+    var override = '';
+
+    // 1. URL hash wins and is storage-free (works even with consent rejected).
+    var h = (window.location.hash || '').toLowerCase();
+    if (h === '#desktop') override = 'desktop';
+    else if (h === '#mobile') override = 'mobile';
+
+    // 2. Otherwise fall back to a previously saved preference, if any.
+    if (!override) {
+        try {
+            var v = window.localStorage ? localStorage.getItem(OVERRIDE_KEY) : null;
+            if (v === 'mobile' || v === 'desktop') override = v;
+        } catch (e) {}
+    }
+
+    function looksLikeMobile() {
+        // Width gate first — this alone protects a typical G4 desktop window,
+        // and is the most reliable signal across ancient and modern engines.
+        var w = window.innerWidth || document.documentElement.clientWidth || 9999;
+        if (w > 820) return false;
+
+        // Touch capability. We require a POSITIVE touch signal, not merely the
+        // presence of an `ontouchstart` property (some desktop engines define
+        // it as null without being touch devices). maxTouchPoints > 0 is the
+        // trustworthy modern signal; the ontouchstart-as-function / TouchEvent
+        // checks cover old Mobile Safari which predates maxTouchPoints.
+        var mtp = (typeof navigator.maxTouchPoints === 'number') ? navigator.maxTouchPoints :
+                  (typeof navigator.msMaxTouchPoints === 'number') ? navigator.msMaxTouchPoints : 0;
+        var hasTouch = (mtp > 0) ||
+                       (typeof window.ontouchstart === 'function') ||
+                       (('TouchEvent' in window) && ('orientation' in window));
+        if (!hasTouch) return false;
+
+        // Belt-and-braces modern-feature sniff. Absent on the very old engines
+        // we must protect → fall back to desktop.
+        if (!document.querySelectorAll || !window.addEventListener) return false;
+
+        return true;
+    }
+
+    var useMobile;
+    if (override === 'mobile') useMobile = true;
+    else if (override === 'desktop') useMobile = false;
+    else useMobile = looksLikeMobile();
+
+    if (useMobile) {
+        var de = document.documentElement;
+        de.className = (de.className ? de.className + ' ' : '') + 'm-mobile';
+    }
+
+    // Expose a tiny switcher for the manual override links (defined later).
+    window.altivecSetInterface = function (which) {
+        try { if (window.localStorage) localStorage.setItem(OVERRIDE_KEY, which); } catch (e) {}
+        // Hash guarantees the choice survives even without storage.
+        window.location.hash = (which === 'mobile') ? 'mobile' : 'desktop';
+        window.location.reload();
+    };
+})();
+</script>
+
 <!-- Cookie Consent Banner (hidden until first visit) -->
 <div class="cookie-consent-banner hidden" id="cookieConsentBanner">
     <div class="cookie-banner-text">
@@ -266,7 +350,12 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 </div>
 
 <div class="header">
-    <div class="header-top">
+    <div class="header-top m-topbar">
+        <!-- Mobile-only logo row (desktop uses the SVG logo below). -->
+        <div class="m-logo-row">
+            <span class="m-opt">&#8997;</span><span class="m-wordmark">ALTIVEC</span>
+            <span class="m-slogan">the web, distilled for g4</span>
+        </div>
         <div class="logo">
             <div class="logo-row">
                 <span>⌥</span>
@@ -343,7 +432,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <div class="layout">
     <div class="results-panel" id="resultsPanel">
         <div id="resultsList"></div>
-        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a> &middot; <a id="footerCookieSettings" role="button" tabindex="0">Cookie settings</a></div>
+        <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">support this site</a> &middot; <a id="footerCookieSettings" role="button" tabindex="0">Cookie settings</a> &middot; <a id="ifaceSwitch" role="button" tabindex="0">View desktop site</a></div>
     </div>
     <div class="preview-panel" id="previewPanel">
         <div class="preview-empty">Select a result to preview</div>
@@ -370,6 +459,24 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         <div class="reader-main" id="readerMain"></div>
         <div class="reader-sidebar" id="readerSidebar"></div>
     </div>
+</div>
+
+<!-- ── MOBILE-ONLY UI (hidden on desktop, shown under html.m-mobile) ── -->
+
+<!-- Preview slides up from the bottom on tap; replaces the desktop side panel. -->
+<div class="m-sheet" id="mSheet">
+    <div class="m-sheet-bar">
+        <button class="m-sheet-back" id="mSheetBack">&#8592; Back to results</button>
+    </div>
+    <div class="m-sheet-body" id="mSheetBody"></div>
+</div>
+
+<!-- Floating button + drawer for the weather & oracle widgets. JS moves the
+     real widgets in here on mobile init so there's only one copy of each. -->
+<!-- Inline widget carousel (weather / God Says). Populated and positioned at
+     the top of the results panel by the mobile init script. -->
+<div class="m-carousel" id="mCarousel">
+    <button class="m-carousel-arrow" id="mCarouselArrow" aria-label="Show God Says">&#8250;</button>
 </div>
 
 <script>
@@ -1054,6 +1161,12 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
     // ── AQUAFOX NAG BANNER (consent‑respecting) ──
     (function() {
+        // The Aquafox/Safari-Leopard recommendation banner is desktop/G4 only.
+        // On mobile it's irrelevant (those browsers don't run on phones) and its
+        // layout margin-push created dead space, so skip it entirely.
+        var IS_MOBILE = (' ' + document.documentElement.className + ' ').indexOf(' m-mobile ') >= 0;
+        if (IS_MOBILE) return;
+
         var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, isSafariLeopard = ua.indexOf('PPC Mac OS X') >= 0, dismissed = false;
         if (isFunctionalAllowed()) {
             try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
@@ -1074,6 +1187,101 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             else window.event.returnValue = false;
             for (var i = 0; i < articles.length; i++) if (articles[i].id === 'aquafox-guide') { openReader('aquafox-guide'); return; }
             selectedArticleId = 'aquafox-guide'; renderResults();
+        };
+    })();
+
+    // ── MOBILE INTERFACE BEHAVIOUR ───────────────────────────────────
+    // Everything below is a no-op unless <html> has class "m-mobile".
+    // The desktop code path above is left completely unchanged; on mobile
+    // we just intercept preview rendering and add a few touch affordances.
+    (function () {
+        var MOBILE = (' ' + document.documentElement.className + ' ').indexOf(' m-mobile ') >= 0;
+
+        // The switch link works in BOTH modes (label differs).
+        var sw = document.getElementById('ifaceSwitch');
+        if (sw) {
+            sw.innerHTML = MOBILE ? 'View desktop site' : 'View mobile site';
+            sw.onclick = function () {
+                if (window.altivecSetInterface) window.altivecSetInterface(MOBILE ? 'desktop' : 'mobile');
+            };
+        }
+
+        if (!MOBILE) return;   // desktop / G4: stop here.
+
+        // The mobile header (logo, search, tabs) sits in normal document flow
+        // at the top of the page, so the results simply follow it. No offset
+        // measurement needed.
+
+        // Inline widget carousel at the top of the results panel. Both the
+        // weather and God Says widgets live here; one is shown at a time, with
+        // a nav arrow to move between them. Weather first (arrow ›), God Says
+        // second (arrow ‹ back to weather). Nothing is hidden behind a button.
+        var wx = document.getElementById('weatherWidget');
+        var god = document.getElementById('godWidget');
+        var resultsPanel = document.getElementById('resultsPanel');
+
+        var carousel = document.getElementById('mCarousel');
+        var arrow = document.getElementById('mCarouselArrow');
+        if (carousel && wx && god && resultsPanel) {
+            // Move both real widgets into the carousel (canvas/state preserved).
+            carousel.appendChild(wx);
+            carousel.appendChild(god);
+            // Carousel sits at the very top of the results list.
+            resultsPanel.insertBefore(carousel, resultsPanel.firstChild);
+
+            var pane = 0;   // 0 = weather, 1 = god says
+            function showPane(n) {
+                pane = n;
+                if (n === 0) {
+                    wx.style.display = 'block';
+                    god.style.display = 'none';
+                    arrow.innerHTML = '\u203A';                 // ›
+                    arrow.setAttribute('aria-label', 'Show God Says');
+                } else {
+                    wx.style.display = 'none';
+                    god.style.display = 'block';
+                    arrow.innerHTML = '\u2039';                 // ‹
+                    arrow.setAttribute('aria-label', 'Show weather');
+                }
+            }
+            arrow.onclick = function () { showPane(pane === 0 ? 1 : 0); };
+            showPane(0);
+        }
+
+        // ---- Preview as a bottom sheet instead of the side panel ----
+        var sheet = document.getElementById('mSheet');
+        var sheetBody = document.getElementById('mSheetBody');
+        var sheetBack = document.getElementById('mSheetBack');
+        if (sheetBack) sheetBack.onclick = function () {
+            if (sheet) sheet.className = 'm-sheet';
+        };
+
+        // Reuse the desktop showPreview to build the markup, then relocate it
+        // into the sheet and open it. We wrap rather than replace so any future
+        // desktop edits to showPreview flow through automatically.
+        var desktopShowPreview = window.showPreview || showPreview;
+        showPreview = function (articleId) {
+            var pp = document.getElementById('previewPanel');
+            desktopShowPreview(articleId);          // renders into #previewPanel
+            if (pp && sheetBody) {
+                sheetBody.innerHTML = pp.innerHTML;  // copy rendered preview
+                // Re-bind the buttons inside the copied markup.
+                var article = null, i;
+                for (i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
+                var readBtn = sheetBody.querySelector ? sheetBody.querySelector('#previewReadBtn') : null;
+                if (readBtn) readBtn.onclick = function () { openReader(articleId); };
+                var openBtn = sheetBody.querySelector ? sheetBody.querySelector('#previewOpenBtn') : null;
+                if (openBtn && article) openBtn.onclick = function () { showCompatWarning(article); };
+            }
+        };
+
+        // Opening a result should slide the sheet up. renderResults() already
+        // calls showPreview on tap, but we also need the sheet to appear, so
+        // intercept clicks at the results container level.
+        var rl = document.getElementById('resultsList');
+        if (rl) rl.onclick = function () {
+            // showPreview has just populated the sheet; reveal it.
+            if (sheet) sheet.className = 'm-sheet open';
         };
     })();
 </script>

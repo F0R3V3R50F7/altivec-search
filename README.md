@@ -16,39 +16,67 @@ The modern web is unusable on a PowerMac G4. ALTIVEC is a single-page resource h
 - **Weather widget** — animated canvas weather via wttr.in (plain HTTP, no API key).
 - **God Says widget** — Terry Davis-inspired random word oracle.
 - **E-reader** — built-in article viewer with sidebar for downloads and external links.
+- **Mobile interface** — a separate touch layout (`mobile.css`) that activates automatically on phones, with a desktop/mobile manual override. The G4 desktop view is always the safe default, so vintage hardware is never served the mobile build.
 - **ES3-compatible** — no arrow functions, no `Set`, no `Array.filter`. Runs on old WebKit and Gecko.
 
 ## Structure
 
 ```
-index.html          — the entire site (HTML, CSS, JS in one file)
+index.html          — the site shell (HTML, desktop CSS, and JS in one file)
+mobile.css          — mobile interface styles (scoped under html.m-mobile)
 articles/
-  index.json        — array of filenames to load
-  *.json            — individual article data + content
+  db.json           — single array of all article metadata
+  *.md              — article body content, one Markdown file per article
 CNAME               — GitHub Pages custom domain
 Happy.TXT           — word list for the God Says widget
 ```
 
 ## Articles
 
-Articles are JSON files in `articles/`. The filename is the article ID. Each file contains:
+All article metadata lives in a single file, `articles/db.json` — an array of
+entries. Body content is kept separately as Markdown: each entry's `content`
+field is the path to its `.md` file, which the e-reader loads on demand and
+renders with the built-in Markdown converter (headings, paragraphs, bold,
+italic, inline code, fenced code blocks, lists, and links).
+
+Each entry in `db.json` looks like this:
 
 ```json
 {
+    "id": "wow-vanilla-classicdb",
     "title": "...",
     "description": "...",
     "category": "gaming|software|music|web",
     "g4_friendly": 1,
+    "featured": 0,
     "url": "https://...",
-    "thumb": "🎮",
+    "thumb": "🎮 or an https:// image URL",
     "date": "2026-06-12",
     "author": "Technologyst Labs",
     "tags": ["...", "..."],
-    "content": "<h2>...</h2><p>...</p>"
+    "downloads": [
+        { "name": "Download Mirror 1", "url": "https://..." }
+    ],
+    "content": "articles/wow-vanilla-classicdb.md"
 }
 ```
 
-To add a new article: create a JSON file in `articles/`, add the filename to `articles/index.json`, done. The search engine indexes everything automatically on load — title, tags, description, category, and body content.
+Field notes:
+
+- `id` — unique slug for the article (set explicitly; it is no longer derived
+  from a filename). By convention the Markdown file is named to match.
+- `featured` — set to `1` to surface the article in the Featured tab.
+- `g4_friendly` — `1` if the linked site loads on Safari Leopard WebKit /
+  Aquafox; `0` shows a compatibility warning before opening.
+- `thumb` — an emoji, or an `https://` URL to an image.
+- `downloads` — optional array of `{ name, url }` links shown in the reader
+  sidebar. Use `[]` if there are none.
+- `content` — path to the article's Markdown file.
+
+To add a new article: write its body as `articles/your-slug.md`, then append a
+new entry to the array in `articles/db.json` with `"content": "articles/your-slug.md"`.
+That's it — the search engine indexes every entry automatically on load
+(title, tags, description, category), and articles are sorted by `date`.
 
 ## Hosting
 
