@@ -196,6 +196,10 @@ html { height: 100%; overflow: hidden; }
 .forecast-hi { font-size: 12px; font-weight: 700; color: #fff; font-family: monospace; }
 .forecast-lo { font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; }
 .weather-error { display: none; align-items: center; height: 100%; padding: 0 16px; font-size: 11px; color: #ff6b6b; font-family: monospace; letter-spacing: 1px; }
+.widget-collapse-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: rgba(255,255,255,0.2); font-size: 14px; cursor: pointer; padding: 4px 6px; line-height: 1; z-index: 200; -moz-transition: color 0.15s; transition: color 0.15s; }
+.widget-collapse-btn:hover { color: rgba(255,255,255,0.6); }
+.widgets-wrap { display: flex; align-items: flex-start; margin-left: auto; overflow: hidden; gap: 12px; -moz-transition: max-width 0.35s ease; transition: max-width 0.35s ease; max-width: 800px; }
+.widgets-wrap.collapsed { max-width: 0; }
 .weather-error.visible { display: flex; }
 .header-bottom { display: flex; align-items: flex-start; justify-content: space-between; }
 .forecast-strip { display: none; }
@@ -391,7 +395,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <!-- Cookie Consent Banner (hidden until first visit) -->
 <div class="cookie-consent-banner hidden" id="cookieConsentBanner">
     <div class="cookie-banner-text">
-        We use local storage to remember your weather location and to hide this notice after you dismiss it. This is optional and not required for the site to work. 
+        We use local storage to remember your weather location, widget preferences, and to hide this notice after you dismiss it. This is optional and not required for the site to work. 
         <a id="cookieSettingsLink" role="button" tabindex="0">Manage settings</a>.
     </div>
     <div class="cookie-banner-buttons">
@@ -404,9 +408,9 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 <div class="cookie-settings-overlay" id="cookieSettingsOverlay">
     <div class="cookie-settings-box">
         <h3>Cookie Preferences</h3>
-        <p>We only store a small amount of data to remember your weather location, theme preference, and whether you've dismissed our Aquafox reminder. You can turn this off below.</p>
+        <p>We only store a small amount of data to remember your weather location, widget preferences (news or god says, and whether the widgets are hidden), theme preference, and whether you've dismissed our Aquafox reminder. You can turn this off below.</p>
         <div class="cookie-toggle-row">
-            <span class="cookie-toggle-label">Functional <small>Remember my weather location & banner dismissal</small></span>
+            <span class="cookie-toggle-label">Functional <small>Remember my weather location, widget preferences & banner dismissal</small></span>
             <label class="cookie-toggle">
                 <input type="checkbox" id="cookieFunctionalToggle">
                 <span class="cookie-slider"></span>
@@ -448,6 +452,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             <input type="text" id="searchInput" placeholder="Search G4 resources... e.g. Halo, Aquafox, Sorbet">
             <button id="searchBtn"><i class="fas fa-arrow-right"></i></button>
         </div>
+        <div class="widgets-wrap" id="widgetsWrap">
         <div class="weather-widget" id="weatherWidget">
             <div class="weather-inner">
                 <canvas id="weatherCanvas"></canvas>
@@ -501,11 +506,13 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                 <button class="god-scroll-btn" id="godScrollBtn" title="Scroll down">&#9660;</button>
             </div>
         </div>
+        </div><!-- /.widgets-wrap -->
     </div>
     <div class="header-bottom">
         <div class="tabs" id="tabs"></div>
         <div class="forecast-strip" id="forecastStrip"></div>
     </div>
+    <button class="widget-collapse-btn" id="widgetCollapseBtn" title="Hide widgets">&#8250;</button>
 </div>
 
 <div class="layout">
@@ -594,6 +601,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         if (!consentData.functional) {
             try { localStorage.removeItem('altivec_town'); } catch(e) {}
             try { localStorage.removeItem('altivec_nag_dismissed'); } catch(e) {}
+            try { localStorage.removeItem('altivec_widget_mode'); } catch(e) {}
+            try { localStorage.removeItem('altivec_widgets_hidden'); } catch(e) {}
         }
     }
 
@@ -610,7 +619,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
     // Safe localStorage wrapper
     function safeSetItem(key, value) {
         if (key === CONSENT_KEY) { try { localStorage.setItem(key, value); } catch(e) {} return; }
-        if (key === 'altivec_town' || key === 'altivec_nag_dismissed') {
+        if (key === 'altivec_town' || key === 'altivec_nag_dismissed' || key === 'altivec_widget_mode' || key === 'altivec_widgets_hidden') {
             if (!isFunctionalAllowed()) return;
         }
         try { localStorage.setItem(key, value); } catch(e) {}
@@ -1206,10 +1215,62 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             godScroll.scrollTop = 0;
             updateScrollBtn();
         }, 50);
+        safeSetItem('altivec_widget_mode', 'news');
     };
 
-    // Boot: fetch headline immediately
-    fetchHeadline(function (h, e) { setNewsMode(h, e); });
+    var _origSetOracleMode = setOracleMode;
+    setOracleMode = function () {
+        _origSetOracleMode();
+        safeSetItem('altivec_widget_mode', 'oracle');
+    };
+
+    // ── Collapse button ──
+    var collapseBtn  = document.getElementById('widgetCollapseBtn');
+    var widgetsWrap  = document.getElementById('widgetsWrap');
+    var widgetsHidden = false;
+
+    function setCollapsed(hidden, animate) {
+        widgetsHidden = hidden;
+        if (hidden) {
+            widgetsWrap.classList.add('collapsed');
+            collapseBtn.innerHTML = '&#8249;';
+            collapseBtn.title = 'Show widgets';
+        } else {
+            widgetsWrap.classList.remove('collapsed');
+            collapseBtn.innerHTML = '&#8250;';
+            collapseBtn.title = 'Hide widgets';
+        }
+        safeSetItem('altivec_widgets_hidden', hidden ? '1' : '0');
+    }
+
+    if (collapseBtn) {
+        collapseBtn.onclick = function () { setCollapsed(!widgetsHidden); };
+    }
+
+    // Boot: restore saved preferences
+    (function () {
+        var savedMode = '';
+        var savedHidden = '';
+        try { savedMode   = localStorage.getItem('altivec_widget_mode') || ''; } catch(e) {}
+        try { savedHidden = localStorage.getItem('altivec_widgets_hidden') || ''; } catch(e) {}
+
+        if (savedHidden === '1') {
+            // Collapse without transition on load
+            widgetsWrap.style.transition = 'none';
+            collapseBtn.style.transition = 'none';
+            setCollapsed(true);
+            setTimeout(function () {
+                widgetsWrap.style.transition = '';
+                collapseBtn.style.transition = '';
+            }, 50);
+        }
+
+        if (savedMode === 'oracle') {
+            setOracleMode();
+        } else {
+            fetchHeadline(function (h, e) { setNewsMode(h, e); });
+        }
+    })();
 })();
 </script>
 </body>
