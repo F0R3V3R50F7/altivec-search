@@ -503,7 +503,6 @@
         "content": "articles/aquafox-guide.md"
     },
     {
-        "url": "http://altivec.fyi/imovie-09-g4-patch",
         "title": "Unlocking iMovie '09 on PowerMac G4: Hardware Check Bypass",
         "description": "Bypass Apple's arbitrary G5 restriction and run iMovie '09 on your PowerMac G4. Full guide and pre-patched app for Core Image-supported systems.",
         "category": "software",
