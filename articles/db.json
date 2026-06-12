@@ -640,5 +640,40 @@
           }
       ],
       "content": "articles/ut2004-g4.md"
-    }
+    },
+    {
+      "title": "Age of Empires III on PowerMac G4",
+      "description": "A technical retrospective and installation guide for Age of Empires III on PowerPC, exploring its surprising performance advantages over contemporary x86 hardware.",
+      "category": "gaming",
+      "g4_friendly": 1,
+      "featured": 1,
+      "url": "https://macintoshgarden.org/games/age-of-empires-iii",
+      "thumb": "https://macintoshgarden.org/sites/macintoshgarden.org/files/boxarts/Age_of_Empires_III_Coverart.png",
+      "date": "2026-06-12",
+      "author": "Technologyst Labs",
+      "tags": [
+          "age of empires 3",
+          "aoe3",
+          "ensemble studios",
+          "macsoft",
+          "destineer",
+          "rts",
+          "gaming",
+          "powermac",
+          "g4",
+          "powerpc",
+          "ppc"
+      ],
+      "downloads": [
+          {
+              "name": "AoE III Disk Images (Macintosh Garden)",
+              "url": "https://macintoshgarden.org/games/age-of-empires-iii"
+          },
+          {
+              "name": "AoE III Disk Images (Macintosh Repository)",
+              "url": "https://www.macintoshrepository.org/19855-age-of-empires-iii"
+          }
+      ],
+      "content": "articles/aoe3-g4.md"
+  }
 ]
