@@ -155,60 +155,60 @@
         "content": "articles/wikipedia-on-g4.md"
     },
     {
-        "url": "http://solocraft.org",
-        "title": "How to Play World of Warcraft Vanilla on PowerMac G4 with SoloCraft!",
-        "description": "Get WoW 1.12 running smoothly on your G4 with tailored performance tweaks and a complete installation guide.",
-        "category": "gaming",
-        "g4_friendly": 0,
-        "featured": 1,
-        "thumb": "https://i.ytimg.com/vi/jKPqOcKuWAg/maxresdefault.jpg",
-        "date": "2026-06-09",
-        "author": "Technologyst Labs",
-        "tags": [
-            "wow",
-            "world of warcraft",
-            "wow vanilla",
-            "vanilla",
-            "vanilla wow",
-            "1.12",
-            "classic",
-            "wow classic",
-            "mmo",
-            "mmorpg",
-            "rpg",
-            "gaming",
-            "solocraft",
-            "private server",
-            "config.wtf",
-            "performance tweaks",
-            "radeon 9600",
-            "molten core",
-            "raiding",
-            "installation",
-            "powermac",
-            "g4",
-            "powerpc",
-            "ppc"
-        ],
-        "downloads": [
-            {
-                "name": "Download Mirror 1 (Google Drive)",
-                "url": "https://drive.google.com/file/d/1O49pk5oBGJW6TKJoiCKUp9dnBSvV4zST/view"
-            },
-            {
-                "name": "Download Mirror 2 (Google Drive)",
-                "url": "https://drive.google.com/file/d/1IT076h6-JF4RcOVcTBxeTJTCEYctYwF1/view"
-            },
-            {
-                "name": "Download Mirror 3 (Google Drive)",
-                "url": "https://drive.google.com/file/d/1l0o3ugn2R1cEcNLUFiGzHWE2xHhWFuEl/view"
-            },
-            {
-                "name": "PowerPC (.app) Binary",
-                "url": "https://archive.org/download/world-of-warcraft.app/World%20of%20Warcraft.app.zip"
-            }
-        ],
-        "content": "articles/solocraft-g4.md"
+      "title": "World of Warcraft 1.12 on PowerMac G4: The SoloCraft Configuration Guide",
+      "description": "A comprehensive guide to running Vanilla World of Warcraft (1.12) on PowerPC hardware via SoloCraft, featuring optimized Config.wtf parameters for the Radeon 9600.",
+      "category": "gaming",
+      "g4_friendly": 0,
+      "featured": 1,
+      "url": "http://solocraft.org",
+      "thumb": "https://i.ytimg.com/vi/jKPqOcKuWAg/maxresdefault.jpg",
+      "date": "2026-06-12",
+      "author": "Technologyst Labs",
+      "tags": [
+          "wow",
+          "world of warcraft",
+          "wow vanilla",
+          "vanilla",
+          "vanilla wow",
+          "1.12",
+          "classic",
+          "wow classic",
+          "mmo",
+          "mmorpg",
+          "rpg",
+          "gaming",
+          "solocraft",
+          "private server",
+          "config.wtf",
+          "performance tweaks",
+          "radeon 9600",
+          "molten core",
+          "raiding",
+          "installation",
+          "powermac",
+          "g4",
+          "powerpc",
+          "ppc"
+      ],
+      "downloads": [
+          {
+              "name": "WoW 1.12 Client - Mirror 1 (Google Drive)",
+              "url": "https://drive.google.com/file/d/1O49pk5oBGJW6TKJoiCKUp9dnBSvV4zST/view"
+          },
+          {
+              "name": "WoW 1.12 Client - Mirror 2 (Google Drive)",
+              "url": "https://drive.google.com/file/d/1IT076h6-JF4RcOVcTBxeTJTCEYctYwF1/view"
+          },
+          {
+              "name": "WoW 1.12 Client - Mirror 3 (Google Drive)",
+              "url": "https://drive.google.com/file/d/1l0o3ugn2R1cEcNLUFiGzHWE2xHhWFuEl/view"
+          },
+          {
+              "name": "PowerPC (.app) Binary Bundle",
+              "url": "https://archive.org/download/world-of-warcraft.app/World%20of%20Warcraft.app.zip"
+          }
+      ],
+      "content": "articles/solocraft-wow-g4.md"
     },
     {
         "title": "Old Reddit on Your G4",

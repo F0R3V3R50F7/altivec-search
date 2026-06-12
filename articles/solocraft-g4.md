@@ -1,20 +1,25 @@
-## Can a G4 Run WoW?
+## Background/History
 
-Absolutely! Vanilla WoW was designed for hardware from 2004. With tweaks, you'll get playable framerates.
+*World of Warcraft* was initially released in late 2004 with native PowerPC support, standing as a premier title for Mac OS X during the G4 and G5 eras. Version 1.12 represents the final, most refined iteration of the "Vanilla" experience before the *Burning Crusade* expansion overhauled the game's engine and networking stack. Today, vintage Apple enthusiasts can revisit the original game world via community-hosted private servers such as SoloCraft.
 
-## Installation Guide
+SoloCraft provides a tailored emulation environment that is particularly well-suited for older hardware. However, deploying the 1.12 client on a PowerMac in the modern era requires a bit of manual directory reconstruction and careful engine configuration to bypass the limitations of vintage GPUs and system bus architectures.
 
-First, visit [solocraft.org](http://solocraft.org) and navigate to the "How to Play" section to download the Windows client. Use one of the three download mirrors provided on the side layout panel.
+**Important Note on Account Registration:** Before attempting to play, you must register an account for the SoloCraft server. Due to modern web security protocols and CAPTCHA implementations that fundamentally break on vintage PowerPC browsers (such as TenFourFox or InterWebPPC), **you must register your account using a modern PC or smartphone**.
 
-Once downloaded, open the directory and delete the Windows executable `wow.exe` file and the `wtf` folder. Next, download the old PowerPC `World of Warcraft.app` (the archive.org link will be provided in the side panel) and drop it directly into your game directory. You should essentially be left with just that `.app` bundle and the `data` folder.
+## Installation/Usage Guide
 
-Launch the game, log into your account, and then close it immediately. This generates the necessary configuration files for the next step.
+Rather than struggling with web downloads on your PowerMac, utilize the direct download links provided in the metadata of this entry.
 
-## Performance Tweaks & Configuration
+1. **Acquire the Base Client:** Download one of the Windows 1.12 client mirrors (via Google Drive) linked in the sidebar. You can do this on a modern machine and transfer it via network share or USB drive to your PowerMac.
+2. **Purge Incompatible Binaries:** Open the extracted client directory. Delete the Windows executable `wow.exe` and entirely remove the `wtf` folder if one is present. You should be left primarily with the `Data` folder.
+3. **Deploy the Mac Binary:** Download the `PowerPC (.app) Binary Bundle` from the provided Archive.org link. Extract the zip file and drag `World of Warcraft.app` directly into your newly cleaned game directory.
+4. **Generate Configuration:** Launch the `World of Warcraft.app`. Once the login screen appears, log in with your newly created SoloCraft account credentials, and then immediately quit the application. This crucial step forces the engine to generate a fresh, Mac-specific `WTF` directory containing the `Config.wtf` file.
 
-To get this running smoothly on our beloved PowerPC hardware, we need to optimize the settings. Open your newly generated `Config.wtf` and add or replace the contents with the following parameters:
+## Technical Details: Performance Tweaks & Configuration
 
-```
+To achieve playable framerates on a PowerMac G4, we must manually configure the engine to favor hardware-accelerated effects over brute-force rendering. Navigate to your `WTF` folder, open `Config.wtf` in TextEdit, and overwrite its contents with the following optimized parameters:
+
+```text
 SET preferredFullscreenMode "1"
 SET hwDetect "0"
 SET gxColorBits "24"
@@ -47,12 +52,3 @@ SET horizonfarclip "150"
 SET gxMultisample "2"
 SET shadowLevel "0"
 SET anisotropic "2"
-```
-
-## Why These Settings?
-
-If you're using a period-accurate GPU like the Radeon 9600, you have to play to the hardware's specific strengths. Modern systems rely on cheap, brute-force raw resolution to achieve a clean image. However, older cards like the 9600 have excellent native hardware support for multisampling and anisotropic filtering, but limited fill-rate and VRAM bandwidth. By running the game at a lower resolution (1280x800) combined with native `gxMultisample "2"` and `anisotropic "2"`, you offload the anti-aliasing work to the GPU's dedicated hardware. This gives you a crisp, clean image natively without the massive frame rate penalty that rendering at a higher resolution would cause.
-
-## Conclusion
-
-Now you can relaunch the game and play. You'll be raiding Molten Core on your G4 in no time.
