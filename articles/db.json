@@ -609,5 +609,36 @@
           }
       ],
       "content": "articles/halo-combat-evolved-ppc.md"
+    },
+    {
+      "title": "Unreal Tournament 2004 on PowerMac G4",
+      "description": "A comprehensive guide to running the classic arena shooter Unreal Tournament 2004 on PowerPC G4 hardware, including installation and performance optimization.",
+      "category": "gaming",
+      "g4_friendly": 1,
+      "featured": 1,
+      "url": "https://archive.org/download/unreal-tournament-2004-mac/Unreal%20Tournament%202004%20%28Mac%29.iso",
+      "thumb": "https://dn721902.ca.archive.org/0/items/unreal-tournament-2004-updated-for-osx-10.14/UT2k4%20Logo.png",
+      "date": "2026-06-12",
+      "author": "Technologyst Labs",
+      "tags": [
+          "unreal tournament 2004",
+          "ut2004",
+          "epic games",
+          "macsoft",
+          "ryan gordon",
+          "gaming",
+          "arena shooter",
+          "powermac",
+          "g4",
+          "powerpc",
+          "ppc"
+      ],
+      "downloads": [
+          {
+              "name": "Unreal Tournament 2004 (Mac) .iso",
+              "url": "https://archive.org/download/unreal-tournament-2004-mac/Unreal%20Tournament%202004%20%28Mac%29.iso"
+          }
+      ],
+      "content": "articles/ut2004-g4.md"
     }
 ]
