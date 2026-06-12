@@ -548,7 +548,7 @@
       "g4_friendly": 1,
       "featured": 1,
       "url": "https://forums.macrumors.com/threads/sorbet-leopard-your-power-mac-unleashed.2300924/",
-      "thumb": "https://macintoshgarden.org/sites/default/files/apps/sorbet_icon.png",
+      "thumb": "https://static.wikia.nocookie.net/ipod/images/e/ea/Mac_OS_X_10.5.9_Sorbet_Leopard_logo.png/revision/latest/scale-to-width-down/985?cb=20211119173756",
       "date": "2026-06-12",
       "author": "Technologyst Labs",
       "tags": [
@@ -568,5 +568,46 @@
           }
       ],
       "content": "articles/sorbet-leopard-unleashed.md"
+    },
+    {
+      "title": "Halo: Combat Evolved",
+      "description": "A comprehensive guide to running the iconic FPS Halo: Combat Evolved on PowerMac G4 hardware, including the Universal Binary 2.0.4 update and installation instructions.",
+      "category": "gaming",
+      "g4_friendly": 1,
+      "featured": 1,
+      "url": "https://archive.org/details/halo-universal-binary",
+      "thumb": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%202.0.3%20Updater%20%28US%29.app/Contents/Resources/Splash.jpg",
+      "date": "2026-06-12",
+      "author": "Technologyst Labs",
+      "tags": [
+          "halo",
+          "bungie",
+          "macsoft",
+          "fps",
+          "universal binary",
+          "powermac",
+          "g4",
+          "powerpc",
+          "ppc"
+      ],
+      "downloads": [
+          {
+              "name": "Halo Universal Binary.dmg",
+              "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%20Binary.dmg"
+          },
+          {
+              "name": "Halo Universal 2.0.3 Updater (US)",
+              "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%202.0.3%20Updater%20%28US%29.app/"
+          },
+          {
+              "name": "Halo Universal 2.0.4 Updater (US)",
+              "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Universal%202.0.4%20Updater%20%28US%29.app/"
+          },
+          {
+              "name": "Halo Lobby Updater",
+              "url": "https://archive.org/download/halo-universal-binary/Halo%20CE%20MAC%20Intel%20%2B%20PPC/Halo%20Lobby%20Updater.app/"
+          }
+      ],
+      "content": "articles/halo-combat-evolved-ppc.md"
     }
 ]
