@@ -165,6 +165,10 @@
         if ((' ' + s.className + ' ').indexOf(' open ') >= 0) {
             s.className = s.className.replace(/\bopen\b/, '').replace(/\s+/,' ').replace(/^\s|\s$/,'');
         } else {
+            var widget = document.getElementById('weatherWidget');
+            var rect = widget.getBoundingClientRect();
+            s.style.top = (rect.bottom + 4) + 'px';
+            s.style.left = rect.left + 'px';
             s.className = s.className + ' open';
         }
     }
