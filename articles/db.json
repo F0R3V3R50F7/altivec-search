@@ -664,5 +664,31 @@
             }
         ],
         "content": "articles/aoe3-g4.md"
+    },
+    {
+      "title": "Retrofitting the PowerMac G5 Radeon 9600 for PowerMac G4 Systems",
+      "description": "A comprehensive hardware guide to physically and electrically modifying an OEM PowerMac G5 ATI Radeon 9600 for use in an AGP-equipped PowerMac G4.",
+      "category": "hardware",
+      "g4_friendly": 0,
+      "featured": 1,
+      "url": "",
+      "thumb": "image_fa3ea7.jpg",
+      "date": "2026-06-13",
+      "author": "Technologyst Labs",
+      "tags": [
+          "hardware",
+          "gpu",
+          "ati",
+          "radeon 9600",
+          "agp",
+          "modding",
+          "powermac",
+          "g4",
+          "g5",
+          "powerpc",
+          "ppc"
+      ],
+      "downloads": [],
+      "content": "articles/g5-radeon-9600-in-g4.md"
     }
 ]
