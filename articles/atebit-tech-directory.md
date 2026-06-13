@@ -8,10 +8,12 @@ AteBit.tech functions as a meticulously organized index. It aggregates a vast ar
 
 ## Installation/Usage Guide
 
-1. **Accessing the Directory:** Simply navigate to `https://www.atebit.tech/` in your web browser. 
+1. **Accessing the Directory:** Navigate to `https://www.atebit.tech/` in a modern web browser. 
 2. **Finding Resources:** Browse the categorized sections to locate PowerPC and Macintosh-specific forums, software repositories, or hardware suppliers.
 3. **Contributing:** If you know of a valuable G4 or PowerPC resource that is missing, utilize the site's contact feature under the "Privacy/About" page to submit it for review and inclusion. 
 
-## Performance Expectations
+## Performance Expectations & Compatibility
 
-Because AteBit.tech is designed as a straightforward, ad-free directory without heavy modern web bloat, it is highly accessible. Navigating the site on era-appropriate hardware, such as a PowerMac G4 running a PowerPC-optimized browser like TenFourFox or InterWebPPC, should result in snappy page loads and a smooth browsing experience. It stands as an essential, lightweight portal for anyone looking to maintain, upgrade, or learn more about the PowerPC architecture.
+While AteBit.tech serves as an invaluable roadmap for maintaining a vintage PowerMac, the website itself is decidedly modern under the hood. Despite its minimalist visual design and absence of modern web bloat, the underlying web frameworks, CSS implementations, and contemporary SSL/TLS security protocols render the site completely incompatible with vintage PowerPC web browsers. 
+
+Attempting to navigate to the directory on a PowerMac G4 via TenFourFox, InterWebPPC, or Leopard WebKit will likely result in SSL handshake failures or severely broken page rendering. To effectively utilize AteBit.tech, users must browse the site from a modern PC, Mac, or smartphone to source their parts, software links, and documentation before transferring those resources over to their classic hardware.
