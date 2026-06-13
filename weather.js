@@ -182,9 +182,10 @@
 
     document.onclick = function(e) {
         var widget = document.getElementById('weatherWidget');
+        var settings = document.getElementById('weatherSettings');
         var t = e ? e.target : window.event.srcElement;
         var inside = false;
-        while (t) { if (t === widget) { inside = true; break; } t = t.parentNode; }
+        while (t) { if (t === widget || t === settings) { inside = true; break; } t = t.parentNode; }
         if (!inside) closeSettings();
     };
 
