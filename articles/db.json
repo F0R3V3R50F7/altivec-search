@@ -695,7 +695,7 @@
     "title": "AteBit.tech: The Definitive Vintage Computing Directory",
     "description": "An overview of AteBit.tech, a comprehensive, ad-free directory of over 500 resources tailored for vintage computing and retro Macintosh enthusiasts.",
     "category": "web",
-    "g4_friendly": 1,
+    "g4_friendly": 0,
     "featured": 1,
     "url": "https://www.atebit.tech/",
     "thumb": "🤖",
