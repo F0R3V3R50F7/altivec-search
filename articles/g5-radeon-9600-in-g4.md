@@ -24,3 +24,7 @@ The incompatibility between the G5 Radeon 9600 and the PowerMac G4 motherboard s
 Once successfully retrofitted, the OEM G5 Radeon 9600 acts as a massive paradigm shift for a PowerMac G4 originally burdened by a Rage 128 Pro, Radeon 7500, or GeForce 4 MX. 
 
 The Radeon 9600 provides full hardware support for Mac OS X 10.4 Tiger and 10.5 Leopard's Core Image technologies, rendering the desktop interface, Dashboard ripples, and window compositing flawlessly. In 3D applications and gaming, the card pairs beautifully with the G4's AltiVec processor. It offers phenomenal, stable framerates in hardware-taxing titles like *World of Warcraft* (1.12), *Halo: Combat Evolved*, and *Unreal Tournament 2004* at standard resolutions (1024x768 to 1280x1024), completely alleviating the GPU bottlenecks typical of early 2000s hardware configurations. Furthermore, as an OEM card, it does not require supplemental Molex power, keeping the system's thermal and acoustic footprint exceptionally low.
+
+## Note - This card has been tested on the following system(s)
+
+PowerMac G4 - Dual 1.42GHz MDD
