@@ -198,6 +198,8 @@ html { height: 100%; overflow: hidden; }
 .weather-error { display: none; align-items: center; height: 100%; padding: 0 16px; font-size: 11px; color: #ff6b6b; font-family: monospace; letter-spacing: 1px; }
 .widget-collapse-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: rgba(255,255,255,0.2); font-size: 18px; font-weight: bold; cursor: pointer; padding: 4px 6px; line-height: 1; z-index: 200; -webkit-transition: color 0.15s; -moz-transition: color 0.15s; transition: color 0.15s; }
 .widget-collapse-btn:hover { color: rgba(255,255,255,0.6); }
+html.light .widget-collapse-btn { color: rgba(0,0,0,0.25); }
+html.light .widget-collapse-btn:hover { color: rgba(0,0,0,0.7); }
 .widgets-wrap { display: flex; align-items: flex-start; margin-left: auto; overflow: hidden; -webkit-transition: max-width 0.35s ease; -moz-transition: max-width 0.35s ease; transition: max-width 0.35s ease; max-width: 800px; }
 .widgets-wrap.collapsed { max-width: 0; }
 .weather-error.visible { display: flex; }
