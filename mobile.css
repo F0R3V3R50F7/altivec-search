@@ -120,7 +120,7 @@ html.m-mobile .reader-close { top: 10px; right: 10px; width: 40px; height: 40px;
  *  One widget shown at a time; the arrow swaps between them.
  * ============================================================= */
 
-html.m-mobile .m-carousel { display: block; position: relative; /* anchor for the absolutely-placed arrow */ width: 100%; margin: 8px 0 14px; /* small breathing room under the tabs bar */; }
+html.m-mobile .m-carousel { display: block; position: relative; width: 100%; margin: 8px 0 14px; max-height: 120px; overflow: visible; -webkit-transition: max-height 0.3s ease, margin 0.3s ease, overflow 0.3s ease; -moz-transition: max-height 0.3s ease, margin 0.3s ease, overflow 0.3s ease; transition: max-height 0.3s ease, margin 0.3s ease, overflow 0.3s ease; }
 
 /* Both widgets fill the carousel width. Visibility is toggled in JS
    (display:none/block); the one on screen sizes itself to full width. */
@@ -141,5 +141,8 @@ html.m-mobile .cookie-btn { margin-bottom: 6px; }
 html.m-mobile .nag-banner { padding: 8px 36px 8px 14px; font-size: 12px; text-align: left; }
 
 /* Manual "view desktop site" link sits at the very bottom. */
+html.m-mobile .stats { display: -webkit-box; display: -moz-box; display: block; position: relative; }
+html.m-mobile .m-carousel-toggle { position: absolute; right: 0; top: 50%; margin-top: -12px; background: none; border: none; color: #f0a500; font-size: 14px; cursor: pointer; padding: 4px 8px; line-height: 1; }
+html.m-mobile .m-carousel-toggle:active { color: #ffc733; }
 html.m-mobile .m-switch { display: block; text-align: center; padding: 18px 0 28px; font-size: 12px; font-family: monospace; letter-spacing: 1px; color: #4a7a4a; }
 html.m-mobile .m-switch a { color: #f0a500; text-decoration: none; }

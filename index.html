@@ -449,9 +449,9 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         </div>
         </a>
         <div class="search">
-            <i class="fas fa-search search-icon"></i>
+            &#x2315;
             <input type="text" id="searchInput" placeholder="Search G4 resources... e.g. Halo, Aquafox, Sorbet">
-            <button id="searchBtn"><i class="fas fa-arrow-right"></i></button>
+            <button id="searchBtn">&#x25B6;</button>
         </div>
         <div class="widgets-wrap" id="widgetsWrap">
         <div class="weather-widget" id="weatherWidget">
@@ -542,7 +542,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
 
 <div id="readerModal" class="reader-overlay">
     <div class="reader">
-        <div class="reader-close" id="readerCloseBtn"><i class="fas fa-times"></i></div>
+        <div class="reader-close" id="readerCloseBtn">&times;</div>
         <div class="reader-main" id="readerMain"></div>
         <div class="reader-sidebar" id="readerSidebar"></div>
     </div>
@@ -794,7 +794,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         for (i = 0; i < results.length; i++) if (results[i].id === selectedArticleId) { found = true; break; }
         if (!found) selectedArticleId = results[0].id;
 
-        var html = '<div class="stats">' + results.length + ' result' + (results.length !== 1 ? 's' : '') + '</div>';
+        var toggleBtn = MOBILE ? '<button id="mCarouselToggle" class="m-carousel-toggle" aria-label="Toggle widgets">&#x25B2;</button>' : '';
+        var html = '<div class="stats">' + results.length + ' result' + (results.length !== 1 ? 's' : '') + toggleBtn + '</div>';
         for (i = 0; i < results.length; i++) {
             var item = results[i], desc = escapeHtml(item.description);
             if (desc.length > 120) desc = desc.substring(0, 120) + '...';
@@ -1057,6 +1058,37 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
             }
             arrow.onclick = function () { showPane(pane === 0 ? 1 : 0); };
             showPane(0);
+
+            // Hide/show carousel via toggle button in the stats bar.
+            // Re-bind each time renderResults rebuilds the stats div.
+            var carouselCollapsed = false;
+            function bindCarouselToggle() {
+                var btn = document.getElementById('mCarouselToggle');
+                if (!btn) return;
+                btn.innerHTML = carouselCollapsed ? '&#x25BC;' : '&#x25B2;';
+                btn.onclick = function() {
+                    carouselCollapsed = !carouselCollapsed;
+                    if (carouselCollapsed) {
+                        carousel.style.maxHeight = '0';
+                        carousel.style.overflow = 'hidden';
+                        carousel.style.marginTop = '0';
+                        carousel.style.marginBottom = '0';
+                    } else {
+                        carousel.style.maxHeight = '120px';
+                        carousel.style.overflow = 'visible';
+                        carousel.style.marginTop = '8px';
+                        carousel.style.marginBottom = '14px';
+                    }
+                    btn.innerHTML = carouselCollapsed ? '&#x25BC;' : '&#x25B2;';
+                };
+            }
+            // Patch renderResults to re-bind after each redraw.
+            var _origRender = window.renderResults || renderResults;
+            renderResults = function() {
+                _origRender.apply(this, arguments);
+                bindCarouselToggle();
+            };
+            bindCarouselToggle();
         }
 
         // ---- Preview as a bottom sheet instead of the side panel ----
