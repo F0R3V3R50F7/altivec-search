@@ -833,14 +833,14 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         var openBtn = '';
         if (article.url) {
             if (isG4Friendly(article)) openBtn = '<a href="' + article.url + '" target="_blank" class="btn btn-open">Open Website</a>';
-            else openBtn = '<button class="btn btn-caution" id="previewOpenBtn">&#9888; Open Website</button>';
+            else openBtn = '<button class="btn btn-caution" id="previewOpenBtn"><span style="font-size:15px;vertical-align:middle;">&#9888;</span> Open Website</button>';
         }
         previewPanel.innerHTML =
             '<div class="preview-content"><div class="preview-thumb">' + thumbHtml + '</div>' +
             '<div class="preview-title">' + escapeHtml(article.title) + '</div>' +
             '<div class="preview-url">' + escapeHtml(displayUrl) + '</div>' +
             '<div class="preview-desc">' + escapeHtml(article.description) + '</div>' +
-            '<div class="preview-actions"><button class="btn" id="previewReadBtn">&#8505; More Information</button>' + openBtn + '</div></div>';
+            '<div class="preview-actions"><button class="btn" id="previewReadBtn"><span style="font-size:15px;vertical-align:middle;">&#8505;</span> More Information</button>' + openBtn + '</div></div>';
         document.getElementById('previewReadBtn').onclick = function() { openReader(articleId); };
         var cautionBtn = document.getElementById('previewOpenBtn');
         if (cautionBtn) cautionBtn.onclick = function() { showCompatWarning(article); };
