@@ -1067,7 +1067,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
                 var btn = document.getElementById('mCarouselToggle');
                 if (!btn) return;
                 btn.innerHTML = carouselCollapsed ? '&#x25BC;' : '&#x25B2;';
-                btn.onclick = function() {
+                btn.onclick = function(e) { if (e && e.stopPropagation) e.stopPropagation(); else if (window.event) window.event.cancelBubble = true;
                     carouselCollapsed = !carouselCollapsed;
                     if (carouselCollapsed) {
                         carousel.style.maxHeight = '0';
