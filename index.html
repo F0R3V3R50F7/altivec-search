@@ -196,7 +196,7 @@ html { height: 100%; overflow: hidden; }
 .forecast-hi { font-size: 12px; font-weight: 700; color: #fff; font-family: monospace; }
 .forecast-lo { font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; }
 .weather-error { display: none; align-items: center; height: 100%; padding: 0 16px; font-size: 11px; color: #ff6b6b; font-family: monospace; letter-spacing: 1px; }
-.widget-collapse-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: rgba(255,255,255,0.2); font-size: 14px; cursor: pointer; padding: 4px 6px; line-height: 1; z-index: 200; -webkit-transition: color 0.15s; -moz-transition: color 0.15s; transition: color 0.15s; }
+.widget-collapse-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: rgba(255,255,255,0.2); font-size: 18px; font-weight: bold; cursor: pointer; padding: 4px 6px; line-height: 1; z-index: 200; -webkit-transition: color 0.15s; -moz-transition: color 0.15s; transition: color 0.15s; }
 .widget-collapse-btn:hover { color: rgba(255,255,255,0.6); }
 .widgets-wrap { display: flex; align-items: flex-start; margin-left: auto; overflow: hidden; -webkit-transition: max-width 0.35s ease; -moz-transition: max-width 0.35s ease; transition: max-width 0.35s ease; max-width: 800px; }
 .widgets-wrap.collapsed { max-width: 0; }
@@ -513,7 +513,7 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         <div class="tabs" id="tabs"></div>
         <div class="forecast-strip" id="forecastStrip"></div>
     </div>
-    <button class="widget-collapse-btn" id="widgetCollapseBtn" title="Hide widgets">&#8250;</button>
+    <button class="widget-collapse-btn" id="widgetCollapseBtn" title="Hide widgets">&#x25B6;</button>
 </div>
 
 <div class="layout">
@@ -1267,11 +1267,11 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         widgetsHidden = hidden;
         if (hidden) {
             widgetsWrap.classList.add('collapsed');
-            collapseBtn.innerHTML = '&#8249;';
+            collapseBtn.innerHTML = '&#x25C0;';
             collapseBtn.title = 'Show widgets';
         } else {
             widgetsWrap.classList.remove('collapsed');
-            collapseBtn.innerHTML = '&#8250;';
+            collapseBtn.innerHTML = '&#x25B6;';
             collapseBtn.title = 'Hide widgets';
         }
         safeSetItem('altivec_widgets_hidden', hidden ? '1' : '0');
