@@ -794,7 +794,8 @@ input:checked + .cookie-slider:before { transform: translateX(20px); }
         for (i = 0; i < results.length; i++) if (results[i].id === selectedArticleId) { found = true; break; }
         if (!found) selectedArticleId = results[0].id;
 
-        var toggleBtn = MOBILE ? '<button id="mCarouselToggle" class="m-carousel-toggle" aria-label="Toggle widgets">&#x25B2;</button>' : '';
+        var _isMobile = (' ' + document.documentElement.className + ' ').indexOf(' m-mobile ') >= 0;
+        var toggleBtn = _isMobile ? '<button id="mCarouselToggle" class="m-carousel-toggle" aria-label="Toggle widgets">&#x25B2;</button>' : '';
         var html = '<div class="stats">' + results.length + ' result' + (results.length !== 1 ? 's' : '') + toggleBtn + '</div>';
         for (i = 0; i < results.length; i++) {
             var item = results[i], desc = escapeHtml(item.description);
