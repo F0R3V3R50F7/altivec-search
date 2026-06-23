@@ -57,7 +57,7 @@ Modern PSUs have tightened their over-current protection (OCP) thresholds at sta
 
 This is not a bodge. We are not splicing pigtails together with heatshrink, and we are not using adapters. The goal is to install the new power supply PCB inside the original Apple enclosure and solder the original Apple wiring loom directly to the output pads of the new board.
 
-**WARNING: LETHAL VOLTAGES.** The primary capacitors on a power supply can hold a lethal mains-voltage charge long after the unit is unplugged. **DO NOT attempt to manually discharge these capacitors.** Handle the PCBs strictly by their edges. Do not touch the solder traces on the bottom of the board, and never bridge the capacitor pins. 
+**WARNING: LETHAL VOLTAGES.** The primary capacitors on a power supply can hold a lethal mains-voltage charge long after the unit is unplugged. **Leave both the dead MDD supply and the new donor supply unplugged for at least 24 hours before opening them to allow the capacitors to naturally discharge.** DO NOT attempt to manually discharge these capacitors. Handle the PCBs strictly by their edges. Do not touch the solder traces on the bottom of the board, and never bridge the capacitor pins. 
 
 **DISCLAIMER:** This modification involves exposing mains-voltage circuitry. The assistance of a qualified electrical engineer is strongly advised. Proceed entirely at your own risk.
 
