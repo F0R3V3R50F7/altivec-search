@@ -73,7 +73,7 @@ A good compramise between performance and price is the Radeon 9600 from the Powe
 
 ## On Noise — Debunking the "Wind Tunnel" Reputation
 
-The G4 tower has a reputation for being loud. Having owned and serviced multiple machines across the full lineup, a properly serviced G4 is not a loud machine. The noise people associate with these computers is almost always a servicing issue, not an inherent design problem.
+The G4 tower has a reputation for being loud. Having owned and serviced multiple machines across the full lineup, a properly serviced G4 is not an overwhelmingly loud machine with ambient temperatures below 24(*C). The noise people associate with these computers is almost always a servicing issue, not an inherent design problem.
 
 What *is* a design problem is the airflow direction Apple chose from the factory. Take a look at the orientation of the fans and think about which way the air actually moves. On the first 18 models, the side case fan is oriented to exhaust rather than intake — it is working against the natural convective flow inside the case rather than with it. The CPU fan direction across all models is similarly worth questioning. Neither of these makes the machine loud outright, but they mean thermals are worse than they need to be, which means fans work harder than they need to, which is where the noise reputation comes from.
 
@@ -81,7 +81,7 @@ What *is* a design problem is the airflow direction Apple chose from the factory
 
 ### Grinding fans
 
-A grinding or rattling fan means a dry bearing — common on machines that have been stored for years. Peel back the sticker label on the back of the fan hub to expose the bearing access point, and apply one or two drops of machine oil. WD-40 will do the job if that is all you have to hand. Reseat the sticker and run the machine — the grinding should stop immediately.
+A grinding or rattling fan means a dry bearing — common on machines that have been stored for years. Peel back the sticker label on the back of the fan hub to expose the bearing access point, and apply one or two drops of machine oil. **WD-40 is great for cleaning out an old bearing but it will not lubricate it.** Reseat the sticker and run the machine — the grinding should stop immediately.
 
 The exception is fans marked as **SUNON MagLev** (magnetic levitation bearing). These cannot be oiled — they do not use a conventional bearing race. If a SUNON MagLev fan is grinding, it needs replacing outright. That said, these were fitted because they are high quality and tend to outlast conventional sleeve bearing fans in the first place.
 
@@ -92,7 +92,7 @@ If you are evaluating a specific machine in person or asking a seller questions:
 - **Which model and clock speed?** Confirm it is at or above 900 MHz if Leopard is the goal. Get the exact model identifier if possible (e.g. PowerMac3,6 for dual 1.42 GHz MDD).
 - **Does it POST cleanly every time?** Intermittent boot failures on any non-MDD G4 tower are a red flag for the CPU clamp stress problem.
 - **How much RAM, and what type?** An MDD with 512MB is usable but you will want to upgrade. An MDD with 2GB is ready to go.
-- **What GPU is installed?** Radeon 9000 Pro or 9800 Pro are the targets. Anything else note the model and check it is functional.
+- **What GPU is installed?** This will probably be stock but a 9600 is not expensive.
 - **Has the PSU been replaced?** On an MDD, a replaced PSU is a positive — it means someone has already done the most likely maintenance item. An untouched original PSU on an MDD is not a dealbreaker but budget accordingly.
 - **Does it have the FW800 logic board?** The early 2003 MDD revision adds FireWire 800 to the rear panel. If you need fast external storage over FireWire, this is the version to look for.
 - **What storage is fitted?** Original ATA hard drives of this vintage are old enough to be unreliable. A machine with an IDE SSD or CF adapter already fitted is preferable. If it has original spinning drives, they will need replacing.
