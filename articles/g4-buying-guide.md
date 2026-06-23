@@ -69,6 +69,8 @@ The GPU situation on G4 towers is limited but workable. The best cards Apple fit
 
 Original factory GPU cards from this era are old enough that failures are not uncommon. If a machine you are considering has a cheap or unknown GPU in it, factor in the cost of a known-good Radeon 9000 Pro at minimum. Flashed PC cards exist but require careful research to confirm compatibility with a specific machine — some work well, some do not.
 
+A good compramise between performance and price is the Radeon 9600 from the PowerMac G5. With some modifications, this card can be easily made to fit and run in the G4. Please refer to our article on the Radeon 9600 for instructions. It is recommended to strap a fan to these pasive cards since they **DO-NOT** favor running hot and have been known for premature faliure. 
+
 ## On Noise — Debunking the "Wind Tunnel" Reputation
 
 The G4 tower has a reputation for being loud. Having owned and serviced multiple machines across the full lineup, a properly serviced G4 is not a loud machine. The noise people associate with these computers is almost always a servicing issue, not an inherent design problem.
