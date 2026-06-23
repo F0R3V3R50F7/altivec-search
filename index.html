@@ -564,6 +564,7 @@
         function flushPara() { if (buf.length) { out.push('<p>' + buf.join(' ') + '</p>'); buf = []; } }
         function inlineFormat(s) {
             s = s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1" style="max-width:100%;height:auto;margin:12px 0;border-radius:6px;">');
             s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
             s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
             s = s.replace(/\*([^*]+)\*/g,'<em>$1</em>');

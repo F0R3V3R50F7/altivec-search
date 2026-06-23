@@ -2,7 +2,7 @@
   {
     "title": "World of Warcraft Vanilla Walkthroughs, Guides & More!",
     "description": "Quest database, item lookup, and NPC information for World of Warcraft Vanilla. Works perfectly in Safari Leopard WebKit / Aquafox on the G4.",
-    "category": "software",
+    "category": "web",
     "g4_friendly": 1,
     "featured": 0,
     "url": "https://classicdb.ch",
@@ -44,7 +44,7 @@
   {
     "title": "Legacy-WoW.com - Vanilla Addons",
     "description": "Lightweight WoW addons for low-end systems. Questie Lite, Titan Panel Classic, Atlas maps. Perfect for G4 performance.",
-    "category": "software",
+    "category": "web",
     "g4_friendly": 1,
     "featured": 0,
     "url": "https://legacy-wow.com",
@@ -714,5 +714,55 @@
     ],
     "downloads": [],
     "content": "articles/atebit-tech-directory.md"
-   }
+   },
+   {
+    "title": "Bullet-proof buyer's guide for the PowerMac G4",
+    "description": "A technical breakdown of all PowerMac G4 models released, detailing their down-falls and strengths.",
+    "category": "hardware",
+    "g4_friendly": 1,
+    "featured": 1,
+    "thumb": "https://i.redd.it/so-i-got-my-parents-g4-cube-up-and-running-v0-707veyt247ic1.jpg?width=4032&format=pjpg&auto=webp&s=b04f8664217509d916992085f6ba68bb647e42c8",
+    "date": "2026-06-23",
+    "author": "Technologyst Labs",
+    "tags": [
+      "hardware",
+      "buying",
+      "sale",
+      "gpu",
+      "ati",
+      "powermac",
+      "g4",
+      "guide",
+      "powerpc",
+      "ppc"
+    ],
+    "downloads": [],
+    "content": "articles/g4-buying-guide.md"
+  },
+  {
+    "title": "A step-by-step guide on how to replace the PowerMac G4 MDD's power supply",
+    "description": "A comprehensive hardware guide to physically and electrically modifying an OEM PowerMac G4 MDD power supply with a brand new donor board.",
+    "category": "hardware",
+    "g4_friendly": 1,
+    "featured": 1,
+    "url": "https://www.applefritter.com/node/23857",
+    "thumb": "https://www.applefritter.com/files/styles/95-percent/public/2020/01/19/G4bastl.jpg?itok=f-KTL-G3",
+    "date": "2026-06-13",
+    "author": "Technologyst Labs",
+    "tags": [
+      "hardware",
+      "gpu",
+      "ati",
+      "radeon 9600",
+      "agp",
+      "modding",
+      "powermac",
+      "g4",
+      "g5",
+      "powerpc",
+      "ppc"
+    ],
+    "downloads": [],
+    "content": "articles/mdd-psu-replacement.md"
+  }
 ]
