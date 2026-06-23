@@ -1,6 +1,6 @@
 ## Why the MDD PSU Fails
 
-The Power Mac G4 MDD shipped with a custom Delta or Acbel supply rated at 360W. After twenty-plus years the electrolytic capacitors have aged out. Failure is gradual: first the machine gets louder than it used to be, then voltages drift, random kernel panics appear under load, and eventually it stops powering on or shuts down immediately after POST. The caps, not the transformer or MOSFETs, are almost always the culprit. A recap is theoretically possible but sourcing matched caps and dealing with the proprietary connector makes a direct replacement the practical call.
+The Power Mac G4 MDD usually shipped with a custom Samsung or AcBel supply rated at around 400W. After twenty-plus years the electrolytic capacitors have aged out. Failure is gradual: first the machine gets louder than it used to be, then voltages drift, random kernel panics appear under load, and eventually it stops powering on or shuts down immediately after POST. The caps, not the transformer or MOSFETs, are almost always the culprit. A recap is theoretically possible but sourcing matched caps and dealing with the proprietary connector makes a direct replacement the practical call.
 
 The MDD uses a **non-standard pinout** — it is not ATX. The main connector is a 24-pin housing with different signal assignments, plus a separate 4-pin auxiliary. You cannot drop in an ATX supply without rewiring.
 
