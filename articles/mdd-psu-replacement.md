@@ -32,13 +32,10 @@ The secret to a stable G4 power supply isn't total wattage—it is **independent
 
 The most demanding stock MDD is the dual 1.42 GHz G4 (PowerPC 7455, "Apollo"). Under full load across both CPUs, AGP graphics, and a drive or two, realistic sustained draw sits well within what a quality independently regulated unit delivers:
 
-+5V Rail: Requires ~10–14A (A quality DC-to-DC supply delivers 16A+)
-
-+12V Rail: Requires ~18–22A (A quality DC-to-DC supply delivers 25A+)
-
-+3.3V Rail: Requires ~6–8A (A quality DC-to-DC supply delivers 14A+)
-
-Total Power: Requires ~250–310W (A quality DC-to-DC supply delivers 300W–350W sustained)
+* **+5V Rail:** Requires ~10–14A (A quality DC-to-DC supply delivers 16A+)
+* **+12V Rail:** Requires ~18–22A (A quality DC-to-DC supply delivers 25A+)
+* **+3.3V Rail:** Requires ~6–8A (A quality DC-to-DC supply delivers 14A+)
+* **Total Power:** Requires ~250–310W (A quality DC-to-DC supply delivers 300W–350W sustained)
 
 The margins are comfortable. **A sustained, independently regulated supply is more than enough to run a dual 1.42 GHz MDD**. 
 
