@@ -59,7 +59,7 @@ If you are choosing between a single and dual configuration at similar prices, t
 
 ## RAM
 
-The MDD takes standard PC2700 (DDR333) or PC3200 (DDR400, runs at 333) 184-pin DIMMs, up to 2GB total across four slots. This is cheap and readily available. Max it out — Leopard appreciates having 2GB and runs noticeably better than it does on 512MB or 1GB.
+The MDD takes standard PC2100 and PC2700 depending on the model, up to 2GB total across four slots. This is cheap and readily available. Max it out — Leopard appreciates having 2GB and runs noticeably better than it does on 512MB or 1GB.
 
 Earlier G4 machines use PC133 SDRAM (168-pin), also still available but a different type entirely — do not mix them up when ordering. Check which generation you have before buying RAM.
 
