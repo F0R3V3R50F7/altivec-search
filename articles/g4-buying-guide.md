@@ -31,7 +31,7 @@ The failure mode is insidious. The machine may POST intermittently, fail to reco
 
 **These models should be avoided by anyone who is not an industry professional with the tools and knowledge to assess, rework, and monitor the hardware.** A machine in this generation that appears to work today may not work next week, and there is no reliable visual inspection that can tell you which side of that line a specific unit sits on without proper equipment.
 
-The MDD is a complete chassis departure and does not share this problem. If avoiding this issue entirely is your priority, **buy an MDD**.
+The MDD is a complete chassis departure and features a supporting braket which seems to mitigate the issue. If avoiding this issue entirely is your priority, **buy an MDD**.
 
 ## The MDD as the Target Machine
 
